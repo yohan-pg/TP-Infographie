@@ -13,29 +13,33 @@
 #include "ofMain.h"
 #include "element.hpp"
 #include "color.hpp"
-//#include "scene.hpp"
+#include "vector.hpp"
 
 class Light : public Element {
+public:
     Color color = Color::white;
-    double intensity = 1.;
-    string getName();
-//    Color cast(const Scene& scene, const Vector& pos) = 0;
+    double intensity = 1.0;
+    string getName() const;
+    virtual Color cast(const Vector& pos) const = 0;
 };
 
 class PointLight : public Light {
-    string getName();
-//    Color cast(const Scene& scene, const Vector& pos) const;
+public:
+    string getName() const;
+    Color cast(const Vector& target) const;
 };
 
 class SpotLight : public Light {
-    float size;
-    string getName();
-//    Color cast(const Scene& scene, const Vector& pos) const;
+public:
+    float size = 1.0;
+    string getName() const;
+    Color cast(const Vector& target) const;
 };
 
 class AmbientLight : public Light {
-    string getName();
-//    Color cast(const Scene& scene, const Vector& pos) const;
+public:
+    string getName() const;
+    Color cast(const Vector& target) const;
 };
 
 

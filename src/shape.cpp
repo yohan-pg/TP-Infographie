@@ -7,40 +7,22 @@
 //
 
 #include "shape.hpp"
+#include "scene.hpp"
+
+Collision::Collision(const Ray& ray, const Shape& shape, Vector position, Vector normal, float distance)
+: ray(ray), shape(shape), position(position), normal(normal), distance(distance) {
+    hit = true;
+}
 
 
+Collision Sphere::intersect(const Ray& ray) const {
+    float num = -ray.position.dot(ray.direction);
+    float denum = ray.direction.dot(ray.direction);
+//    float discr = 4 * denum * getRadius();
+    
+}
 
 
-
-//
-//
-//Collision::Collision(const Ray& ray, const Shape& shape, Vector position, Vector normal, float distance)
-//: ray(ray), shape(shape), position(position), normal(normal), distance(distance) {
-//    hit = true;
-//}
-//
-//
-//bool solveQuadratic(const float &a, const float &b, const float &c, float &x0, float &x1)
-//{
-//    float discr = b * b - 4 * a * c;
-//    if (discr < 0) return false;
-//    else if (discr == 0) {
-//        x0 = x1 = - 0.5 * b / a;
-//    }
-//    else {
-//        float q = (b > 0) ?
-//        -0.5 * (b + sqrt(discr)) :
-//        -0.5 * (b - sqrt(discr));
-//        x0 = q / a;
-//        x1 = c / q;
-//    }
-//    return true;
-//}
-//
-//Collision Sphere::intersect(const Ray& ray) const {
-//    
-//}
-//
 //Collision Plane::intersect(const Ray& ray) const {
 //    float num = (getPosition() - ray.position).dot(normal);
 //    float denum = ray.direction.dot(normal);

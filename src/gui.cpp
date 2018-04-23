@@ -81,7 +81,7 @@ void GUI::setup(float w) {
     
     rightPane->addBreak()->setHeight(218.0);
     
-    rightPane->addLabel("Objets");
+    rightPane->addLabel("Elements");
     
     rightPane->addBreak()->setHeight(3000.0);
     
@@ -116,7 +116,6 @@ void GUI::update() {
 //        mesh->setEnabled(false);
 //    }
     
-    
     scene.background = leftPane->getColorPicker("Background")->getColor();
     scene.ambient = leftPane->getColorPicker("Ambient")->getColor();
     
@@ -136,7 +135,6 @@ void GUI::draw() {
 }
 
 void GUI::onButtonEvent(ofxDatGuiButtonEvent e){
-    
     if (e.target->is("Ouvrir un modele")) {
         // assimp load mesh
     }

@@ -28,7 +28,6 @@ void App::setup(){
     scene.film.allocate(view_width, view_height);
     
     render_thread = thread(&App::render, this);
-    
 }
 
 void App::render() {

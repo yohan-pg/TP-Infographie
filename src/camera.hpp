@@ -23,8 +23,8 @@ public:
     void setOrtho(bool setting);
     void setDof(float dof);
     double move_speed = 0.1;
+    Ray primaryRay(Film film, float x, float y);
     void reset();
-    
 };
 
 #endif /* camera_hpp */

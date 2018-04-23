@@ -10,6 +10,11 @@
 
 Ray::Ray() {};
 
-Ray::Ray(ofVec3f position, ofVec3f direction) : position(position), direction(direction) {}
+Ray::Ray(ofVec3f position, ofVec3f target)
+    : position(position), direction((target - position).normalize()) {}
 
-Ray::Ray(ofVec3f direction): direction(direction) { }
+
+std::ostream& operator<< (std::ostream& os, const Ray& ray) {
+    os << "[" << ray.position << "] -> [" << ray.direction << "]" << endl;
+    return os;
+}

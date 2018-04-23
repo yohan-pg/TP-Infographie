@@ -29,20 +29,20 @@ void Camera::setDof(float _dof) {
     dof = _dof;
 }
 
+Ray Camera::primaryRay(Film film, float i, float j) {
+    float size = tan(ofDegToRad(getFov())/2);
+    float screen_x = (i + 0.5) / film.width;
+    float screen_y = (j + 0.5) / film.height;
+    float cam_x = ofLerp(-1, 1, screen_x) * film.aspect * size;
+    float cam_y = ofLerp(-1, 1, screen_y) * size;
+    Vector target = Vector(cam_x, cam_y, -1) * getGlobalTransformMatrix();
+    return Ray(getPosition(), target);
+}
+
 void Camera::render(Film& film) {
-    float scale = tan(180 * pi * getFov() * 0.5);
     for (int i = 0; i < film.width; i++) {
         for (int j = 0; j < film.width; j++) {
-            float x = (2 * (i + 0.5) / (float)film.width - 1) * film.aspect * scale;
-            float y = (1 - 2 * (j + 0.5) / (float)film.height) * scale;
-//            Vec3f dir;
-//            cameraToWorld.multDirMatrix(Vec3f(x, y, -1), dir);
-//            dir.normalize();
-            
-            //            Ray ray = primary_ray(i, j, width, height, scene);
-            //            film.setColor(i, j, scene.trace(ray));
-            
-            
+            film.set(i, j, scene.trace(primaryRay(film, i, j), 1));
         }
     }
 }

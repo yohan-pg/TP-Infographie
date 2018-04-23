@@ -17,9 +17,9 @@ class Film  {
     ofImage buffer;
     ofImage counts;
 public:
-    float width;
-    float height;
-    float aspect;
+    int width = 0;
+    int height = 0;
+    float aspect = 0;
     void allocate(int width, int height);
     void set(int i, int j, Color color);
     void clear();

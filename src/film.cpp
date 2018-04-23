@@ -8,9 +8,9 @@
 
 #include "film.hpp"
 
-void Film::allocate(int width, int height) {
-    width = width;
-    height = height;
+void Film::allocate(int _width, int _height) {
+    width = _width;
+    height = _height;
     aspect = width/height;
     buffer.allocate(width, height, OF_IMAGE_COLOR);
     counts.allocate(width, height, OF_IMAGE_COLOR);

@@ -19,8 +19,9 @@ public:
     ofVec3f direction;
     
     Ray();
-    Ray(ofVec3f direction);
-    Ray(ofVec3f position, ofVec3f direction);
+    Ray(ofVec3f position, ofVec3f target);
+    
+    friend std::ostream& operator<< (std::ostream& stream, const Ray& ray);
 };
 
 #endif /* ray_hpp */
