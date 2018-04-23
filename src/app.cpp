@@ -33,6 +33,7 @@ void App::draw(){
     ofClear(125, 125, 125, 0);
     
     renderview.begin();
+        ofClear(0, 0, 0, 0);
         ofSetColor(0,0,0);
         ofDrawRectangle(0, 0, view_width, view_height);
         renderfilm.draw(0, 0);
