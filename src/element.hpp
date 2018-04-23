@@ -12,11 +12,11 @@
 #include <stdio.h>
 
 #include "ofMain.h"
+#include "transform.hpp"
 
-
-class Element {
+class Element : public ofNode {
 public:
-    ofMatrix4x4 xform;
+    virtual string getName();
 };
 
 #endif /* element_hpp */

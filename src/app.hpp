@@ -9,30 +9,35 @@
 #include "shape.hpp"
 #include "light.hpp"
 #include "vector.hpp"
+#include "gui.hpp"
+#include <thread>
+#include "ofxDatGui.h"
 
 class App : public ofBaseApp {
 public:
     void setup();
     void update();
     void draw();
+    void render();
+    void exit();
     
-    Camera camera;
-    Scene scene;
+    GUI gui;
     
     ofFbo viewport;
     ofFbo renderview;
-    Film renderfilm;
     
-    int gui_width;
+    std::thread render_thread;
+    
     int view_width;
     int view_height;
     
     double mouseX;
     double mouseY;
+    bool dragging;
     
     void keyPressed(int key);
     void keyReleased(int key);
-    void mouseMoved(int x, int y );
+    void mouseMoved(int x, int y);
     void mouseDragged(int x, int y, int button);
     void mousePressed(int x, int y, int button);
     void mouseReleased(int x, int y, int button);
@@ -44,3 +49,4 @@ public:
     void gotMessage(ofMessage msg);
     void mouseEvent(ofMouseEventArgs args);
 };
+

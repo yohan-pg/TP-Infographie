@@ -7,6 +7,7 @@
 //
 
 #include "camera.hpp"
+#include "scene.hpp"
 
 void Camera::toggleOrtho() {
     if (getOrtho()) {
@@ -16,13 +17,32 @@ void Camera::toggleOrtho() {
     }
 }
 
-void Camera::render(Film& film, const Scene& scene) {
-//  Vector imageplane_up = Vector(0, 1, 0).cross(camera.getGlobalOrientation());
-//  Vector
-    for (int i = 0; i < film.getWidth(); i++) {
-        for (int j = 0; j < film.getHeight(); j++) {
-//            Ray ray = primary_ray(i, j, width, height, scene);
-//            film.setColor(i, j, scene.trace(ray));
+void Camera::setOrtho(bool setting) {
+    if (setting) {
+        enableOrtho();
+    } else {
+        disableOrtho();
+    }
+}
+
+void Camera::setDof(float _dof) {
+    dof = _dof;
+}
+
+void Camera::render(Film& film) {
+    float scale = tan(180 * pi * getFov() * 0.5);
+    for (int i = 0; i < film.width; i++) {
+        for (int j = 0; j < film.width; j++) {
+            float x = (2 * (i + 0.5) / (float)film.width - 1) * film.aspect * scale;
+            float y = (1 - 2 * (j + 0.5) / (float)film.height) * scale;
+//            Vec3f dir;
+//            cameraToWorld.multDirMatrix(Vec3f(x, y, -1), dir);
+//            dir.normalize();
+            
+            //            Ray ray = primary_ray(i, j, width, height, scene);
+            //            film.setColor(i, j, scene.trace(ray));
+            
+            
         }
     }
 }

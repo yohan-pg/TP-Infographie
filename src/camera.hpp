@@ -13,15 +13,18 @@
 #include "ofMain.h"
 #include "ray.hpp"
 #include "film.hpp"
-#include "scene.hpp"
 #include "vector.hpp"
 
 class Camera : public ofCamera {
+    float dof = 0;
 public:
-    void render(Film& film, const Scene& scene);
+    void render(Film& film);
     void toggleOrtho();
+    void setOrtho(bool setting);
+    void setDof(float dof);
     double move_speed = 0.1;
     void reset();
+    
 };
 
 #endif /* camera_hpp */

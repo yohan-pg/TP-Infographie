@@ -13,19 +13,30 @@
 #include "ofMain.h"
 #include "element.hpp"
 #include "color.hpp"
+//#include "scene.hpp"
 
-class Light : Element {
-    Color color = Colors::WHITE;
+class Light : public Element {
+    Color color = Color::white;
     double intensity = 1.;
+    string getName();
+//    Color cast(const Scene& scene, const Vector& pos) = 0;
 };
 
-class PointLight : public Light {};
+class PointLight : public Light {
+    string getName();
+//    Color cast(const Scene& scene, const Vector& pos) const;
+};
 
-class AreaLight : public Light {};
+class SpotLight : public Light {
+    float size;
+    string getName();
+//    Color cast(const Scene& scene, const Vector& pos) const;
+};
 
-class SpotLight : public Light {};
-
-class AmbientLight : public Light {};
+class AmbientLight : public Light {
+    string getName();
+//    Color cast(const Scene& scene, const Vector& pos) const;
+};
 
 
 

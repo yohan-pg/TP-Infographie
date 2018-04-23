@@ -12,61 +12,63 @@
 #include <stdio.h>
 #include "ofMain.h"
 #include "vector.hpp"
+#include "color.hpp"
+//#include "shape.hpp"
+//#include "scene.hpp"
+#include <math.h>
 
 
 class Material {
-    ofColor albedo;
+    Color albedo;
+    Color diffuse;
+    Color specularTint;
     float metalness = 0;
     float emmisivity = 0;
     float roughness = 0;
     float transmission = 0;
     float anisotropy = 0;
+    float specular = 0;
+    float clearcoat = 0;
+    float sheen = 0;
+    float sheenTint = 0;
     float ior = 1.5;
+
     
-    virtual float brdf(Vector normal, Vector ingoing, Vector outgoing);
-    virtual float bsdf(Vector normal, Vector ingoing, Vector outgoing);
+    // pdf?
+//    virtual float brdf(Vector normal, Vector ingoing, Vector outgoing);
+//    virtual float bsdf(Vector normal, Vector ingoing, Vector outgoing);
+    
+//    Color shade(const Collision& coll);
 };
+
 
 class Lambert : public Material {
-    float brdf(Vector normal, Vector ingoing, Vector outgoing);
-    float bsdf(Vector normal, Vector ingoing, Vector outgoing);
+    Color albedo = Color::darkorange;
 };
 
-class Phong : public Material {
-    float brdf(Vector normal, Vector ingoing, Vector outgoing);
-    float bsdf(Vector normal, Vector ingoing, Vector outgoing);
+class Blinn : public Material {
+    Color albedo = Color::darkCyan;
+    float specular = 1;
 };
 
-class Blin : public Material {
-    float brdf(Vector normal, Vector ingoing, Vector outgoing);
-    float bsdf(Vector normal, Vector ingoing, Vector outgoing);
+class Plastic : public Material {
+    Color albedo = Color::darkRed;
+    float roughness = 0.4;
+};
+
+class Metal : public Material {
+    float metalness = 1;
+    float roughness = 0.8;
 };
 
 class Mirror : public Material {
-    float brdf(Vector normal, Vector ingoing, Vector outgoing);
-    float bsdf(Vector normal, Vector ingoing, Vector outgoing);
+    float metalness = 1;
 };
 
-class Ward : public Material {
-    float brdf(Vector normal, Vector ingoing, Vector outgoing);
-    float bsdf(Vector normal, Vector ingoing, Vector outgoing);
+class Glass : public Material {
+    float ior = 1.4;
+    float transmission = 1;
 };
-
-class OrenNayar : public Material {
-    float brdf(Vector normal, Vector ingoing, Vector outgoing);
-    float bsdf(Vector normal, Vector ingoing, Vector outgoing);
-};
-
-class GGX : public Material {
-    float brdf(Vector normal, Vector ingoing, Vector outgoing);
-    float bsdf(Vector normal, Vector ingoing, Vector outgoing);
-};
-
-class AshikhminShirley : public Material {
-    float brdf(Vector normal, Vector ingoing, Vector outgoing);
-    float bsdf(Vector normal, Vector ingoing, Vector outgoing);
-};
-
 
 
 

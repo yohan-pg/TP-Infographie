@@ -13,7 +13,18 @@
 #include "ofMain.h"
 #include "color.hpp"
 
-typedef ofImage Film;
+class Film  {
+    ofImage buffer;
+    ofImage counts;
+public:
+    float width;
+    float height;
+    float aspect;
+    void allocate(int width, int height);
+    void set(int i, int j, Color color);
+    void clear();
+    void draw(int x, int y);
+};
 
 
 #endif /* film_hpp */

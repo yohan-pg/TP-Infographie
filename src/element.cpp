@@ -8,3 +8,6 @@
 
 #include "element.hpp"
 
+string Element::getName() {
+    return "Element";
+}

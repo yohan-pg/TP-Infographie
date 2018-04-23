@@ -9,29 +9,29 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/camera.cpp"
-            timestampString = "546143136.011264"
+            filePath = "src/gui.cpp"
+            timestampString = "546194652.4743021"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "22"
             endingLineNumber = "22"
-            landmarkName = "Camera::render(Film&amp; film, const Scene&amp; scene)"
+            landmarkName = "GUI::setup(float w)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "No"
+            shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "src/shape.hpp"
-            timestampString = "546143406.82788"
+            filePath = "src/material.hpp"
+            timestampString = "546198505.486703"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "35"
-            endingLineNumber = "35"
-            landmarkName = "class Plane"
+            startingLineNumber = "46"
+            endingLineNumber = "46"
+            landmarkName = "class Lambert"
             landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>

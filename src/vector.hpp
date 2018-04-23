@@ -13,5 +13,7 @@
 #include "ofMain.h"
 
 typedef ofVec3f Vector;
+typedef ofVec3f Normal;
+
 
 #endif /* vector_hpp */

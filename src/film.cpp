@@ -8,6 +8,27 @@
 
 #include "film.hpp"
 
-//Film::Film(int width, int height) {
-//    allocate(width, height, OF_IMAGE_COLOR);
-//}
+void Film::allocate(int width, int height) {
+    width = width;
+    height = height;
+    aspect = width/height;
+    buffer.allocate(width, height, OF_IMAGE_COLOR);
+    counts.allocate(width, height, OF_IMAGE_COLOR);
+}
+
+
+//void Fil
+
+void Film::set(int i, int j, Color color) {
+    /* Garde une 'running average' de la couleur des pixels */
+    buffer.setColor(i, j, color);
+}
+
+void Film::draw(int x, int y) {
+    buffer.draw(x, y);
+}
+
+void Film::clear() {
+    buffer.clear();
+    counts.clear();
+}
