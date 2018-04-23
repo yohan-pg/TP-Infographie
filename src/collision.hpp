@@ -14,12 +14,6 @@
 #include "ray.hpp"
 #include "vector.hpp"
 
-class Collision {
-    bool hit = false;
-    Ray ray;
-    Shape shape;
-    Vector position;
-};
 
 
 #endif /* collision_hpp */

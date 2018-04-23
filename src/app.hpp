@@ -1,25 +1,31 @@
 #pragma once
 
 #include "ofMain.h"
-//#include "scene.hpp"
-//#include "camera.hpp"
-//#include "transform.hpp"
-//#include "vector.hpp"
-//#include "material.hpp"
-//#include "shape.hpp"
-//#include "light.hpp"
-//#include "vector.hpp"
+#include "scene.hpp"
+#include "camera.hpp"
+#include "transform.hpp"
+#include "vector.hpp"
+#include "material.hpp"
+#include "shape.hpp"
+#include "light.hpp"
+#include "vector.hpp"
 
 class App : public ofBaseApp {
 public:
     void setup();
     void update();
     void draw();
-//    Camera camera;
-//    Scene scene;
+    
+    Camera camera;
+    Scene scene;
     
     ofFbo viewport;
     ofFbo renderview;
+    Film renderfilm;
+    
+    int gui_width;
+    int view_width;
+    int view_height;
     
     double mouseX;
     double mouseY;

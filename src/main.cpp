@@ -3,6 +3,7 @@
 
 
 int main( ){
-	ofSetupOpenGL(800, 600, OF_WINDOW);
+	ofSetupOpenGL(1280, 720, OF_WINDOW);
+    ofEnableSmoothing();
 	ofRunApp(new App());
 }

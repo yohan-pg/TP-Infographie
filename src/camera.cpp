@@ -16,12 +16,9 @@ void Camera::toggleOrtho() {
     }
 }
 
-
 void Camera::render(Film& film, const Scene& scene) {
-    
-//    Vector imageplane_up = Vector(0, 1, 0).cross(camera.getGlobalOrientation());
-//    Vector
-    
+//  Vector imageplane_up = Vector(0, 1, 0).cross(camera.getGlobalOrientation());
+//  Vector
     for (int i = 0; i < film.getWidth(); i++) {
         for (int j = 0; j < film.getHeight(); j++) {
 //            Ray ray = primary_ray(i, j, width, height, scene);
@@ -30,9 +27,8 @@ void Camera::render(Film& film, const Scene& scene) {
     }
 }
 
-
 void Camera::reset() {
-    setPosition(Vector(0.f, 0.f, 100.f));
+    setPosition(Vector(0.f, 0.f, 50.f));
     setOrientation(Vector(0.f, 0.f, 0.f));
     setScale(1.f);
 }

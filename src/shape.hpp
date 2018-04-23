@@ -16,7 +16,7 @@
 #include "ray.hpp"
 #include "vector.hpp"
 
-
+class Collision;
 
 class Shape : public Element {
 public:
@@ -32,6 +32,18 @@ public:
     void intersect(const Ray& ray, bool hit, Vector& point) const;
 };
 
+class Plane : public Shape {
+public:
+    void draw() const;
+    void intersect(const Ray& ray, bool hit, Vector& point) const;
+};
+
+class Box : public Shape {
+public:
+    void draw() const;
+    void intersect(const Ray& ray, bool hit, Vector& point) const;
+};
+
 class Triangle : public Shape {
 public:
     void intersect(const Ray& ray, bool hit, Vector& point) const;
@@ -42,6 +54,12 @@ class Mesh : public Shape {
 public:
     void draw() const;
     void intersect(const Ray& ray, bool hit, Vector& point) const;
+};
+
+
+class Collision {
+    bool hit = false;
+    Collision(const Ray& ray, Shape shape, Vector position);
 };
 
 
