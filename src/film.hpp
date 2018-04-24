@@ -15,7 +15,8 @@
 
 class Film  {
     ofImage buffer;
-    ofImage counts;
+    vector<vector<int>> counts;
+    void resetCounters();
 public:
     int width = 0;
     int height = 0;
@@ -24,6 +25,7 @@ public:
     void set(int i, int j, Color color);
     void clear();
     void draw(int x, int y);
+    void update();
 };
 
 

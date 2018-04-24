@@ -5,110 +5,114 @@
 //  Created by Yohan Poirier-Ginter on 2018-04-15.
 //
 //
+
+#include "material.hpp"
 #include "scene.hpp"
+#include "collision.hpp"
 
+using namespace std;
 
-/* Fonctions de reflect/refract/fresnel basées sur:
+/* Fonctions de reflect/refract/fresnel bases sur:
    https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel */
 
-//Vector reflect(const Vector& ingoing, const Vector& normal) {
-//    return ingoing - 2 * ingoing.dot(normal) * normal;
-//}
-//
-//Vector refract(const Vector &ingoing, const Vector normal, const float ior) {
-//    float cosi = max(-1, min(1, ingoing.dot(normal));
-//    float etai = 1, etat = ior;
-//    Vector n = normal;
-//    if (cosi < 0) { cosi = -cosi; } else { std::swap(etai, etat); n = -normal; }
-//    float eta = etai / etat;
-//    float k = 1 - eta * eta * (1 - cosi * cosi);
-//    return k < 0 ? 0 : eta * ingoing + (eta * cosi - sqrtf(k)) * n;
-//}
-//
-//float fresnel(const Vector &ingoing, const Vector &normal, const float &ior)
-//{
-//    float cosi = clamp(-1, 1, ingoing.dot(normal));
-//    float etai = 1, etat = ior;
-//    if (cosi > 0) { std::swap(etai, etat); }
-//    
-//    // Compute sini using Snell's law
-//    float sint = etai / etat * sqrtf(std::max(0.f, 1 - cosi * cosi));
-//    
-//    // Total internal reflection
-//    if (sint >= 1) {
-//        kr = 1;
-//    }
-//    else {
-//        float cost = sqrtf(std::max(0.f, 1 - sint * sint));
-//        cosi = fabsf(cosi);
-//        float Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost));
-//        float Rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost));
-//        kr = (Rs * Rs + Rp * Rp) / 2;
-//    }
-//    return kr;
-//}
-//                     
-//Vector sample_hemisphere(const float &r1, const float &r2)
-//{
-//    float sinTheta = sqrtf(1 - r1 * r1);
-//    float phi = 2 * M_PI * r2;
-//    float x = sinTheta * cosf(phi);
-//    float z = sinTheta * sinf(phi);
-//    return Vector(x, u1, z);
-//}
+Vector reflect(const Vector& ingoing, const Vector& normal) {
+    return ingoing - 2 * ingoing.dot(normal) * normal;
+}
 
+Vector refract(const Vector &ingoing, const Vector normal, const float ior) {
+    float cosi = max(-1.0f, min(1.0f, ingoing.dot(normal)));
+    float etai = 1;
+    float etat = ior;
+    Vector n = normal;
+    if (cosi < 0) {
+        cosi = -cosi;
+    } else {
+        swap(etai, etat);
+        n = -normal;
+    }
+    float eta = etai / etat;
+    float k = 1 - eta * eta * (1 - cosi * cosi);
+//    return k < 0.0f ? Vector() : eta * ingoing + (eta * cosi - sqrtf(k)) * n;
+    // ignore total internal reflection for now
+    return (eta * cosi - sqrtf(k)) * n;
+}
+    
+float fresnel(const Vector &ingoing, const Vector &normal, const float &ior)
+{
+    float kr;
+    float cosi = max(-1.0f, min(1.0f, ingoing.dot(normal)));
+    float etai = 1, etat = ior;
+    if (cosi > 0) { swap(etai, etat); }
+    
+    // Compute sini using Snell's law
+    float sint = etai / etat * sqrtf(max(0.f, 1 - cosi * cosi));
+    
+    // Total internal reflection
+    if (sint >= 1) {
+        return 1;
+    }
+    else {
+        float cost = sqrtf(std::max(0.f, 1 - sint * sint));
+        cosi = fabsf(cosi);
+        float Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost));
+        float Rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost));
+        return (Rs * Rs + Rp * Rp) / 2;
+    }
+}
 /* Fin fonctions vendor */
-//
-//
-//Color Material::shade(const Collision& coll, int depth) {
-//    Color color;
-//    const Vector& ingoing = coll.ray.direction;
-//    
-//    /* Diffuse Term */
-//    
+
+Color Material::shade(const Collision& hit, int depth) const {
+    Color color = Color::black;
+//    const Vector& ingoing = hit.ray->direction;
+    
+    /* Diffuse Term */
 //    color += diffuse;
-//    
-//    /* Emissivity Term */
-//    
+    
+//    color = color + albedo;
+    
+    /* Paramteric Light Contribution */
+//    for (int i = 0; i < scene->lights.size(); i++) {
+//        
+//        Color lighting = scene->lights[i]->cast(hit.position);
+//        
+//        /* Diffuse Term */
+//        color += lighting;
+//        
+//        /* Specular Highlight Term */
+//        
+////        color += lighting *
+//    }
+    
+    /* Emissivity Term */
 //    color += albedo * emissivity;
+    
+    return albedo;
 
-//    /* Specular Highlight Term */
+    /* Metalness/Transmission Term */
+    
+//    Color reflectionColor = scene->trace(reflect(ingoing, hit.normal), depth-1);
+//    Color refractionColor = scene->trace(refract(ingoing, hit.normal, ior), depth-1);
+//    
+//    float reflection = fresnel();
+//    float refraction = 1-reflection;
 //
-
-//    /* Paramteric Light Contribution */
-//    
-//    for (int i = 0; i < scene.lights.size(); i++) {
-//        color += scene.lights[i].cast(coll.position);
-//    }
-//    
-//    /* Metalness/Transmission Term */
-//    
-//    if (metalness > 0) {
-//        Color reflectionColor = scene.trace(reflect(ingoing, coll.normal), depth-1);
-//        Color refractionColor = scene.trace(refract(ingoing, coll.normal, ior), depth-1);
-//        
-//        float kr = fresnel();
-//        
-//        color += metalness * (reflectionColor * kr + refractionColor * (1 - kr));
-//    }
+//    color += reflectionColor * reflected + refractionColor * refraction;
 //    
 //    /* Indirect Term */
 //    
-//    std::default_random_engine generator;
-//    std::uniform_real_distribution<float> distribution(0, 1);
-//    
-//    Color ambientColor;
-//    for (int i = 0; i < scene.ambient_samples; i++) {
-//        Vector outgoing = sample_hemisphere(distribution(generator), distribution(generator);
-//        ambientColor += scene.trace(Ray(coll.position, outgoing);
-//    }
+////
+////    Color ambientColor;
+////    for (int i = 0; i < scene.ambient_samples; i++) {
+////        Vector outgoing = sample_hemisphere(distribution(generator), distribution(generator);
+////        ambientColor += scene.trace(Ray(coll.position, outgoing);
+////    }
 //    color += ambientColor = scene.ambient_samples;
-//    
-//
-//    /* Add in ambient */
+    
+
+   /* Final mix */
 //   return diffuseColor + ambientColor + lightColor
-//}
-//                                    
+}
+                                    
 
 
 

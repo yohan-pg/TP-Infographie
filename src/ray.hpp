@@ -12,14 +12,19 @@
 #include <stdio.h>
 #include "ofMain.h"
 
+#include "vector.hpp"
+
 
 class Ray {
 public:
-    ofVec3f position;
-    ofVec3f direction;
+    Vector position;
+    Normal direction;
     
     Ray();
-    Ray(ofVec3f position, ofVec3f target);
+    Ray(Vector position, Vector target);
+    Ray(Vector position, Normal direction);
+    
+    Vector at(float t) const;
     
     friend std::ostream& operator<< (std::ostream& stream, const Ray& ray);
 };

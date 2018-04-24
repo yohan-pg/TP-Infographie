@@ -16,7 +16,7 @@
 
 class Element : public ofNode {
 public:
-    virtual string getName();
+    virtual string getName() const = 0;
 };
 
 #endif /* element_hpp */

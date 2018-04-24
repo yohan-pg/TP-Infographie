@@ -13,7 +13,14 @@
 #include "ofMain.h"
 
 typedef ofVec3f Vector;
-typedef ofVec3f Normal;
+
+class Normal : public Vector {
+public:
+    Normal();
+    Normal(float x, float y, float z);
+    Normal(Vector v);
+};
+
 
 
 #endif /* vector_hpp */

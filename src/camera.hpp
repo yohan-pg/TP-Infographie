@@ -14,16 +14,24 @@
 #include "ray.hpp"
 #include "film.hpp"
 #include "vector.hpp"
+#include "sampler.hpp"
 
 class Camera : public ofCamera {
-    float dof = 0;
+    float image_size = 0;
 public:
+    int aa_samples = 4;
+    float aperture_size = 0;
+    Vector target;
+    Camera();
+    Camera(float fov);
+    Camera(Vector target);
     void render(Film& film);
     void toggleOrtho();
+    void setFov(float fov);
     void setOrtho(bool setting);
     void setDof(float dof);
     double move_speed = 0.1;
-    Ray primaryRay(Film film, float x, float y);
+    Ray primaryRay(Film& film, float x, float y);
     void reset();
 };
 

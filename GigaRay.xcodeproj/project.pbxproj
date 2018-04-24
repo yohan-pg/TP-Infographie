@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		01CA664A6F6A3CDC080B1621 /* shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F226D110F3B222D9532BB6AF /* shape.cpp */; };
 		058256C5DD90D650B5BE8C22 /* color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5EE15BE4D6711ABFB9BC751B /* color.cpp */; };
-		15B8FED8208E65B20014376E /* util.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B8FED7208E65B20014376E /* util.cpp */; };
+		155FEF31208F9BC6006E3151 /* collision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155FEF2F208F9BC6006E3151 /* collision.cpp */; };
+		15B8FEDB208E96720014376E /* sampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B8FED9208E96720014376E /* sampler.cpp */; };
 		3F1123E44796C08BA1BBFF4D /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48505C0D9DE942237364716F /* ofxDatGui.cpp */; };
 		41DB37B04B69C442968EA316 /* app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90BFBBD5A23A6B332DBE2FCB /* app.cpp */; };
 		4C7A8B39C5356A3FF6CC9176 /* film.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28EE6936640D5C228A04A08 /* film.cpp */; };
@@ -61,7 +62,10 @@
 		0227797CBAD63BC3CDAAAF77 /* element.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = element.hpp; path = src/element.hpp; sourceTree = SOURCE_ROOT; };
 		04CAEE0845EDA94A486B01E9 /* ofxDatGuiThemes.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiThemes.h; path = "../../../addons/ofxDatGui-master/src/themes/ofxDatGuiThemes.h"; sourceTree = SOURCE_ROOT; };
 		0693A07E9520DCFCC2698071 /* element.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = element.cpp; path = src/element.cpp; sourceTree = SOURCE_ROOT; };
-		15B8FED7208E65B20014376E /* util.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = util.cpp; sourceTree = "<group>"; };
+		155FEF2F208F9BC6006E3151 /* collision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = collision.cpp; sourceTree = "<group>"; };
+		155FEF30208F9BC6006E3151 /* collision.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = collision.hpp; sourceTree = "<group>"; };
+		15B8FED9208E96720014376E /* sampler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sampler.cpp; sourceTree = "<group>"; };
+		15B8FEDA208E96720014376E /* sampler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sampler.hpp; sourceTree = "<group>"; };
 		15D376BA94CECB93F8C28C84 /* vector.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = vector.cpp; path = src/vector.cpp; sourceTree = SOURCE_ROOT; };
 		205B328F6E837C7F3E8F6F93 /* ray.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ray.cpp; path = src/ray.cpp; sourceTree = SOURCE_ROOT; };
 		34345B4F2BB9249346B6015E /* vector.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = vector.hpp; path = src/vector.hpp; sourceTree = SOURCE_ROOT; };
@@ -236,9 +240,10 @@
 			children = (
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
 				90BFBBD5A23A6B332DBE2FCB /* app.cpp */,
+				15B8FED9208E96720014376E /* sampler.cpp */,
+				15B8FEDA208E96720014376E /* sampler.hpp */,
 				3EAF3D722F588A1B057C465E /* app.hpp */,
 				50E70DAE403F5F3A1A9D0873 /* camera.cpp */,
-				15B8FED7208E65B20014376E /* util.cpp */,
 				A1D334B93990950345E88F3C /* camera.hpp */,
 				5EE15BE4D6711ABFB9BC751B /* color.cpp */,
 				D9B60082E9008F2D943B623A /* color.hpp */,
@@ -258,6 +263,8 @@
 				462C26576F4EAB56737A253E /* scene.hpp */,
 				F226D110F3B222D9532BB6AF /* shape.cpp */,
 				DADD4B7C50A75C813DBD5917 /* shape.hpp */,
+				155FEF2F208F9BC6006E3151 /* collision.cpp */,
+				155FEF30208F9BC6006E3151 /* collision.hpp */,
 				641CAD46DD37F979C993B9C0 /* transform.cpp */,
 				FDD6750980FB180F1DB784EC /* transform.hpp */,
 				15D376BA94CECB93F8C28C84 /* vector.cpp */,
@@ -381,12 +388,13 @@
 				058256C5DD90D650B5BE8C22 /* color.cpp in Sources */,
 				ED394F317294B7B79071908D /* element.cpp in Sources */,
 				4C7A8B39C5356A3FF6CC9176 /* film.cpp in Sources */,
+				155FEF31208F9BC6006E3151 /* collision.cpp in Sources */,
 				B99CE47754258F41D4580269 /* gui.cpp in Sources */,
+				15B8FEDB208E96720014376E /* sampler.cpp in Sources */,
 				A08117B4DE23E73C6940C0A1 /* light.cpp in Sources */,
 				96EA47EB2B40B10634782476 /* material.cpp in Sources */,
 				A2892EA87E8CDCF1F3266B92 /* ray.cpp in Sources */,
 				A04777E6845578A9FA0A5BEB /* scene.cpp in Sources */,
-				15B8FED8208E65B20014376E /* util.cpp in Sources */,
 				01CA664A6F6A3CDC080B1621 /* shape.cpp in Sources */,
 				7AC5B5819736928B42EBDA6C /* transform.cpp in Sources */,
 				8B9198A1478DF479BE3317DE /* vector.cpp in Sources */,

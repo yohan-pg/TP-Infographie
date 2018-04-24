@@ -23,76 +23,58 @@ class Shape : public Element {
 public:
     Material material;
     bool smooth = true;
-    void draw() const;
-    string getName();
-    virtual Collision intersect(const Ray& ray) const;
+    virtual string getName() const;
+    virtual bool intersect(const Ray& ray, Collision& hit) const;
+    virtual void draw() const;
 };
 
 class Sphere : public Shape {
 public:
-    double radius() const;
-    void draw() const;
-    string getName();
-    Collision intersect(const Ray& ray) const;
+    float getRadius() const;
+    string getName() const;
+    bool intersect(const Ray& ray, Collision& hit) const;
 };
 
 class Plane : public Shape {
     Normal normal;
-    Vector origin;
 public:
-    void draw() const;
-    string getName();
-    Collision intersect(const Ray& ray) const;
+    Plane(Normal normal);
+    string getName() const;
+    bool intersect(const Ray& ray, Collision& hit) const;
 };
 
 class Disk : public Shape {
     Normal normal;
-    Vector origin;
     float radius;
 public:
-    void draw() const;
-    string getName();
-    Collision intersect(const Ray& ray) const;
+    float getRadius() const;
+    Disk(Normal normal, float radius);
+    string getName() const;
+    bool intersect(const Ray& ray, Collision& hit) const;
 };
 
 class Box : public Shape {
 public:
-    void draw() const;
-    string getName();
-    Collision intersect(const Ray& ray) const;
+    string getName() const;
+    bool intersect(const Ray& ray, Collision& hit) const;
 };
 
 class Triangle : public Shape {
     Normal normal;
-    Vector a;
-    Vector b;
-    Vector c;
+    Vector left;
+    Vector right;
 public:
-    string getName();
-    Collision intersect(const Ray& ray) const;
+    Triangle(Vector a, Vector b, Vector c);
+    string getName() const;
+    bool intersect(const Ray& ray, Collision& hit) const;
 };
 
 class Mesh : public Shape {
+public:
     vector<Triangle> triangles;
-public:
-    void draw() const;
-    string getName();
-    Collision intersect(const Ray& ray) const;
+    string getName() const;
+    bool intersect(const Ray& ray, Collision& hit) const;
 };
-
-
-class Collision {
-public:
-    bool hit = false;
-    const Ray& ray;
-    const Shape& shape;
-    Vector position;
-    Vector normal;
-    float distance;
-    Collision(const Ray& ray, const Shape& shape, Vector position, Vector normal, float distance);
-};
-
-//Collision Missed;
 
 
 #endif /* shape_hpp */

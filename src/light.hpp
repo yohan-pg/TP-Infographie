@@ -14,6 +14,7 @@
 #include "element.hpp"
 #include "color.hpp"
 #include "vector.hpp"
+#include "collision.hpp"
 
 class Light : public Element {
 public:

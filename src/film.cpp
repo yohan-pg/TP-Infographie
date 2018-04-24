@@ -7,21 +7,27 @@
 //
 
 #include "film.hpp"
+#include "scene.hpp"
 
 void Film::allocate(int _width, int _height) {
     width = _width;
     height = _height;
-    aspect = width/height;
+    aspect = width / height;
     buffer.allocate(width, height, OF_IMAGE_COLOR);
-    counts.allocate(width, height, OF_IMAGE_COLOR);
+    buffer.setColor(scene->background);
+    for (int i = 0; i <= width; i++) {
+        vector<int> row;
+        for (int j = 0; j <= height; j++) {
+            row.push_back(0);
+        }
+        counts.push_back(row);
+    }
 }
 
-
-//void Fil
-
 void Film::set(int i, int j, Color color) {
-    /* Garde une 'running average' de la couleur des pixels */
-    buffer.setColor(i, j, color);
+    Color currentColor = buffer.getColor(i, j);
+    Color newColor = currentColor + (color - currentColor) / (++counts[i][j] + 1);
+    buffer.setColor(i, j, newColor);
 }
 
 void Film::draw(int x, int y) {
@@ -29,6 +35,14 @@ void Film::draw(int x, int y) {
 }
 
 void Film::clear() {
-    buffer.clear();
-    counts.clear();
+    buffer.setColor(scene->background);
+    for (int i = 0; i <= width; i++) {
+        for (int j = 0; j <= height; j++) {
+            counts[i][j] = 0;
+        }
+    }
+}
+
+void Film::update() {
+    buffer.update();
 }

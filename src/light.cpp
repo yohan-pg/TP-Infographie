@@ -9,19 +9,27 @@
 #include "light.hpp"
 #include "scene.hpp"
 
+
 Color PointLight::cast(const Vector& target) const {
     Vector pos = getPosition();
-//    Collision coll = scene.trace(Ray(pos, target - pos));
-//    if (coll.hit) {
-//        return color * intensity;
-//    }
-    return scene.ambient;
+    Collision hit;
+    if (scene->intersect(Ray(pos, target - pos), hit)) {
+        return Color::black;
+    } else {
+        return color * intensity;
+    }
 }
 
 Color SpotLight::cast(const Vector& target) const {
-//    float x = max((target - getPosition()).dot(getOrientationEuler()), 0.0f);
-    float x = 1.0;
-    return color * x * size;
+    Vector pos = getPosition();
+    Vector dir = getOrientationEuler();
+    Collision hit;
+    if (scene->intersect(Ray(pos, target - pos), hit)) {
+        return Color::black;
+    } else {
+        float x = max((target - pos).dot(dir), 0.0f);
+        return color * intensity * x * size;
+    }
 }
 
 Color AmbientLight::cast(const Vector& target) const {

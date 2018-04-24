@@ -15,6 +15,7 @@
 
 class App : public ofBaseApp {
 public:
+
     void setup();
     void update();
     void draw();
@@ -26,15 +27,18 @@ public:
     ofFbo viewport;
     ofFbo renderview;
     
-    std::thread render_thread;
+    const int thread_count = 1;
+    vector<std::thread> threads;
     
     int view_width;
     int view_height;
     
-    double mouseX;
-    double mouseY;
+    float mouseX;
+    float mouseY;
+    float pressX;
+    float pressY;
     bool dragging;
-    
+        
     void keyPressed(int key);
     void keyReleased(int key);
     void mouseMoved(int x, int y);

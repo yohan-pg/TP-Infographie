@@ -8,7 +8,7 @@
 
 #include "scene.hpp"
 
-Scene scene;
+Scene* scene = new Scene();
 
 void Scene::add(Shape* shape) {
     shapes.push_back(shape);
@@ -34,25 +34,37 @@ void Scene::draw() const {
     }
 }
 
-Collision Scene::intersect(const Ray& ray) const {
-//    Collision best = Missed;
-//    float bestDist = Missed.distance;
-//    for (int i = 0; i < shapes.size(); i++) {
-//        auto hit = shapes[i].intersect(ray);
-//        if (hit.distance < bestDist) {
-////            best = hit;
-//            bestDist = hit.distance;
-//        }
-//    }
+bool Scene::intersect(const Ray& ray, Collision& hit) const {
+    float best = std::numeric_limits<float>::max();
+    bool result = false;
+    for (int i = 0; i < shapes.size(); i++) {
+        Collision coll;
+        bool b = shapes[i]->intersect(ray, coll);
+        if (b && coll.distance < best) {
+            result = true;
+            best = coll.distance;
+            hit = coll;
+        }
+    }
+    return result;
+}
+
+void Scene::select(int x, int y) {
+    Collision coll;
+    if (intersect(camera.primaryRay(film, x, y), coll)) {
+        selection = coll.shape;
+    }
 }
 
 Color Scene::trace(const Ray& ray, int depth) const {
     if (depth > 0) {
-        auto coll = intersect(ray);
-        if (coll.hit) {
-//            return coll.shape.material.shade(this, coll, depth-1);
+        Collision hit;
+        if (intersect(ray, hit)) {
+//            cout << hit.shape->getName() << endl;
+            return Color::red;
+//            return hit.shape->material.shade(hit, depth-1);
         }
     }
-    return ambient;
+    return background;
 }
 

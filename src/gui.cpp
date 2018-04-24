@@ -19,8 +19,8 @@ void GUI::setup(float w) {
     leftPane->addBreak();
     
         scenefolder = leftPane->addFolder("Scene", ofColor::darkCyan);
-        scenefolder->addColorPicker("Background", ofColor::white);
-        scenefolder->addColorPicker("Ambient", ofColor::white);
+        scenefolder->addColorPicker("Background", scene->background);
+        scenefolder->addColorPicker("Ambient", scene->ambient);
     
     leftPane->addBreak();
     
@@ -33,9 +33,10 @@ void GUI::setup(float w) {
     leftPane->addBreak();
     
         camera = leftPane->addFolder("Camera", ofColor::greenYellow);
-        camera->addSlider("FOV", 0.0, 10.0, 0.0);
-        camera->addSlider("DOF", 0.0, 10.0, 0.0);
-        camera->addToggle("Orthographic", false);
+        camera->addSlider("FOV", 30.0, 120.0, scene->camera.getFov());
+        camera->addSlider("Aperture Size", 0.0, 2.0, scene->camera.aperture_size);
+        camera->addSlider("AA Samples", 1, 64, scene->camera.aa_samples);
+        camera->addToggle("Orthographic", scene->camera.getOrtho());
     
     leftPane->addBreak();
     
@@ -85,20 +86,21 @@ void GUI::setup(float w) {
     
     rightPane->addBreak()->setHeight(3000.0);
     
-    layerView = new ofxDatGuiScrollView("ok", 24);
-    layerView->setWidth(width+20);
-    layerView->setPosition(width, 500);
+    layerView = new ofxDatGuiScrollView("Layers", 24);
+    layerView->setWidth(200);
+//    layerView->setPosition(300, 500);
+//    layerView->onScrollViewEvent(this, &GUI::onScrollViewEvent);
 
 }
 
 void GUI::update() {
-    if (dynamic_cast<Light*>(scene.selection)) {
-        light->setOpacity(1.0);
-        light->setEnabled(true);
-    } else {
-        light->setOpacity(0.5);
-        light->setEnabled(false);
-    }
+//    if (dynamic_cast<Light*>(scene->selection)) {
+//        light->setOpacity(1.0);
+//        light->setEnabled(true);
+//    } else {
+//        light->setOpacity(0.5);
+//        light->setEnabled(false);
+//    }
     
 //    if (dynamic_cast<Shape*>(scene.selection)) {
 //        materiaux->setOpacity(1.0);
@@ -116,17 +118,23 @@ void GUI::update() {
 //        mesh->setEnabled(false);
 //    }
     
-    scene.background = leftPane->getColorPicker("Background")->getColor();
-    scene.ambient = leftPane->getColorPicker("Ambient")->getColor();
+    scene->background = leftPane->getColorPicker("Background")->getColor();
+    scene->ambient = leftPane->getColorPicker("Ambient")->getColor();
     
-    scene.camera.setOrtho(leftPane->getToggle("Orthographic")->getChecked());
-    scene.camera.setFov(leftPane->getSlider("FOV")->getValue());
-    scene.camera.setDof(leftPane->getSlider("DOF")->getValue());
+    scene->camera.setFov(leftPane->getSlider("FOV")->getValue());
+    scene->camera.aperture_size = (leftPane->getSlider("Aperture Size")->getValue());
+    scene->camera.aa_samples = (leftPane->getSlider("AA Samples")->getValue());
+    scene->camera.setOrtho(leftPane->getToggle("Orthographic")->getChecked());
     
-    layerView->clear();
-    for (int i = 0; i < scene.elements.size(); i++) {
-        layerView->add("  " + scene.elements[i]->getName());
-    }
+//    layerView->clear();
+//    for (int i = 0; i < 10; i++) {
+////        layerView->add("ok");
+//        // scene.elements.size()
+////        layerView->add("  " + scene.elements[i]->getName());
+//    }
+//    layerView->update();
+//    layerView->setPosition(ofGetWidth()-400, 273);
+//    layerView->draw();
 
 }
 
@@ -150,33 +158,33 @@ void GUI::onButtonEvent(ofxDatGuiButtonEvent e){
     }
     
     else if (e.target->is("Add Point")){
-        scene.add(new PointLight());
+        scene->add(new PointLight());
     }
     
     else if (e.target->is("Add Spot")) {
-        scene.add(new SpotLight());
+        scene->add(new SpotLight());
     }
     
     else if (e.target->is("Add Ambient")) {
-        scene.add(new AmbientLight());
+        scene->add(new AmbientLight());
     }
     
 }
 
 void GUI::onDropdownEvent(ofxDatGuiDropdownEvent e)
 {
-    scene.film.clear();
+    scene->film.clear();
     switch (e.child) {
         case 0: break;
     }
 }
 
 void GUI::onSliderEvent(ofxDatGuiSliderEvent e) {
-    scene.film.clear();
+    scene->film.clear();
 }
 
 void GUI::onColorPickerEvent(ofxDatGuiColorPickerEvent e) {
-    scene.film.clear();
+    scene->film.clear();
     if (e.target->is("Fond")) {
         float H;
         float S;

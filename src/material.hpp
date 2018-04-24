@@ -13,17 +13,17 @@
 #include "ofMain.h"
 #include "vector.hpp"
 #include "color.hpp"
-//#include "shape.hpp"
-//#include "scene.hpp"
 #include <math.h>
 
+class Collision;
 
 class Material {
-    Color albedo;
-    Color diffuse;
-    Color specularTint;
+public:
+    Color albedo = Color::red;
+    Color diffuse = Color::black;
+    Color specularTint = Color::white;
     float metalness = 0;
-    float emmisivity = 0;
+    float emissivity = 0;
     float roughness = 0;
     float transmission = 0;
     float anisotropy = 0;
@@ -32,15 +32,10 @@ class Material {
     float sheen = 0;
     float sheenTint = 0;
     float ior = 1.5;
-
-    
-    // pdf?
-//    virtual float brdf(Vector normal, Vector ingoing, Vector outgoing);
-//    virtual float bsdf(Vector normal, Vector ingoing, Vector outgoing);
-    
-//    Color shade(const Collision& coll);
+    Color shade(const Collision& hit, int depth) const;
+    float brdf(Vector normal, Vector ingoing, Vector outgoing);
+    float bsdf(Vector normal, Vector ingoing, Vector outgoing);
 };
-
 
 class Lambert : public Material {
     Color albedo = Color::darkorange;

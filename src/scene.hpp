@@ -23,7 +23,7 @@ public:
     Color background = Color::white;
     Color ambient = Color::black;
     
-    Element* selection;
+    const Shape* selection;
     
     Camera camera;
     Film film;
@@ -39,13 +39,13 @@ public:
     bool remove(Light* light);
     bool remove(Shape* shape);
     
-    void select(Element* element);
+    void select(int x, int y);
     
     void draw() const;
-    Color trace(const Ray& ray, int depth) const;
-    Collision intersect(const Ray& ray) const;
+    Color trace(const Ray& ray, int depth=1) const;
+    bool intersect(const Ray& ray, Collision& hit) const ;
 };
 
-extern Scene scene;
+extern Scene* scene;
 
 #endif /* scene_hpp */

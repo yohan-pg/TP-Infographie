@@ -12,7 +12,6 @@
 #include <stdio.h>
 #include "ofMain.h"
 
-typedef ofColor Color;
-
+typedef ofFloatColor Color;
 
 #endif /* color_hpp */
