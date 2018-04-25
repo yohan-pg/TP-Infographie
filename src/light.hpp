@@ -18,7 +18,7 @@
 
 class Light : public Element {
 public:
-    Color color = Color::white;
+    Color color = Color(1.0, 1.0, 1.0);
     double intensity = 1.0;
     string getName() const;
     virtual Color cast(const Vector& pos) const = 0;

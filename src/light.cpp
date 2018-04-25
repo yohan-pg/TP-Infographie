@@ -13,7 +13,7 @@
 Color PointLight::cast(const Vector& target) const {
     Vector pos = getPosition();
     Collision hit;
-    if (scene->intersect(Ray(pos, target - pos), hit)) {
+    if (scene->intersect(Ray(pos, target - pos), hit)) { // and hit distance < target
         return Color::black;
     } else {
         return color * intensity;

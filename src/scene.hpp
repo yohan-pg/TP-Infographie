@@ -20,8 +20,8 @@
 
 class Scene {
 public:
-    Color background = Color::white;
-    Color ambient = Color::black;
+    Color background = Color(1, 1, 1);
+    Color ambient = Color(0, 0, 0);
     
     const Shape* selection;
     
@@ -41,7 +41,7 @@ public:
     
     void select(int x, int y);
     
-    void draw() const;
+    void draw() ;
     Color trace(const Ray& ray, int depth=1) const;
     bool intersect(const Ray& ray, Collision& hit) const ;
 };

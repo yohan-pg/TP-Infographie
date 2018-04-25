@@ -31,11 +31,24 @@ void App::setup() {
         threads.push_back(thread(&App::render, this));
     }
     
-    auto *p = new Sphere();
+    
+    auto *l = new PointLight();
+    l->setPosition(Vector(0,4,1));
+    scene->add(l);
+    
+    auto *p = new Sphere(1);
+    p->setPosition(Vector(2,0,0));
+    
     scene->add(p);
     
+    Ray r = Ray(scene->camera.getPosition(), Vector(0,0,0));
+    
+    cout << r << endl;
+    cout << r * p->getGlobalTransformMatrix().getInverse() << endl;
+    
+    
 //    cout << "camera position " << scene->camera.getPosition() << endl;
-//    Ray r = Ray(scene->camera.getPosition(), Vector(0,0,0));
+    
 //    cout << "ray: "<< r << endl;
 //    Collision c;
 //    if (p->intersect(r, c)) {
@@ -44,6 +57,7 @@ void App::setup() {
 //        cout << "missed" << endl;
 //    }
     
+    ofSetBackgroundAuto(false);
 }
 
 
@@ -60,30 +74,33 @@ void App::update() {
 
 void App::draw() {
 
-    ofEnableDepthTest();
     ofClear(125);
-
+    
+    scene->film.draw(0, 0);
+    ofEnableAlphaBlending();
     renderview.begin();
-        ofClear(scene->background);
+        ofSetColor(scene->background);
+        ofDrawRectangle(0, 0, scene->film.width, scene->film.height);
+        ofSetColor(255);
         scene->film.draw(0, 0);
     renderview.end();
     renderview.draw(gui.width, 0);
-    
-    ofSpherePrimitive sphere;
-    
+    ofDisableAlphaBlending();
+
+    ofEnableDepthTest();
     viewport.begin();
-    ofClear(255);
+        ofClear(125);
         scene->camera.begin();
-            ofSetColor(255, 0, 0);
-            sphere.draw();
+            ofSetColor(255);
+            for(int i = 0; i < scene->shapes.size(); i++) {
+                scene->shapes[i]->draw();
+            }
         scene->camera.end();
     viewport.end();
     viewport.draw(gui.width, view_height);
-    
     ofDisableDepthTest();
     
     gui.draw();
-    
 }
 
 void App::keyPressed(int key) {
@@ -133,6 +150,7 @@ void App::mousePressed(int x, int y, int button) {
 }
 
 void App::mouseReleased(int x, int y, int button) {
+    scene->film.clear();
     if (Vector(pressX, pressY, 0).distance(Vector(x, y, 0)) < 3) {
         scene->select(x, y);
     }
@@ -148,6 +166,7 @@ void App::mouseExited(int x, int y) {
 }
 
 void App::mouseScrolled(int x, int y, float scrollX, float scrollY) {
+    scene->film.clear();
     scene->camera.move(0.f, 0.f, scrollY);
 }
 

@@ -28,7 +28,7 @@ bool Scene::remove(Light* light) {
     return false; //todo
 }
 
-void Scene::draw() const {
+void Scene::draw() {
     for (int i = 0; i < shapes.size(); i++) {
         shapes[i]->draw();
     }
@@ -39,7 +39,7 @@ bool Scene::intersect(const Ray& ray, Collision& hit) const {
     bool result = false;
     for (int i = 0; i < shapes.size(); i++) {
         Collision coll;
-        bool b = shapes[i]->intersect(ray, coll);
+        bool b = shapes[i]->intersect(ray * shapes[i]->getGlobalTransformMatrix().getInverse(), coll);
         if (b && coll.distance < best) {
             result = true;
             best = coll.distance;
@@ -52,7 +52,7 @@ bool Scene::intersect(const Ray& ray, Collision& hit) const {
 void Scene::select(int x, int y) {
     Collision coll;
     if (intersect(camera.primaryRay(film, x, y), coll)) {
-        selection = coll.shape;
+//        selection = coll.shape;
     }
 }
 
@@ -60,9 +60,7 @@ Color Scene::trace(const Ray& ray, int depth) const {
     if (depth > 0) {
         Collision hit;
         if (intersect(ray, hit)) {
-//            cout << hit.shape->getName() << endl;
-            return Color::red;
-//            return hit.shape->material.shade(hit, depth-1);
+            return hit.shape.material.shade(hit, depth);
         }
     }
     return background;

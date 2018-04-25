@@ -13,6 +13,7 @@
 #include "ofMain.h"
 
 #include "vector.hpp"
+#include "transform.hpp"
 
 
 class Ray {
@@ -24,10 +25,15 @@ public:
     Ray(Vector position, Vector target);
     Ray(Vector position, Normal direction);
     
+    Ray operator*(Transform xform) const;
+    
     Vector at(float t) const;
     
     friend std::ostream& operator<< (std::ostream& stream, const Ray& ray);
 };
+
+extern Ray unit_ray;
+
 
 #endif /* ray_hpp */
 

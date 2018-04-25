@@ -62,37 +62,39 @@ float fresnel(const Vector &ingoing, const Vector &normal, const float &ior)
 /* Fin fonctions vendor */
 
 Color Material::shade(const Collision& hit, int depth) const {
-    Color color = Color::black;
-//    const Vector& ingoing = hit.ray->direction;
+    Color color = Color(0, 0, 0);
+    const Vector& ingoing = hit.ray.direction;
     
     /* Diffuse Term */
-//    color += diffuse;
+    color += diffuse;
     
 //    color = color + albedo;
     
     /* Paramteric Light Contribution */
-//    for (int i = 0; i < scene->lights.size(); i++) {
-//        
-//        Color lighting = scene->lights[i]->cast(hit.position);
-//        
-//        /* Diffuse Term */
-//        color += lighting;
-//        
-//        /* Specular Highlight Term */
-//        
-////        color += lighting *
-//    }
+    for (int i = 0; i < scene->lights.size(); i++) {
+        Color lighting = scene->lights[i]->cast(hit.position);
+        
+        /* Diffuse Term */
+        Vector dir = scene->lights[i]->getPosition() - hit.position;
+        float cos = hit.normal.dot(dir);
+        color += lighting * cos * albedo ; // add in cos normal
+        
+        /* Specular Highlight Term */
+        
+//        color += lighting *
+    }
+    
     
     /* Emissivity Term */
 //    color += albedo * emissivity;
     
-    return albedo;
+    return color;
 
     /* Metalness/Transmission Term */
     
 //    Color reflectionColor = scene->trace(reflect(ingoing, hit.normal), depth-1);
 //    Color refractionColor = scene->trace(refract(ingoing, hit.normal, ior), depth-1);
-//    
+//
 //    float reflection = fresnel();
 //    float refraction = 1-reflection;
 //

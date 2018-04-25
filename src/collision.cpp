@@ -8,13 +8,9 @@
 
 #include "collision.hpp"
 
-Collision::Collision() {}
+Collision::Collision() :ray(unit_ray), shape(unit_shape) {}
 
 Collision::Collision(const Ray& ray, const Shape& shape, Vector position, Vector normal, float distance)
-: ray(&ray), shape(&shape), position(position), normal(normal), distance(distance) {}
-
-Collision& Collision::operator=(Collision other) {
-    return *this;
-}
+: ray(ray), shape(shape), position(position), normal(normal), distance(distance) {}
 
 

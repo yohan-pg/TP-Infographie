@@ -18,7 +18,14 @@ Vector Ray::at(float t) const {
     return position + t * direction;
 }
 
+Ray Ray::operator*(Transform xform) const {
+    return Ray(position * xform, direction);
+}
+
+
 std::ostream& operator<< (std::ostream& os, const Ray& ray) {
     os << "[" << ray.position << "] -> [" << ray.direction << "]";
     return os;
 }
+
+Ray unit_ray = Ray();

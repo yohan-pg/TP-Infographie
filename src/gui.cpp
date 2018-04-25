@@ -19,7 +19,7 @@ void GUI::setup(float w) {
     leftPane->addBreak();
     
         scenefolder = leftPane->addFolder("Scene", ofColor::darkCyan);
-        scenefolder->addColorPicker("Background", scene->background);
+//        scenefolder->addColorPicker("Background", scene->background);
         scenefolder->addColorPicker("Ambient", scene->ambient);
     
     leftPane->addBreak();
@@ -118,8 +118,8 @@ void GUI::update() {
 //        mesh->setEnabled(false);
 //    }
     
-    scene->background = leftPane->getColorPicker("Background")->getColor();
-    scene->ambient = leftPane->getColorPicker("Ambient")->getColor();
+//    scene->background = leftPane->getColorPicker("Background")->getColor();
+//    scene->ambient = leftPane->getColorPicker("Ambient")->getColor();
     
     scene->camera.setFov(leftPane->getSlider("FOV")->getValue());
     scene->camera.aperture_size = (leftPane->getSlider("Aperture Size")->getValue());

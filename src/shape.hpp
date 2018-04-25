@@ -25,14 +25,17 @@ public:
     bool smooth = true;
     virtual string getName() const;
     virtual bool intersect(const Ray& ray, Collision& hit) const;
-    virtual void draw() const;
+    virtual void draw();
 };
 
 class Sphere : public Shape {
+    ofSpherePrimitive primitive;
 public:
+    Sphere(float radis=1.0);
     float getRadius() const;
     string getName() const;
     bool intersect(const Ray& ray, Collision& hit) const;
+    void draw();
 };
 
 class Plane : public Shape {
@@ -76,5 +79,7 @@ public:
     bool intersect(const Ray& ray, Collision& hit) const;
 };
 
+
+extern Shape unit_shape;
 
 #endif /* shape_hpp */

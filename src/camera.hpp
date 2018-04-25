@@ -17,9 +17,9 @@
 #include "sampler.hpp"
 
 class Camera : public ofCamera {
-    float image_size = 0;
+    float image_size;
 public:
-    int aa_samples = 4;
+    int aa_samples = 1;
     float aperture_size = 0;
     Vector target;
     Camera();

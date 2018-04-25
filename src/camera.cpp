@@ -35,28 +35,37 @@ void Camera::setOrtho(bool setting) {
 }
 
 Ray Camera::primaryRay(Film& film, float i, float j) {
-    float screen_x = (i + 0.5) / film.width;
-    float screen_y = (j + 0.5) / film.height;
-    float cam_x = ofLerp(-1, 1, screen_x) * film.aspect * image_size;
-    float cam_y = ofLerp(-1, 1, screen_y) * image_size;
-    float focus_distance = (target - getPosition()).length();
-    Vector endpoint = Vector(cam_x, cam_y, -1) * getGlobalTransformMatrix() ;
+    float screen_x = i / film.width;
+    float screen_y = j / film.height;
+    float cam_x = ofLerp(-1, 1, screen_x) * film.aspect * 1.2 * image_size;
+    float cam_y = ofLerp(1, -1, screen_y) * image_size;
+    float focal_distance = (target - getPosition()).length();
+    Vector endpoint = Vector(cam_x, cam_y, -1) * focal_distance * getGlobalTransformMatrix() ;
     return Ray(getPosition() + Sampler::uniform_circle() * aperture_size, endpoint);
 }
 
 void Camera::render(Film& film) {
-    int x = Sampler::uniform_int(0, film.width);
-    int y = Sampler::uniform_int(0, film.height);
+    vector<int> xs(film.width);
+    iota(xs.begin(), xs.end(), 0);
+    random_shuffle(xs.begin(), xs.end());
     
-    Color color = Color::black;
-    float contrib = 1 / static_cast<float>(aa_samples);
-    for (int i = 0; i < aa_samples; i++) {
-        float dx = Sampler::uniform_float();
-        float dy = Sampler::uniform_float();
-        color += scene->trace(primaryRay(film, x+dx-0.5, y+dy-0.5));
+    vector<int> ys(film.height);
+    iota(ys.begin(), ys.end(), 0);
+    random_shuffle(ys.begin(), ys.end());
+    
+    for (int j = 0; j < xs.size(); j++) {
+        int x = xs[j];
+        int y = ys[j % ys.size()];
+        Color color = Color::black;
+        float contrib = 1 / static_cast<float>(aa_samples);
+        for (int i = 0; i < aa_samples; i++) {
+            float dx = Sampler::uniform_float();
+            float dy = Sampler::uniform_float();
+            color += scene->trace(primaryRay(film, x+dx, y+dy));
+        }
+        film.set(x, y, color);
     }
-
-    film.set(x, y, color);
+    
 }
 
 void Camera::reset() {

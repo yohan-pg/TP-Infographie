@@ -14,20 +14,28 @@ bool Shape::intersect(const Ray& ray, Collision& hit) const {
     return false;
 }
 
-void Shape::draw() const {}
+void Shape::draw() {}
+
+Sphere::Sphere(float radius) {
+    setScale(radius);
+    primitive.setRadius(radius);
+}
 
 bool Sphere::intersect(const Ray& ray, Collision& hit) const {
-    Transform xform = getGlobalTransformMatrix().getInverse();
-    Vector o = ray.position * xform;
-    Vector d = ray.direction * xform;
-    float base = d.dot(o);
-    float discr = base * base - o.dot(o) + 1;
+    float base = ray.direction.dot(ray.position);
+    float discr = base * base - ray.position.dot(ray.position) + 1;
     if (discr <= 0) return false;
     float root = sqrt(discr);
     float dist =  min(-base-root, -base+root);
     Vector hitpos = ray.at(dist);
-    hit = Collision(ray, *this, hitpos, Normal(hitpos), dist);
+    hit = Collision(ray, *this, hitpos, Normal(hitpos - getPosition()), dist);
     return true;
+}
+
+void Sphere::draw() {
+    ofSetColor(material.albedo);
+    primitive.setTransformMatrix(getGlobalTransformMatrix());
+    primitive.drawWireframe();
 }
 
 Plane::Plane(Normal normal) : normal(normal) {}
@@ -144,3 +152,6 @@ string Triangle::getName() const{
 string Mesh::getName() const{
     return "Mesh";
 }
+
+
+Shape unit_shape = Shape();

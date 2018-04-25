@@ -16,14 +16,13 @@
 
 class Collision {
 public:
-    const Ray* ray;
-    const Shape* shape;
+    const Ray& ray;
+    const Shape& shape;
     Vector position;
     Vector normal;
     float distance;
     Collision();
     Collision(const Ray& ray, const Shape& shape, Vector position, Vector normal, float distance);
-    Collision& operator=(Collision);
 };
 
 #endif /* collision_hpp */

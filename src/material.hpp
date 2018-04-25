@@ -19,9 +19,9 @@ class Collision;
 
 class Material {
 public:
-    Color albedo = Color::red;
-    Color diffuse = Color::black;
-    Color specularTint = Color::white;
+    Color albedo = Color(1,0,0);
+    Color diffuse = Color(0,0,0);
+    Color specularTint = Color(1,1,1);
     float metalness = 0;
     float emissivity = 0;
     float roughness = 0;
