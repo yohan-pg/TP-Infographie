@@ -17,11 +17,13 @@
 #include "collision.hpp"
 
 class Light : public Element {
+    ofSpherePrimitive primitive;
 public:
     Color color = Color(1.0, 1.0, 1.0);
     double intensity = 1.0;
     string getName() const;
-    virtual Color cast(const Vector& pos) const = 0;
+    virtual Color cast(const Vector& pos) const;
+    virtual void draw();
 };
 
 class PointLight : public Light {

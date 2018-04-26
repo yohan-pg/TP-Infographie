@@ -8,7 +8,7 @@
 
 #include "scene.hpp"
 
-Scene* scene = new Scene();
+Scene scene = Scene();
 
 void Scene::add(Shape* shape) {
     shapes.push_back(shape);
@@ -21,46 +21,51 @@ void Scene::add(Light* light) {
 }
 
 bool Scene::remove(Shape* shape) {
-    return false; //todo
+    return false; 
 }
 
 bool Scene::remove(Light* light) {
-    return false; //todo
+    return false;
 }
 
-void Scene::draw() {
+void Scene::draw() const{
     for (int i = 0; i < shapes.size(); i++) {
         shapes[i]->draw();
     }
 }
 
-bool Scene::intersect(const Ray& ray, Collision& hit) const {
+boost::optional<Collision> Scene::intersect(const Ray& ray) const {
     float best = std::numeric_limits<float>::max();
-    bool result = false;
+    boost::optional<Collision> result = boost::none;
     for (int i = 0; i < shapes.size(); i++) {
-        Collision coll;
-        bool b = shapes[i]->intersect(ray * shapes[i]->getGlobalTransformMatrix().getInverse(), coll);
-        if (b && coll.distance < best) {
-            result = true;
-            best = coll.distance;
-            hit = coll;
+        Collision* coll;
+        auto candidate = shapes[i]->intersect(ray * shapes[i]->getGlobalTransformMatrix().getInverse());
+        if (candidate && candidate->distance < best) {
+            result = candidate;
+            best =  candidate->distance;
         }
     }
     return result;
 }
 
 void Scene::select(int x, int y) {
-    Collision coll;
-    if (intersect(camera.primaryRay(film, x, y), coll)) {
-//        selection = coll.shape;
+    auto hit = intersect(camera.primaryRay(film, x, y));
+    if (hit) {
+        selection = &(hit->shape);
+    } else {
+        selection = NULL;
     }
+}
+
+void Scene::select(Element* element) {
+    selection = element;
 }
 
 Color Scene::trace(const Ray& ray, int depth) const {
     if (depth > 0) {
-        Collision hit;
-        if (intersect(ray, hit)) {
-            return hit.shape.material.shade(hit, depth);
+        auto hit = intersect(ray);
+        if (hit) {
+            return hit->shape.material.shade(*hit, depth);
         }
     }
     return background;

@@ -17,12 +17,12 @@
 class Collision {
 public:
     const Ray& ray;
-    const Shape& shape;
+    Shape& shape;
     Vector position;
     Vector normal;
     float distance;
-    Collision();
-    Collision(const Ray& ray, const Shape& shape, Vector position, Vector normal, float distance);
+    Collision(const Ray& ray, Shape& shape, Vector position, Vector normal, float distance);
+    Collision& operator=(const Collision& other);
 };
 
 #endif /* collision_hpp */

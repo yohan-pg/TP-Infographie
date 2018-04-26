@@ -12,17 +12,17 @@
 #include "gui.hpp"
 #include <thread>
 #include "ofxDatGui.h"
+#include <boost/optional.hpp>
 
 class App : public ofBaseApp {
 public:
-
     void setup();
     void update();
     void draw();
     void render();
     void exit();
     
-    GUI gui;
+    ofxDatGuiScrollView* sview;
     
     ofFbo viewport;
     ofFbo renderview;

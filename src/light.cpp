@@ -10,10 +10,19 @@
 #include "scene.hpp"
 
 
+Color Light::cast(const Vector& target) const {
+    return Color(0,0,0,0);
+}
+
+void Light::draw() {
+    primitive.draw();
+}
+
 Color PointLight::cast(const Vector& target) const {
     Vector pos = getPosition();
-    Collision hit;
-    if (scene->intersect(Ray(pos, target - pos), hit)) { // and hit distance < target
+    auto ray = Ray(pos, target - pos);
+    auto hit = scene.intersect(ray);
+    if (hit) { // and hit distance < target
         return Color::black;
     } else {
         return color * intensity;
@@ -23,8 +32,9 @@ Color PointLight::cast(const Vector& target) const {
 Color SpotLight::cast(const Vector& target) const {
     Vector pos = getPosition();
     Vector dir = getOrientationEuler();
-    Collision hit;
-    if (scene->intersect(Ray(pos, target - pos), hit)) {
+    auto ray = Ray(pos, target - pos);
+    auto hit = scene.intersect(ray);
+    if (hit) {
         return Color::black;
     } else {
         float x = max((target - pos).dot(dir), 0.0f);

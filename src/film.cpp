@@ -14,7 +14,7 @@ void Film::allocate(int _width, int _height) {
     height = _height;
     aspect = width / height;
     buffer.allocate(width, height, OF_IMAGE_COLOR_ALPHA);
-    cout << scene->background << endl;
+    cout << scene.background << endl;
     buffer.setColor(Color(0,0,0,0));
     for (int i = 0; i <= width; i++) {
         vector<int> row;

@@ -71,11 +71,11 @@ Color Material::shade(const Collision& hit, int depth) const {
 //    color = color + albedo;
     
     /* Paramteric Light Contribution */
-    for (int i = 0; i < scene->lights.size(); i++) {
-        Color lighting = scene->lights[i]->cast(hit.position);
+    for (int i = 0; i < scene.lights.size(); i++) {
+        Color lighting = scene.lights[i]->cast(hit.position);
         
         /* Diffuse Term */
-        Vector dir = scene->lights[i]->getPosition() - hit.position;
+        Vector dir = scene.lights[i]->getPosition() - hit.position;
         float cos = hit.normal.dot(dir);
         color += lighting * cos * albedo ; // add in cos normal
         
@@ -92,8 +92,8 @@ Color Material::shade(const Collision& hit, int depth) const {
 
     /* Metalness/Transmission Term */
     
-//    Color reflectionColor = scene->trace(reflect(ingoing, hit.normal), depth-1);
-//    Color refractionColor = scene->trace(refract(ingoing, hit.normal, ior), depth-1);
+//    Color reflectionColor = scene.trace(reflect(ingoing, hit.normal), depth-1);
+//    Color refractionColor = scene.trace(refract(ingoing, hit.normal, ior), depth-1);
 //
 //    float reflection = fresnel();
 //    float refraction = 1-reflection;
@@ -104,11 +104,11 @@ Color Material::shade(const Collision& hit, int depth) const {
 //    
 ////
 ////    Color ambientColor;
-////    for (int i = 0; i < scene.ambient_samples; i++) {
+////    for (int i = 0; i < scene..ambient_samples; i++) {
 ////        Vector outgoing = sample_hemisphere(distribution(generator), distribution(generator);
-////        ambientColor += scene.trace(Ray(coll.position, outgoing);
+////        ambientColor += scene..trace(Ray(coll.position, outgoing);
 ////    }
-//    color += ambientColor = scene.ambient_samples;
+//    color += ambientColor = scene..ambient_samples;
     
 
    /* Final mix */

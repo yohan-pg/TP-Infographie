@@ -25,7 +25,7 @@ public:
     ofxDatGui* rightPane;
     
     ofxDatGuiFolder* fichier;
-    ofxDatGuiFolder* scenefolder;
+    ofxDatGuiFolder* scene_folder;
     ofxDatGuiFolder* camera;
     ofxDatGuiFolder* materiaux;
     ofxDatGuiFolder* mesh;
@@ -47,6 +47,8 @@ public:
     void onColorPickerEvent(ofxDatGuiColorPickerEvent e);
     void onScrollViewEvent(ofxDatGuiScrollViewEvent e);
     void onDropdownEvent(ofxDatGuiDropdownEvent e);
+    
+    void refreshList();
     
 };
 

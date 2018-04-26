@@ -21,7 +21,6 @@ class Camera : public ofCamera {
 public:
     int aa_samples = 1;
     float aperture_size = 0;
-    Vector target;
     Camera();
     Camera(float fov);
     Camera(Vector target);
@@ -31,7 +30,7 @@ public:
     void setOrtho(bool setting);
     void setDof(float dof);
     double move_speed = 0.1;
-    Ray primaryRay(Film& film, float x, float y);
+    Ray primaryRay(Film& film, float x, float y, bool focused=false);
     void reset();
 };
 

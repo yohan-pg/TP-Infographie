@@ -10,30 +10,38 @@
 #include "scene.hpp"
 #include "collision.hpp"
 
-bool Shape::intersect(const Ray& ray, Collision& hit) const {
-    return false;
+boost::optional<Collision> Shape::intersect(const Ray& ray) {
+    return boost::none;
 }
 
-void Shape::draw() {}
+void Shape::draw() {
+    if (scene.selection == this) {
+        ofSetColor(Color(1,1,1));
+    }
+    else {
+        ofSetColor(material.albedo);
+    }
+    
+}
 
 Sphere::Sphere(float radius) {
     setScale(radius);
     primitive.setRadius(radius);
 }
 
-bool Sphere::intersect(const Ray& ray, Collision& hit) const {
+boost::optional<Collision> Sphere::intersect(const Ray& ray) {
     float base = ray.direction.dot(ray.position);
     float discr = base * base - ray.position.dot(ray.position) + 1;
-    if (discr <= 0) return false;
+    if (discr <= 0) return boost::none;
     float root = sqrt(discr);
     float dist =  min(-base-root, -base+root);
     Vector hitpos = ray.at(dist);
-    hit = Collision(ray, *this, hitpos, Normal(hitpos - getPosition()), dist);
-    return true;
+//    return Collision(ray, *this, hitpos, Normal(hitpos - getPosition()), dist);
+    return Collision(ray, *this, hitpos, Normal(hitpos - getPosition()), dist);
 }
 
 void Sphere::draw() {
-    ofSetColor(material.albedo);
+    Shape::draw();
     primitive.setTransformMatrix(getGlobalTransformMatrix());
     primitive.drawWireframe();
 }
@@ -49,14 +57,13 @@ float planar_distance(const Ray& ray, const Vector& position, const Normal& norm
     return dist;
 }
 
-bool Plane::intersect(const Ray& ray, Collision& hit) const {
-    float dist = planar_distance(ray, getPosition(), normal);
-    if (dist >= 0) {
-        hit = Collision(ray, *this, ray.at(dist), normal, dist);
-        return true;
-    }
-    return false;
-}
+//bool Plane::intersect(const Ray& ray) const {
+//    float dist = planar_distance(ray, getPosition(), normal);
+//    if (dist >= 0) {
+//        Collision(ray, *this, ray.at(dist), normal, dist);
+//    }
+//    return boost::none;
+//}
 
 Disk::Disk(Normal normal, float radius=1.0) : normal(normal) {
     setScale(radius);
@@ -66,64 +73,62 @@ float Disk::getRadius() const {
     return 1; // todo, use scale
 }
 
-bool Disk::intersect(const Ray& ray, Collision& hit) const {
+boost::optional<Collision> Disk::intersect(const Ray& ray) {
     float dist = planar_distance(ray, getPosition(), normal);
     if (dist >= 0 && dist < getRadius()) {
-        hit = Collision(ray, *this, ray.at(dist), normal, dist);
-        return true;
+        return Collision(ray, *this, ray.at(dist), normal, dist);
     }
-    return false;
+    return boost::none;
 }
 
-bool Box::intersect(const Ray& ray, Collision& hit) const {
-    Vector d = ray.direction;
-    Vector p = ray.position;
-    float min_x = (1 - d.x) / p.x;
-    float max_x = (1 + d.x) / p.x;
-    float min_y = (1 - d.y) / p.y;
-    float max_y = (1 + d.y) / p.y;
-    float min_z = (1 - d.z) / p.z;
-    float max_z = (1 + d.z) / p.z;
-    float best = std::numeric_limits<float>::max();
-//    if (min_x < 0 & )
-//    if (min_x)
-//    hit = Collision(ray, *this, ray.position + best * ray.direction, Normal(), best)
-    return best != std::numeric_limits<float>::min();
-}
+//boost::optional<Collision> Box::intersect(const Ray& ray) const {
+//    Vector d = ray.direction;
+//    Vector p = ray.position;
+//    float min_x = (1 - d.x) / p.x;
+//    float max_x = (1 + d.x) / p.x;
+//    float min_y = (1 - d.y) / p.y;
+//    float max_y = (1 + d.y) / p.y;
+//    float min_z = (1 - d.z) / p.z;
+//    float max_z = (1 + d.z) / p.z;
+//    float best = std::numeric_limits<float>::max();
+////    if (min_x < 0 & )
+////    if (min_x)
+////    *hit = Collision(ray, this, ray.position + best * ray.direction, Normal(), best)
+//    return best != std::numeric_limits<float>::min();
+//}
 
 Triangle::Triangle(Vector a, Vector b, Vector c) : left(b - a), right(c - a), normal(Normal(left.cross(right))) {
     setPosition(a);
 }
-
-bool Triangle::intersect(const Ray& ray, Collision& hit) const {
-    float dist = planar_distance(ray, getPosition(), normal);
-    if (dist >= 0) {
-        Vector point = ray.at(dist);
-        Vector k = point - getPosition();
-        float barycentric_x = left.getNormalized().dot(k);
-        float barycentric_y = right.getNormalized().dot(k);
-        float sum = barycentric_x + barycentric_y;
-        if (barycentric_x >= 0 && barycentric_y >= 0 && sum <= 1) {
-            hit = Collision(ray, *this, point, normal, dist);
-            return true;
-        }
-        return false;
-    }
-}
-
-bool Mesh::intersect(const Ray& ray, Collision& hit) const {
-    float best = std::numeric_limits<float>::min();
-    bool result = false;
-    for (int i = 0; i < triangles.size(); i++) {
-        Collision candidate;
-        if (triangles[i].intersect(ray, candidate) && candidate.distance < best) {
-            best = candidate.distance;
-            hit = candidate;
-            result = true;
-        }
-    }
-    return result;
-}
+//
+//boost::optional<Collision> Triangle::intersect(const Ray& ray) const {
+//    float dist = planar_distance(ray, getPosition(), normal);
+//    if (dist >= 0) {
+//        Vector point = ray.at(dist);
+//        Vector k = point - getPosition();
+//        float barycentric_x = left.getNormalized().dot(k);
+//        float barycentric_y = right.getNormalized().dot(k);
+//        float sum = barycentric_x + barycentric_y;
+//        if (barycentric_x >= 0 && barycentric_y >= 0 && sum <= 1) {
+//            return Collision(ray, *this, point, normal, dist);
+//        }
+//        return boost::none;
+//    }
+//}
+//
+//boost::optional<Collision> Mesh::intersect(const Ray& ray) const {
+//    float best = std::numeric_limits<float>::min();
+//    bool result = false;
+//    for (int i = 0; i < triangles.size(); i++) {
+//        Collision* candidate;
+//        if (triangles[i].intersect(ray, candidate) && candidate->distance < best) {
+//            best = candidate->distance;
+//            hit = candidate;
+//            result = true;
+//        }
+//    }
+//    return result;
+//}
 
 string Shape::getName() const {
     return "Shape";

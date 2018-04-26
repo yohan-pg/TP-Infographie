@@ -17,6 +17,7 @@
 class Element : public ofNode {
 public:
     virtual string getName() const = 0;
+    virtual void draw() {};
 };
 
 #endif /* element_hpp */

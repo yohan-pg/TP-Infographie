@@ -16,6 +16,7 @@
 #include "ray.hpp"
 #include "vector.hpp"
 #include <limits>
+#include <boost/optional.hpp>
 
 class Collision;
 
@@ -24,7 +25,7 @@ public:
     Material material;
     bool smooth = true;
     virtual string getName() const;
-    virtual bool intersect(const Ray& ray, Collision& hit) const;
+    virtual boost::optional<Collision> intersect(const Ray& ray);
     virtual void draw();
 };
 
@@ -34,7 +35,7 @@ public:
     Sphere(float radis=1.0);
     float getRadius() const;
     string getName() const;
-    bool intersect(const Ray& ray, Collision& hit) const;
+    virtual boost::optional<Collision> intersect(const Ray& ray);
     void draw();
 };
 
@@ -43,7 +44,7 @@ class Plane : public Shape {
 public:
     Plane(Normal normal);
     string getName() const;
-    bool intersect(const Ray& ray, Collision& hit) const;
+    virtual boost::optional<Collision> intersect(const Ray& ray);
 };
 
 class Disk : public Shape {
@@ -53,13 +54,13 @@ public:
     float getRadius() const;
     Disk(Normal normal, float radius);
     string getName() const;
-    bool intersect(const Ray& ray, Collision& hit) const;
+    virtual boost::optional<Collision> intersect(const Ray& ray);
 };
 
 class Box : public Shape {
 public:
     string getName() const;
-    bool intersect(const Ray& ray, Collision& hit) const;
+    virtual boost::optional<Collision> intersect(const Ray& ray);
 };
 
 class Triangle : public Shape {
@@ -69,14 +70,14 @@ class Triangle : public Shape {
 public:
     Triangle(Vector a, Vector b, Vector c);
     string getName() const;
-    bool intersect(const Ray& ray, Collision& hit) const;
+    virtual boost::optional<Collision> intersect(const Ray& ray);
 };
 
 class Mesh : public Shape {
 public:
     vector<Triangle> triangles;
     string getName() const;
-    bool intersect(const Ray& ray, Collision& hit) const;
+    virtual boost::optional<Collision> intersect(const Ray& ray);
 };
 
 

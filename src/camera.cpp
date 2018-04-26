@@ -12,8 +12,7 @@
 Camera::Camera() : Camera(60) {};
 
 Camera::Camera(float fov) : ofCamera() {
-    ofCamera::setFov(fov);
-    image_size = tan(ofDegToRad(getFov())/2);
+    setFov(fov);
 }
 
 void Camera::toggleOrtho() {
@@ -24,7 +23,10 @@ void Camera::toggleOrtho() {
     }
 }
 
-void Camera::setFov(float fov) {}
+void Camera::setFov(float fov) {
+    ofCamera::setFov(fov);
+    image_size = tan(ofDegToRad(getFov())/2);
+}
 
 void Camera::setOrtho(bool setting) {
     if (setting) {
@@ -34,14 +36,15 @@ void Camera::setOrtho(bool setting) {
     }
 }
 
-Ray Camera::primaryRay(Film& film, float i, float j) {
+Ray Camera::primaryRay(Film& film, float i, float j, bool focused) {
     float screen_x = i / film.width;
     float screen_y = j / film.height;
     float cam_x = ofLerp(-1, 1, screen_x) * film.aspect * 1.2 * image_size;
     float cam_y = ofLerp(1, -1, screen_y) * image_size;
-    float focal_distance = (target - getPosition()).length();
-    Vector endpoint = Vector(cam_x, cam_y, -1) * focal_distance * getGlobalTransformMatrix() ;
-    return Ray(getPosition() + Sampler::uniform_circle() * aperture_size, endpoint);
+    Vector focal_point = scene.selection == NULL ? Vector(0,0,0) : scene.selection->getPosition();
+    float focal_distance = (focal_point - getPosition()).length();
+    Vector endpoint = Vector(cam_x, cam_y, -1) * focal_distance * getGlobalTransformMatrix();
+    return Ray(getPosition() + Sampler::uniform_circle() * (focused ? 0 : aperture_size), endpoint);
 }
 
 void Camera::render(Film& film) {
@@ -61,7 +64,7 @@ void Camera::render(Film& film) {
         for (int i = 0; i < aa_samples; i++) {
             float dx = Sampler::uniform_float();
             float dy = Sampler::uniform_float();
-            color += scene->trace(primaryRay(film, x+dx, y+dy));
+            color += scene.trace(primaryRay(film, x+dx, y+dy));
         }
         film.set(x, y, color);
     }
@@ -69,6 +72,7 @@ void Camera::render(Film& film) {
 }
 
 void Camera::reset() {
+    setNearClip(0.1);
     setPosition(Vector(0.f, 0.f, 5.f));
     setOrientation(Vector(0.f, 0.f, 0.f));
     setScale(1.f);
