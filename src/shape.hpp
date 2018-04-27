@@ -25,17 +25,18 @@ public:
     Material material;
     bool smooth = true;
     virtual string getName() const;
-    virtual Collision* intersect(const Ray& ray);
+    virtual Collision intersect(const Ray& ray);
     virtual void draw();
 };
 
 class Sphere : public Shape {
     ofSpherePrimitive primitive;
+    float radius;
 public:
-    Sphere(float radis=1.0);
+    Sphere(float radius=1.0);
     float getRadius() const;
     string getName() const;
-    virtual Collision* intersect(const Ray& ray);
+    virtual Collision intersect(const Ray& ray);
     void draw();
 };
 
@@ -46,7 +47,7 @@ public:
     Plane();
     Plane(Normal normal);
     string getName() const;
-    virtual Collision* intersect(const Ray& ray);
+    virtual Collision intersect(const Ray& ray);
     void draw();
 };
 
@@ -57,20 +58,20 @@ public:
     float getRadius() const;
     Disk(Normal normal, float radius=1.0);
     string getName() const;
-    virtual Collision* intersect(const Ray& ray);
+    virtual Collision intersect(const Ray& ray);
 };
 
 class Box : public Shape {
 public:
     string getName() const;
-    virtual Collision* intersect(const Ray& ray);
+    virtual Collision intersect(const Ray& ray);
 };
 
 class Bound : public Sphere {
     vector<Shape> items;
 public:
     Bound(vector<Shape> items);
-    virtual Collision* intersect(const Ray& ray);
+    virtual Collision intersect(const Ray& ray);
 };
 
 class Triangle : public Shape {
@@ -80,14 +81,14 @@ class Triangle : public Shape {
 public:
     Triangle(Vector a, Vector b, Vector c);
     string getName() const;
-    virtual Collision* intersect(const Ray& ray);
+    virtual Collision intersect(const Ray& ray);
 };
 
 class Mesh : public Shape {
 public:
     vector<Triangle> triangles;
     string getName() const;
-    virtual Collision* intersect(const Ray& ray);
+    virtual Collision intersect(const Ray& ray);
 };
 
 

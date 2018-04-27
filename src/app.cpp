@@ -39,15 +39,21 @@ void App::setup() {
     l->setPosition(Vector(0,1,2));
     scene.add(l);
 
-//    auto *p = new Sphere(0.5);
-//    p->setPosition(Vector(-2,0,0));
-//    p->material.albedo = Color(0,255,0);
-//    p->material.metalness = 1;
-//    scene.add(p);
-//        
-    auto *p2 = new Disk(Vector(1,1,1));
-    p2->setPosition(Vector(0,0,0));
-    scene.add(p2);
+    auto *p = new Sphere();
+    p->setPosition(Vector(0,0,0));
+    p->material.albedo = Color(0,255,0);
+    p->material.metalness = 1;
+    scene.add(p);
+
+    auto *o = new Disk(Vector(0,1,0));
+    o->setPosition(Vector(0,-1,0));
+    o->material.albedo = Color(0,255,0);
+    o->material.metalness = 1;
+    scene.add(o);
+//
+//    auto *p2 = new Disk(Vector(1,1,1));
+//    p2->setPosition(Vector(0,0,0));
+//    scene.add(p2);
 
     gui.setup(width * 0.16);
 }
@@ -104,6 +110,7 @@ void App::draw() {
             }
             scene.draw();
             ofPopMatrix();
+            ofDrawArrow(Vector(0,0,0), Vector(1,1,1));
             ofSetColor(255);
             ofDisableDepthTest();
         scene.camera.end();
@@ -126,6 +133,7 @@ void App::keyReleased(int key) {
             break;
         case 'r':
             scene.camera.reset();
+            scene.film.clear();
             break;
         case 356: // left arrow
             if (scene.selection != NULL) {
@@ -213,11 +221,11 @@ void App::mouseExited(int x, int y) {
 
 void App::mouseScrolled(int x, int y, float scrollX, float scrollY) {
     scene.film.clear();
-    scene.camera.move(Vector(0.f, 0.f, scrollY) * scene.camera.getZAxis());
+    scene.camera.move(scrollY * scene.camera.getZAxis());
 }
 
 void App::windowResized(int w, int h) {
-    
+    ofSetWindowShape(1280, 720);
 }
 
 void App::gotMessage(ofMessage msg) {

@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/gui.cpp"
-            timestampString = "546499267.0522979"
+            timestampString = "546545681.579563"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "26"
-            endingLineNumber = "26"
+            startingLineNumber = "25"
+            endingLineNumber = "25"
             landmarkName = "GUI::setup(float w)"
             landmarkType = "7">
          </BreakpointContent>
@@ -42,7 +42,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/shape.cpp"
-            timestampString = "546544072.875626"
+            timestampString = "546548467.1554869"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "147"
@@ -104,11 +104,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/gui.cpp"
-            timestampString = "546499267.0522979"
+            timestampString = "546545681.579563"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
+            startingLineNumber = "40"
+            endingLineNumber = "40"
             landmarkName = "GUI::setup(float w)"
             landmarkType = "7">
          </BreakpointContent>
@@ -120,11 +120,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/gui.cpp"
-            timestampString = "546499564.706417"
+            timestampString = "546545681.579563"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
+            startingLineNumber = "162"
+            endingLineNumber = "162"
             landmarkName = "GUI::update()"
             landmarkType = "7">
          </BreakpointContent>
@@ -136,11 +136,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/app.cpp"
-            timestampString = "546544072.875626"
+            timestampString = "546548711.721884"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "132"
-            endingLineNumber = "132"
+            startingLineNumber = "140"
+            endingLineNumber = "140"
             landmarkName = "App::keyReleased(int key)"
             landmarkType = "7">
          </BreakpointContent>
@@ -261,11 +261,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/shape.cpp"
-            timestampString = "546543966.80928"
+            timestampString = "546547258.418466"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
+            startingLineNumber = "62"
+            endingLineNumber = "62"
             landmarkName = "Plane::intersect(const Ray&amp; ray)"
             landmarkType = "7">
             <Locations>
@@ -300,6 +300,20 @@
                   offsetFromSymbolStart = "44">
                </Location>
             </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "src/shape.cpp"
+            timestampString = "546548467.1554869"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "113"
+            endingLineNumber = "113">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

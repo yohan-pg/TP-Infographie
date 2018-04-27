@@ -21,7 +21,11 @@ public:
     Vector position;
     Vector normal;
     float distance;
+    Collision();
     Collision(const Ray& ray, Shape& shape, Vector position, Vector normal);
+    explicit operator bool() const { return shape != NULL; };
 };
+
+extern Collision Missed;
 
 #endif /* collision_hpp */

@@ -46,7 +46,7 @@ public:
     
     void draw() const;
     Color trace(const Ray& ray, int depth=1) const;
-    Collision* intersect(const Ray& ray) const;
+    Collision intersect(const Ray& ray) const;
 };
 
 extern Scene scene;

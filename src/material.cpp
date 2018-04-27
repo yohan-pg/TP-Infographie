@@ -62,8 +62,7 @@ float fresnel(const Vector &ingoing, const Vector &normal, const float &ior)
 
 Color Material::shade(const Collision& hit, int depth) const {
     Color color = Color(0, 0, 0);
-    const Vector& ingoing = hit.ray.direction;
-    
+    const Vector& ingoing = hit.ray->direction;
     
     
     /* Diffuse Term */
@@ -73,25 +72,20 @@ Color Material::shade(const Collision& hit, int depth) const {
     
     /* Paramteric Light Contribution */
     for (int i = 0; i < scene.lights.size(); i++) {
-        if (hit.ray.marked) {
-            cout << "original hit " << hit.position << endl;
-        }
-        Color lighting = scene.lights[i]->cast(hit.position, hit.ray.marked);
+       
+        Color lighting = scene.lights[i]->cast(hit.position, hit.ray->marked);
         
         /* Diffuse Term */
         Vector light_vector = scene.lights[i]->getPosition() - hit.position;
         float cos = hit.normal.dot(Normal(light_vector));
         color += lighting * albedo * cos * (1/light_vector.length());// * albedo ; // add in cos normal
         
-        
-        if (hit.ray.marked) {
-//            ofDrawArrow(Vector(0,0,0), Vector(3,3,3));
-//            ofDrawArrow(hit.ray.position, hit.ray.position + hit.ray.direction);
+        if (hit.ray->marked) {
         }
         
         /* Specular Highlight Term */
-//        cout << ingoing << "      " << hit.normal << "      " << reflect(ingoing, hit.normal) << endl;
-        color += reflect(ingoing, hit.normal).dot((scene.camera.getPosition() - hit.position).normalize());
+////        cout << ingoing << "      " << hit.normal << "      " << reflect(ingoing, hit.normal) << endl;
+//        color += reflect(ingoing, hit.normal).dot((scene.camera.getPosition() - hit.position).normalize());
     }
     
     

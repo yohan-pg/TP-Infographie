@@ -25,9 +25,9 @@ void Light::draw() {
 
 Color PointLight::cast(const Vector& target, bool trace) const {
     Vector pos = getPosition();
-    auto ray = Ray(pos, target);
-    auto hit = scene.intersect(ray);
-    if (hit && ((hit->position - pos).length() < ((target - pos).length() - 0.001))) {
+    Ray ray = Ray(pos, target);
+    Collision hit = scene.intersect(ray);
+    if (hit && ((hit.position - pos).length() < ((target - pos).length() - 0.001))) {
         return Color::black;
     } else {
         return color * intensity;

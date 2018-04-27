@@ -10,8 +10,8 @@
 #include "scene.hpp"
 #include "collision.hpp"
 
-Collision* Shape::intersect(const Ray& ray) {
-    return NULL;
+Collision Shape::intersect(const Ray& ray) {
+    return Missed;
 }
 
 void Shape::draw() {
@@ -23,22 +23,19 @@ void Shape::draw() {
     }
 }
 
-Sphere::Sphere(float radius) {
-    setScale(radius);
-    primitive.setRadius(radius);
+Sphere::Sphere(float r) {
+    radius = r;
+    primitive.setRadius(r);
 }
 
 Collision Sphere::intersect(const Ray& ray) {
-    
     float base = ray.direction.dot(ray.position);
-    float discr = base * base - ray.position.dot(ray.position) + 1;
-    if (discr <= 0) return NULL;
+    float discr = base * base - ray.position.dot(ray.position) + radius*radius;
+    if (discr <= 0) return Collision();
     float root = sqrt(discr);
     float dist =  min(-base-root, -base+root);
     Vector hitpos = ray.at(dist);
-    
     return Collision(ray, *this, hitpos * getGlobalTransformMatrix(), Normal(hitpos - getPosition()));
-    // distance is in local space!
 }
 
 void Sphere::draw() {
@@ -47,85 +44,88 @@ void Sphere::draw() {
     primitive.drawWireframe();
 }
 
-
 Plane::Plane(Normal normal) : normal(normal) {}
 
-float planar_distance(const Ray& ray, const Vector& position, const Normal& normal) {
-    float denom = ray.direction.dot(normal);
-    if (denom < 1e-5) return -1;
-    float num = (position - ray.position).dot(normal);
+float planar_distance(const Ray& ray, const Normal& normal) {
+    float denom = ray.direction.dot(-normal);
+    bool is_parallel = denom < 1e-5;
+    if (is_parallel) return -1;
+    float num = ( - ray.position).dot(-normal);
     float dist = num / denom;
     if (num < 0) return -1;
     return dist;
 }
 
 Collision Plane::intersect(const Ray& ray) {
-    float dist = planar_distance(ray, getPosition(), normal);
+    float dist = planar_distance(ray,  normal);
     if (dist > 0) {
         return Collision(ray, *this, ray.at(dist) * getGlobalTransformMatrix(), normal);
     }
-    return NULL;
+    return Missed;
 }
 
 void Plane::draw() {
 //    primitive.draw();
 }
 
-
-Disk::Disk(Normal normal, float radius) : normal(normal) {
-    setScale(radius);
-}
+Disk::Disk(Normal normal, float radius) : normal(normal), radius(radius) {}
 
 float Disk::getRadius() const {
-    return 1; // todo, use scale
+    return radius;
 }
 
-Collision* Disk::intersect(const Ray& ray) {
-    float dist = planar_distance(ray, getPosition(), normal);
-    cout << dist << endl;
-    if (dist > 0 && dist < getRadius()) {
-        return Collision(ray, *this, ray.at(dist), normal);
+Collision Disk::intersect(const Ray& ray) {
+    float dist = planar_distance(ray, normal);
+    Vector hitpos = ray.at(dist);
+    if (dist > 0 && (getPosition() - hitpos).length() < 10) {
+        return Collision(ray, *this, hitpos * getGlobalTransformMatrix(), normal);
     }
-    return NULL;
+    return Missed;
 }
 
-Collision* Box::intersect(const Ray& ray) {
+Collision Box::intersect(const Ray& ray) {
     Vector d = ray.direction;
     Vector p = ray.position;
-    float min_x = (1 - d.x) / p.x;
-    float max_x = (1 + d.x) / p.x;
-    float min_y = (1 - d.y) / p.y;
-    float max_y = (1 + d.y) / p.y;
-    float min_z = (1 - d.z) / p.z;
-    float max_z = (1 + d.z) / p.z;
+    float idx = 1.0 / d.x;
+    float idy = 1.0 / d.y;
+    float idz = 1.0 / d.z;
+    float tx1 = (1 - p.x) / idx;
+    float tx2 = (1 + p.x) / idx;
+    float ty1 = (1 - p.y) / idy;
+    float ty2 = (1 + p.y) / idy;
+    float tz1 = (1 - p.z) / idz;
+    float tz2 = (1 + p.z) / idz;
     float best = std::numeric_limits<float>::max();
-    
 //    if (min_x < 0 & )
 //    if (min_x)
 //    *hit = Collision(ray, this, ray.position + best * ray.direction, Normal(), best)
 //    return best != std::numeric_limits<float>::min();
 //    return boost::none;
+    return Missed;
 }
 
 Triangle::Triangle(Vector a, Vector b, Vector c) : left(b - a), right(c - a), normal(Normal(left.cross(right))) {
     setPosition(a);
 }
 
-Collision* Triangle::intersect(const Ray& ray) {
-    float dist = planar_distance(ray, getPosition(), normal);
-    if (dist >= 0) {
-        Vector point = ray.at(dist);
-        Vector k = point - getPosition();
-        float barycentric_x = left.getNormalized().dot(k);
-        float barycentric_y = right.getNormalized().dot(k);
-        float sum = barycentric_x + barycentric_y;
-        if (barycentric_x >= 0 && barycentric_y >= 0 && sum <= 1) {
-            return new Collision(ray, *this, point, normal);
-        }
-        return NULL;
-    }
-}
 
+//Collision intersect_triangle(const Ray& ray, Vector a, Vector b, Vector c) {
+//   
+//}
+
+Collision Triangle::intersect(const Ray& ray) {
+    float dist = planar_distance(ray, normal);
+    if (dist < 0) return Missed;
+    Vector point = ray.at(dist);
+    Vector k = point - getPosition();
+    float barycentric_x = left.getNormalized().dot(k);
+    float barycentric_y = right.getNormalized().dot(k);
+    float sum = barycentric_x + barycentric_y;
+    if (barycentric_x >= 0 && barycentric_y >= 0 && sum <= 1) {
+        return Collision(ray, *this, point, normal);
+    }
+    return Missed;
+}
 
 Bound::Bound(vector<Shape> items) : items(items) {
     // get radius of here, set radius to that

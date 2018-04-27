@@ -76,7 +76,7 @@ void Camera::render(Film& film) {
 
 void Camera::reset() {
     setNearClip(0.1);
-    setPosition(Vector(0.0, 0.0, 5.f));
-    setOrientation(Vector(0.f, 0.f, 0.f));
+    setPosition(Vector(0, 0.1, 5.f));
+    setOrientation(Vector(0, 0.f, 0.f));
     setScale(1.f);
 }

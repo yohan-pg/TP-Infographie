@@ -34,14 +34,17 @@ void Scene::draw() const{
     }
 }
 
-Collision* Scene::intersect(const Ray& ray) const {
+Collision Scene::intersect(const Ray& ray) const {
     float best = std::numeric_limits<float>::max();
-    Collision* result = NULL;
+    Collision result;
     for (int i = 0; i < shapes.size(); i++) {
         auto candidate = shapes[i]->intersect(ray * shapes[i]->getGlobalTransformMatrix().getInverse());
-        if (candidate && candidate->distance < best) {
-            result = &(*candidate);
-            best =  candidate->distance;
+        if (candidate) {
+            float dist = (candidate.position - candidate.ray->position).lengthSquared();
+            if (dist < best) {
+                result = candidate;
+                best = dist;
+            }
         }
     }
     return result;
@@ -50,7 +53,7 @@ Collision* Scene::intersect(const Ray& ray) const {
 void Scene::select(int x, int y) {
     auto hit = intersect(camera.primaryRay(film, x, y));
     if (hit) {
-        selection = &(hit->shape);
+        selection = hit.shape;
     } else {
         selection = NULL;
     }
@@ -64,8 +67,7 @@ Color Scene::trace(const Ray& ray, int depth) const {
     if (depth > 0) {
         auto hit = intersect(ray);
         if (hit) {
-            auto result = hit->shape.material.shade(*hit, depth);
-            delete hit;
+            auto result = hit.shape->material.shade(hit, depth);
             return result;
         }
     }

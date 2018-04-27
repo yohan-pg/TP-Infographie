@@ -8,7 +8,10 @@
 
 #include "collision.hpp"
 
-//Collision::Collision() :ray(unit_ray), shape(unit_shape) {}
+Collision::Collision() {}
 
 Collision::Collision(const Ray& ray, Shape& shape, Vector position, Vector normal)
 : ray(&ray), shape(&shape), position(position), normal(normal), distance(distance) {}
+
+
+Collision Missed = Collision();

@@ -18,7 +18,6 @@ void GUI::setup(float w) {
         fichier->addButton("Ouvrir Demo 1")->setStripeColor(ofColor::black);
         fichier->addButton("Ouvrir Demo 2")->setStripeColor(ofColor::black);
         fichier->addButton("Ouvrir Demo 3")->setStripeColor(ofColor::black);
-        fichier->addButton("Enregister en image");
     
     leftPane->addBreak();
     
