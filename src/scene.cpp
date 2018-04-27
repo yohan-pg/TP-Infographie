@@ -29,19 +29,18 @@ bool Scene::remove(Light* light) {
 }
 
 void Scene::draw() const{
-    for (int i = 0; i < shapes.size(); i++) {
-        shapes[i]->draw();
+    for (int i = 0; i < elements.size(); i++) {
+        elements[i]->draw();
     }
 }
 
-boost::optional<Collision> Scene::intersect(const Ray& ray) const {
+Collision* Scene::intersect(const Ray& ray) const {
     float best = std::numeric_limits<float>::max();
-    boost::optional<Collision> result = boost::none;
+    Collision* result = NULL;
     for (int i = 0; i < shapes.size(); i++) {
-        Collision* coll;
         auto candidate = shapes[i]->intersect(ray * shapes[i]->getGlobalTransformMatrix().getInverse());
         if (candidate && candidate->distance < best) {
-            result = candidate;
+            result = &(*candidate);
             best =  candidate->distance;
         }
     }
@@ -65,7 +64,9 @@ Color Scene::trace(const Ray& ray, int depth) const {
     if (depth > 0) {
         auto hit = intersect(ray);
         if (hit) {
-            return hit->shape.material.shade(*hit, depth);
+            auto result = hit->shape.material.shade(*hit, depth);
+            delete hit;
+            return result;
         }
     }
     return background;

@@ -9,7 +9,7 @@
 #include "camera.hpp"
 #include "scene.hpp"
 
-Camera::Camera() : Camera(60) {};
+Camera::Camera() : Camera(45) {};
 
 Camera::Camera(float fov) : ofCamera() {
     setFov(fov);
@@ -44,7 +44,11 @@ Ray Camera::primaryRay(Film& film, float i, float j, bool focused) {
     Vector focal_point = scene.selection == NULL ? Vector(0,0,0) : scene.selection->getPosition();
     float focal_distance = (focal_point - getPosition()).length();
     Vector endpoint = Vector(cam_x, cam_y, -1) * focal_distance * getGlobalTransformMatrix();
-    return Ray(getPosition() + Sampler::uniform_circle() * (focused ? 0 : aperture_size), endpoint);
+    Ray ray = Ray(getPosition() + Sampler::uniform_circle() * (focused ? 0 : aperture_size), endpoint);
+    if (floor(i) == film.width/2 && floor(j) == film.height/2) {
+        ray.marked = true;
+    }
+    return ray;
 }
 
 void Camera::render(Film& film) {
@@ -68,12 +72,11 @@ void Camera::render(Film& film) {
         }
         film.set(x, y, color);
     }
-    
 }
 
 void Camera::reset() {
     setNearClip(0.1);
-    setPosition(Vector(0.f, 0.f, 5.f));
+    setPosition(Vector(0.0, 0.0, 5.f));
     setOrientation(Vector(0.f, 0.f, 0.f));
     setScale(1.f);
 }

@@ -21,6 +21,8 @@ public:
     Vector position;
     Normal direction;
     
+    bool marked = false;
+    
     Ray();
     Ray(Vector position, Vector target);
     Ray(Vector position, Normal direction);

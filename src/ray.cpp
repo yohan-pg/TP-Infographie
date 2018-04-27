@@ -10,7 +10,7 @@
 
 Ray::Ray() {};
 
-Ray::Ray(Vector position, Vector target) : position(position), direction(Normal(target - position)) {}
+Ray::Ray(Vector position, Vector target) : position(position), direction((target - position).normalize()) {}
 
 Ray::Ray(Vector position, Normal direction) : position(position), direction(direction) {}
 
@@ -19,7 +19,11 @@ Vector Ray::at(float t) const {
 }
 
 Ray Ray::operator*(Transform xform) const {
-    return Ray(position * xform, direction);
+    Ray ray = Ray(position * xform, direction);
+    if (marked) {
+        ray.marked = true;
+    }
+    return ray;
 }
 
 

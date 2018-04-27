@@ -12,19 +12,17 @@ void GUI::setup(float w) {
     
     leftPane->setWidth(width + 1);
     
-    leftPane->addButton("Ouvrir Demo 1")->setStripeColor(ofColor::black);
-    leftPane->addButton("Ouvrir Demo 2")->setStripeColor(ofColor::black);
-    leftPane->addButton("Ouvrir Demo 3")->setStripeColor(ofColor::black);
-    
     leftPane->addBreak();
     
         fichier = leftPane->addFolder("Fichier", ofColor::grey);
-        fichier->addButton("Ouvrir un modele");
+        fichier->addButton("Ouvrir Demo 1")->setStripeColor(ofColor::black);
+        fichier->addButton("Ouvrir Demo 2")->setStripeColor(ofColor::black);
+        fichier->addButton("Ouvrir Demo 3")->setStripeColor(ofColor::black);
         fichier->addButton("Enregister en image");
     
     leftPane->addBreak();
     
-        scene_folder = leftPane->addFolder("scene.", ofColor::darkCyan);
+        scene_folder = leftPane->addFolder("Scene", ofColor::darkCyan);
         scene_folder->addColorPicker("Background", scene.background);
         scene_folder->addColorPicker("Ambient", scene.ambient);
     
@@ -63,7 +61,7 @@ void GUI::setup(float w) {
     
         mesh = leftPane->addFolder("Mesh", ofColor::white);
         mesh->addToggle("Smooth", true);
-//        mesh->addSlider("Subdivs", 0, 3, 0);
+//      mesh->addSlider("Subdivs", 0, 3, 0);
         mesh->addBreak();
     
     leftPane->addBreak();
@@ -102,8 +100,6 @@ void GUI::setup(float w) {
     
     refreshList();
 }
-
-
 
 void GUI::update() {
     if (auto l = dynamic_cast<Light*>(scene.selection)) {

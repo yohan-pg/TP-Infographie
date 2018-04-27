@@ -12,11 +12,6 @@ using namespace std;
 
 bool exited = false;
 
-boost::optional<Collision> test() {
-    return boost::none;
-    return Collision(unit_ray, unit_shape, Vector(), Normal(), 1);
-}
-
 
 void App::setup() {
     scene.camera.reset();
@@ -24,13 +19,14 @@ void App::setup() {
     
     int width = ofGetWindowWidth();
     int height = ofGetWindowHeight();
-
+    int gui_width = width * 0.16;
     
-    view_width = width - gui.width * 2;
+    view_width = width - gui_width * 2;
     view_height = height / 2;
     
     viewport.allocate(view_width, view_height, GL_RGBA, 8);
     renderview.allocate(view_width, view_height, GL_RGBA, 8);
+    gridline_buffer.allocate(view_width, view_height, GL_RGBA, 8);
     scene.film.allocate(view_width, view_height);
     
     for (int i = 0; i < thread_count; i++) {
@@ -40,18 +36,19 @@ void App::setup() {
     Collision* c;
     
     auto *l = new PointLight();
-    l->setPosition(Vector(0,4,2));
+    l->setPosition(Vector(0,1,2));
     scene.add(l);
 
-    auto *p = new Sphere(1);
-    p->setPosition(Vector(0,0,0));
-    scene.add(p);
-    
-//    auto *p2 = new Sphere(0.5);
-//    p2->setPosition(Vector(0,,0));
-//    scene.add(p2);
+//    auto *p = new Sphere(0.5);
+//    p->setPosition(Vector(-2,0,0));
+//    p->material.albedo = Color(0,255,0);
+//    p->material.metalness = 1;
+//    scene.add(p);
+//        
+    auto *p2 = new Disk(Vector(1,1,1));
+    p2->setPosition(Vector(0,0,0));
+    scene.add(p2);
 
-    
     gui.setup(width * 0.16);
 }
 
@@ -71,7 +68,6 @@ void App::draw() {
     ofClear(125);
     ofEnableAlphaBlending();
     
-    scene.film.draw(0, 0);
     renderview.begin();
         ofSetColor(scene.background);
         ofDrawRectangle(0, 0, scene.film.width, scene.film.height);
@@ -80,19 +76,39 @@ void App::draw() {
     renderview.end();
     renderview.draw(gui.width, 0);
 
-    ofEnableDepthTest();
-    viewport.begin();
+    gridline_buffer.begin();
         ofClear(125);
         scene.camera.begin();
+            ofSetColor(255, 255, 255);
+            ofEnableDepthTest();
+            ofPushMatrix();
+            if (scene.camera.getOrtho()) {
+                ofScale(50, 50, 50);
+            }
+            ofDrawGrid(1, 100, false, true, true, true);
+            ofPopMatrix();
+            ofDisableDepthTest();
+        scene.camera.end();
+    gridline_buffer.end();
+    
+    viewport.begin();
+        ofClear(125);
+        ofSetColor(255, 255, 255, 175);
+        gridline_buffer.draw(0, 0);
+        scene.camera.begin();
+            ofEnableDepthTest();
             ofSetColor(255);
-//            for(int i = 0; i < scene.shapes.size(); i++) {
-//                scene.shapes[i]->draw();
-//            }
+            ofPushMatrix();
+            if (scene.camera.getOrtho()) {
+                ofScale(50, 50, 50);
+            }
             scene.draw();
+            ofPopMatrix();
+            ofSetColor(255);
+            ofDisableDepthTest();
         scene.camera.end();
     viewport.end();
     viewport.draw(gui.width, view_height);
-    ofDisableDepthTest();
     
     gui.draw();
 }
@@ -102,7 +118,6 @@ void App::keyPressed(int key) {
 }
 
 void App::keyReleased(int key) {
-    
     float d = ofGetKeyPressed(OF_KEY_ALT) ? 0.1 : 1;
     switch (key) {
         case 'u':
@@ -111,22 +126,21 @@ void App::keyReleased(int key) {
             break;
         case 'r':
             scene.camera.reset();
-            
+            break;
         case 356: // left arrow
             if (scene.selection != NULL) {
                 scene.selection->move(Vector(-d, 0, 0));
                 scene.film.clear();
             }
-        break;
+            break;
         case 358: // right arrow
             if (scene.selection != NULL) {
                 scene.selection->move(Vector(d, 0, 0));
                 scene.film.clear();
             }
-        break;
+            break;
         case 357: // up arrow
             if (scene.selection != NULL) {
-                
                 if (ofGetKeyPressed(OF_KEY_SHIFT)) {
                     scene.selection->move(Vector(0, d, 0));
                 } else {
@@ -134,7 +148,7 @@ void App::keyReleased(int key) {
                 }
                 scene.film.clear();
             }
-        break;
+            break;
         case 359: // down arrow
             if (scene.selection != NULL) {
                 if (ofGetKeyPressed(OF_KEY_SHIFT)) {
@@ -145,7 +159,6 @@ void App::keyReleased(int key) {
                 scene.film.clear();
             }
             break;
-            
     }
 }
 
@@ -160,14 +173,14 @@ void App::mouseDragged(int x, int y, int button) {
         float dx = mouseX - x;
         float dy = mouseY - y;
         if ((button == 0) && !ofGetKeyPressed(OF_KEY_SHIFT)) {
-            scene.camera.move(dx * scene.camera.move_speed,
-                               dy * -scene.camera.move_speed,
-                               0.f);
+            Vector x_movement = dx * scene.camera.move_speed * scene.camera.getXAxis();
+            Vector y_movement = -dy * scene.camera.move_speed * scene.camera.getYAxis();
+            scene.camera.move(x_movement + y_movement);
             mouseX = static_cast<float>(x);
             mouseY = static_cast<float>(y);
         } else if ((button == 2) || ((button == 0) && ofGetKeyPressed(OF_KEY_SHIFT))) {
-            Vector r = Vector(dx, dy, 0.f).normalize();
-            scene.camera.rotateAround(r.length(), Vector(0., 1., 1.), Vector(0.f, 0.f, 0.f));
+            scene.camera.rotateAround(dx < 0 ? max(dx, -5.0f) : min(dx, 5.0f), Vector(0, 0.5, 0), Vector(0, 0, 0));
+            scene.camera.lookAt(scene.selection ? scene.selection->getPosition() : Vector(0, 0, 0));
         }
     }
 }
@@ -200,7 +213,7 @@ void App::mouseExited(int x, int y) {
 
 void App::mouseScrolled(int x, int y, float scrollX, float scrollY) {
     scene.film.clear();
-    scene.camera.move(0.f, 0.f, scrollY);
+    scene.camera.move(Vector(0.f, 0.f, scrollY) * scene.camera.getZAxis());
 }
 
 void App::windowResized(int w, int h) {

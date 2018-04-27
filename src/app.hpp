@@ -11,8 +11,8 @@
 #include "vector.hpp"
 #include "gui.hpp"
 #include <thread>
+#include <math.h>
 #include "ofxDatGui.h"
-#include <boost/optional.hpp>
 
 class App : public ofBaseApp {
 public:
@@ -23,8 +23,10 @@ public:
     void exit();
     
     ofxDatGuiScrollView* sview;
+    ofPlanePrimitive grid;
     
     ofFbo viewport;
+    ofFbo gridline_buffer;
     ofFbo renderview;
     
     const int thread_count = 1;

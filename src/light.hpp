@@ -19,17 +19,18 @@
 class Light : public Element {
     ofSpherePrimitive primitive;
 public:
+    Light();
     Color color = Color(1.0, 1.0, 1.0);
     double intensity = 1.0;
     string getName() const;
-    virtual Color cast(const Vector& pos) const;
+    virtual Color cast(const Vector& pos, bool trace=false) const;
     virtual void draw();
 };
 
 class PointLight : public Light {
 public:
     string getName() const;
-    Color cast(const Vector& target) const;
+    Color cast(const Vector& target, bool trace=false) const;
 };
 
 class SpotLight : public Light {

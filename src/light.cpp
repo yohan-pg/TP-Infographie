@@ -10,19 +10,24 @@
 #include "scene.hpp"
 
 
-Color Light::cast(const Vector& target) const {
+Light::Light() {
+    primitive.setRadius(0.1);
+}
+
+Color Light::cast(const Vector& target, bool trace) const {
     return Color(0,0,0,0);
 }
 
 void Light::draw() {
+    primitive.setPosition(getPosition());
     primitive.draw();
 }
 
-Color PointLight::cast(const Vector& target) const {
+Color PointLight::cast(const Vector& target, bool trace) const {
     Vector pos = getPosition();
-    auto ray = Ray(pos, target - pos);
+    auto ray = Ray(pos, target);
     auto hit = scene.intersect(ray);
-    if (hit) { // and hit distance < target
+    if (hit && ((hit->position - pos).length() < ((target - pos).length() - 0.001))) {
         return Color::black;
     } else {
         return color * intensity;

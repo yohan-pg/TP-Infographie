@@ -44,15 +44,13 @@ float fresnel(const Vector &ingoing, const Vector &normal, const float &ior)
     float etai = 1, etat = ior;
     if (cosi > 0) { swap(etai, etat); }
     
-    // Compute sini using Snell's law
     float sint = etai / etat * sqrtf(max(0.f, 1 - cosi * cosi));
     
-    // Total internal reflection
     if (sint >= 1) {
         return 1;
     }
     else {
-        float cost = sqrtf(std::max(0.f, 1 - sint * sint));
+        float cost = sqrtf(max(0.f, 1 - sint * sint));
         cosi = fabsf(cosi);
         float Rs = ((etat * cosi) - (etai * cost)) / ((etat * cosi) + (etai * cost));
         float Rp = ((etai * cosi) - (etat * cost)) / ((etai * cosi) + (etat * cost));
@@ -61,9 +59,12 @@ float fresnel(const Vector &ingoing, const Vector &normal, const float &ior)
 }
 /* Fin fonctions vendor */
 
+
 Color Material::shade(const Collision& hit, int depth) const {
     Color color = Color(0, 0, 0);
     const Vector& ingoing = hit.ray.direction;
+    
+    
     
     /* Diffuse Term */
     color += diffuse;
@@ -72,44 +73,41 @@ Color Material::shade(const Collision& hit, int depth) const {
     
     /* Paramteric Light Contribution */
     for (int i = 0; i < scene.lights.size(); i++) {
-        Color lighting = scene.lights[i]->cast(hit.position);
+        if (hit.ray.marked) {
+            cout << "original hit " << hit.position << endl;
+        }
+        Color lighting = scene.lights[i]->cast(hit.position, hit.ray.marked);
         
         /* Diffuse Term */
-        Vector dir = scene.lights[i]->getPosition() - hit.position;
-        float cos = hit.normal.dot(dir);
-        color += lighting * cos * albedo ; // add in cos normal
+        Vector light_vector = scene.lights[i]->getPosition() - hit.position;
+        float cos = hit.normal.dot(Normal(light_vector));
+        color += lighting * albedo * cos * (1/light_vector.length());// * albedo ; // add in cos normal
+        
+        
+        if (hit.ray.marked) {
+//            ofDrawArrow(Vector(0,0,0), Vector(3,3,3));
+//            ofDrawArrow(hit.ray.position, hit.ray.position + hit.ray.direction);
+        }
         
         /* Specular Highlight Term */
-        
-//        color += lighting *
+//        cout << ingoing << "      " << hit.normal << "      " << reflect(ingoing, hit.normal) << endl;
+        color += reflect(ingoing, hit.normal).dot((scene.camera.getPosition() - hit.position).normalize());
     }
     
     
-    /* Emissivity Term */
-//    color += albedo * emissivity;
-    
+//    float reflected = fresnel(ingoing, hit.normal, ior);
+//    Ray reflectionRay = Ray(hit.position, reflect(ingoing, hit.normal));
+//    Color reflectionColor = scene.trace(reflectionRay, depth-1);
+//    
+//    float refracted = 1 - reflected;
+//    Ray refractionRay = Ray(hit.position, refract(ingoing, hit.normal, ior));
+//    Color refractionColor = scene.trace(refractionRay, depth-1);
+
+//  Vector outgoing = sample_hemisphere(distribution(generator), distribution(generator);
+//  reflectionColor * reflected + refractionColor * refraction;
     return color;
 
     /* Metalness/Transmission Term */
-    
-//    Color reflectionColor = scene.trace(reflect(ingoing, hit.normal), depth-1);
-//    Color refractionColor = scene.trace(refract(ingoing, hit.normal, ior), depth-1);
-//
-//    float reflection = fresnel();
-//    float refraction = 1-reflection;
-//
-//    color += reflectionColor * reflected + refractionColor * refraction;
-//    
-//    /* Indirect Term */
-//    
-////
-////    Color ambientColor;
-////    for (int i = 0; i < scene..ambient_samples; i++) {
-////        Vector outgoing = sample_hemisphere(distribution(generator), distribution(generator);
-////        ambientColor += scene..trace(Ray(coll.position, outgoing);
-////    }
-//    color += ambientColor = scene..ambient_samples;
-    
 
    /* Final mix */
 //   return diffuseColor + ambientColor + lightColor
