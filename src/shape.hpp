@@ -88,6 +88,7 @@ public:
 };
 
 class Mesh : public Shape {
+    
 public:
     ofMesh mesh;
     Mesh(ofMesh mesh);

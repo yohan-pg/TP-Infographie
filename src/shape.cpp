@@ -31,11 +31,11 @@ Sphere::Sphere(float r) {
 Collision Sphere::intersect(const Ray& ray) {
     float base = ray.direction.dot(ray.position);
     float discr = base * base - ray.position.dot(ray.position) + radius*radius;
-    if (discr <= 0) return Collision();
+    if (discr <= 0) return Missed;
     float root = sqrt(discr);
     float dist =  min(-base-root, -base+root);
-    Vector hitpos = ray.at(dist);
-    return Collision(ray, *this, hitpos * getGlobalTransformMatrix(), Normal(hitpos-getPosition()));
+    Vector hitpos = ray.at(dist) * getGlobalTransformMatrix();
+    return Collision(ray, *this, hitpos, Normal(hitpos-getPosition()));
 }
 
 void Sphere::draw() {
@@ -108,7 +108,6 @@ Collision Box::intersect(const Ray& ray) {
             return Collision(ray, *this, p * getGlobalTransformMatrix(), Vector(0,0,0));
         }
     }
-   cout << endl;
    return Missed;
 }
 

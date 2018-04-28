@@ -40,7 +40,6 @@ Collision Scene::intersect(const Ray& ray) const {
     for (int i = 0; i < shapes.size(); i++) {
         auto candidate = shapes[i]->intersect(ray * shapes[i]->getGlobalTransformMatrix().getInverse());
         if (candidate) {
-            cout << *candidate.ray << endl;
             float dist = (candidate.position - candidate.ray->position).lengthSquared();
             if (dist < best) {
                 result = candidate;
@@ -68,7 +67,7 @@ Color Scene::trace(const Ray& ray, int depth) const {
     if (depth > 0) {
         auto hit = intersect(ray);
         if (hit) {
-            auto result = hit.shape->material.shade(hit, depth);
+            auto result = hit.shape->material.shade(ray, hit, depth);
             return result;
         }
     }

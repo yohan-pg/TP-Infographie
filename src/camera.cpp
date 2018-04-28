@@ -65,10 +65,11 @@ void Camera::render(Film& film) {
         int y = ys[j % ys.size()];
         Color color = Color::black;
         float contrib = 1 / static_cast<float>(aa_samples);
+        float invsamples = 1.0/(float)aa_samples;
         for (int i = 0; i < aa_samples; i++) {
             float dx = aa_samples > 1 ? Sampler::uniform_float() : 0;
             float dy = aa_samples > 1 ? Sampler::uniform_float() : 0;
-            color += scene.trace(primaryRay(film, x+dx, y+dy));
+            color += scene.trace(primaryRay(film, x+dx, y+dy), scene.TRACING_DEPTH) * invsamples;
         }
         film.set(x, y, color);
     }

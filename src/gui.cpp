@@ -31,6 +31,7 @@ void GUI::setup(float w) {
         creation->addButton("Add Point");
         creation->addButton("Add Spot");
         creation->addButton("Add Ambient");
+        creation->addButton("Add Directional");
         creation->addBreak();
     
     leftPane->addBreak();
@@ -221,6 +222,11 @@ void GUI::onButtonEvent(ofxDatGuiButtonEvent e){
     
     else if (e.target->is("Add Ambient")) {
         scene.add(new AmbientLight());
+        gui.refreshList();
+    }
+    
+    else if (e.target->is("Add Directional")) {
+        scene.add(new DirectionalLight());
         gui.refreshList();
     }
     

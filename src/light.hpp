@@ -20,32 +20,42 @@ class Light : public Element {
     ofSpherePrimitive primitive;
 public:
     Light();
+    bool isSpecular();
     Color color = Color(1.0, 1.0, 1.0);
     double intensity = 1.0;
+    float attentuation = 0.1;
     string getName() const;
-    virtual Color cast(const Vector& pos, bool trace=false) const;
+    virtual Color cast(const Vector& pos, Vector light_vector, Normal normal) const;
     virtual void draw();
 };
 
 class PointLight : public Light {
 public:
     string getName() const;
-    Color cast(const Vector& target, bool trace=false) const;
+};
+
+class DirectionalLight : public Light {
+public:
+    bool isSpecular();
+    Vector direction = Vector(-1, -1, 0);
+    string getName() const;
+    Color cast(const Vector& target, Vector light_vector, Normal normal) const;
 };
 
 class SpotLight : public Light {
 public:
+    Vector direction = Vector(0, 0, -1);
     float size = 1.0;
     string getName() const;
-    Color cast(const Vector& target) const;
+    Color cast(const Vector& target, Vector light_vector, Normal normal) const;
 };
 
 class AmbientLight : public Light {
 public:
+    bool isSpecular();
     string getName() const;
-    Color cast(const Vector& target) const;
+    Color cast(const Vector& target, Vector light_vector, Normal normal) const;
+    void draw();
 };
-
-
 
 #endif /* light_hpp */

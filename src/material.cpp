@@ -12,6 +12,8 @@
 
 using namespace std;
 
+
+
 Vector reflect(const Vector& ingoing, const Vector& normal) {
     return ingoing - 2 * normal.dot(ingoing) * normal;
 }
@@ -68,47 +70,50 @@ float fresnel(const Vector &ingoing, const Vector &normal, const float &ior)
 /* Fin fonctions vendor */
 
 
-Color Material::shade(const Collision& hit, int depth) const {
+Color Material::shade(const Ray& ray, const Collision& hit, int depth) const {
     Color color = Color(0, 0, 0);
-    const Vector& view_vector = (hit.ray->direction).getNormalized();
+    const Vector& view_vector = (ray.position - hit.position).getNormalized();
     
-    /* Diffuse Term */
-    color += diffuse;
-    
-    if (metalness > 0) {
-        Ray reflectionRay = Ray(hit.position, reflect(view_vector, hit.normal));
-    } else {
-        /* Paramteric Light Contribution */
-        for (int i = 0; i < scene.lights.size(); i++) {
-            Color lighting = scene.lights[i]->cast(hit.position, hit.ray->marked);
-            Vector ingoing_vector = (scene.lights[i]->getPosition() - hit.position).normalize();
-            float cos = hit.normal.dot(ingoing_vector);
-            color += lighting * albedo * cos;
-            Vector reflection_vector = reflect(ingoing_vector, hit.normal);
-            color += reflection_vector.dot(view_vector);
-            cout << endl;
-            cout << "ingoing vector " << ingoing_vector << endl;
-            cout << "view vector " << view_vector << endl;
-            cout << "reflection vector " << reflection_vector << endl;
-        }
+     for (int i = 0; i < scene.lights.size(); i++) {
+         
+            Vector ingoing_vector = (hit.position - scene.lights[i]->getPosition()).normalize();
+            Vector light_vector = -ingoing_vector;
+         
+            Color lighting = scene.lights[i]->cast(hit.position, light_vector, hit.normal);
+            color += lighting * albedo;
+         
+            if (scene.lights[i]->isSpecular()) {
+                Vector specular_vector = Vector(0,0,0);
+                switch (shadertype) {
+                    case ShaderType::LAMBERT:
+                        break;
+                    case ShaderType::BLINN:
+                        specular_vector = (view_vector + light_vector).normalize();
+                        break;
+                    case ShaderType::PHONG:
+                        specular_vector = reflect(ingoing_vector, hit.normal);
+                        break;
+                }
+                float factor = shadertype == ShaderType::BLINN ? 10.0 : 1.0;
+                
+                color += specularAmount * pow(ofClamp(specular_vector.dot(view_vector), -5*sheen, 1), specularHardness * factor);
+            }
     }
-    
-//    float reflected = fresnel(ingoing, hit.normal, ior);
-//    Ray reflectionRay = Ray(hit.position, reflect(ingoing, hit.normal));
-//    Color reflectionColor = scene.trace(reflectionRay, depth-1);
-//    
-//    float refracted = 1 - reflected;
-//    Ray refractionRay = Ray(hit.position, refract(ingoing, hit.normal, ior));
-//    Color refractionColor = scene.trace(refractionRay, depth-1);
 
-//  Vector outgoing = sample_hemisphere(distribution(generator), distribution(generator);
-//  reflectionColor * reflected + refractionColor * refraction;
+//    if (reflection > 0) {
+//        Vector reflection_vector = reflect(ray.direction, hit.normal);
+//        Ray reflectionRay = Ray(hit.position, reflect(ray.direction, hit.normal));
+//        color = color * (1-reflection) + scene.trace(reflectionRay, depth-1) * reflection;
+//    }
+
+//    if (refraction > 0) {
+//        Vector reflection_vector = reflect(ray.direction, hit.normal);
+//        Ray reflectionRay = Ray(hit.position, reflect(ray.direction, hit.normal));
+//        color = color * (1-reflection) + scene.trace(reflectionRay, depth-1) * reflection;
+//    }
+
+  
     return color;
-
-    /* Metalness/Transmission Term */
-
-   /* Final mix */
-//   return diffuseColor + ambientColor + lightColor
 }
                                     
 

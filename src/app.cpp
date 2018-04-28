@@ -38,11 +38,9 @@ void App::setup() {
     auto *l = new PointLight();
     l->setPosition(Vector(0,1,2));
     scene.add(l);
-    
 
 //    auto *p = new Triangle(Vector(0, -0.5, 0.5), Vector(0, 0, 0.5), Vector(-0.5, 0, 0.5));
 //    scene.add(p);
-//    
     
 //    auto box = new ofBoxPrimitive();
 //    box->set(1);
@@ -57,24 +55,18 @@ void App::setup() {
 //    }
 
     auto *s2 = new Sphere(1);
-    s2->material.albedo = Color(255,0,0);
-//    s2->material.metalness = 1;
+    s2->material.albedo = Color(0.8,0,0);
     scene.add(s2);
     
-    
+    auto *s3 = new Sphere(1);
+    s3->material.albedo = Color(0.5,0.5,0);
+    s3->material.reflection = 0.9;
+    s3->setPosition(Vector(-2, 1, 0));
+    scene.add(s3);
+
     Ray ray = scene.camera.primaryRay(scene.film, scene.film.width/2, scene.film.height/2);
-    cout << ray.direction << endl;
-    cout << "hit position" << scene.intersect(ray).position << endl;
+
     scene.trace(ray);
-//    auto *o = new Disk(Vector(0,1,0));
-//    o->setPosition(Vector(0,-1,0));
-//    o->material.albedo = Color(0,255,0);
-//    o->material.metalness = 1;
-//    scene.add(o);
-//
-//    auto *p2 = new Disk(Vector(1,1,1));
-//    p2->setPosition(Vector(0,0,0));
-//    scene.add(p2);
 
     gui.setup(width * 0.16);
 }
@@ -82,7 +74,7 @@ void App::setup() {
 
 void App::render() {
     while (!exited) {
-//        scene.camera.render(scene.film);
+        scene.camera.render(scene.film);
     }
 }
 

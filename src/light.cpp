@@ -10,20 +10,18 @@
 #include "scene.hpp"
 
 
+float i = 0.0;
+
 Light::Light() {
     primitive.setRadius(0.1);
+    setPosition(Vector(i++, 3, 1));
 }
 
-Color Light::cast(const Vector& target, bool trace) const {
-    return Color(0,0,0,0);
+bool Light::isSpecular() {
+    return true;
 }
 
-void Light::draw() {
-    primitive.setPosition(getPosition());
-    primitive.draw();
-}
-
-Color PointLight::cast(const Vector& target, bool trace) const {
+Color Light::cast(const Vector& target, Vector light_vector, Normal normal) const {
     Vector pos = getPosition();
     Ray ray = Ray(pos, target);
     Collision hit = scene.intersect(ray);
@@ -31,41 +29,66 @@ Color PointLight::cast(const Vector& target, bool trace) const {
     if (hit && ((hit.position - pos).length() < (distance - 0.001))) {
         return Color::black;
     } else {
-        return color * intensity * (1 / 0.1*distance);
+        float falloff = 1 / (attentuation * distance); 
+        float cosine = normal.dot(light_vector);
+        return color * intensity * falloff * cosine;
     }
 }
 
-Color SpotLight::cast(const Vector& target) const {
-    Vector pos = getPosition();
-    Vector dir = getOrientationEuler();
-    auto ray = Ray(pos, target - pos);
-    auto hit = scene.intersect(ray);
-    float distance = (target - pos).length();
-    if (hit) {
-        return Color::black;
-    } else {
-        float x = max((target - pos).dot(dir), 0.0f);
-        return color * intensity * x * size; // * (1 / 0.1*distance);
+void Light::draw() {
+    ofSetColor(255,255,0);
+    if (scene.selection == this) {
+        ofSetColor(255,255,255);
     }
+    primitive.setPosition(getPosition());
+    primitive.draw();
+    ofSetColor(255,255,255);
 }
 
-Color AmbientLight::cast(const Vector& target) const {
+Color SpotLight::cast(const Vector& target, Vector light_vector, Normal normal) const {
+    float cone = -light_vector.dot(direction);
+    return Light::cast(target, light_vector, normal) * cone;
+}
+
+Color DirectionalLight::cast(const Vector& target, Vector light_vector, Normal normal) const {
+    float cosine = normal.dot(light_vector);
+    float directionality = light_vector.dot(normal);
+    return Light::cast(target, light_vector, normal) * cosine * directionality;
+}
+
+bool DirectionalLight::isSpecular() {
+    return false;
+}
+
+Color AmbientLight::cast(const Vector& target, Vector light_vector, Normal normal) const {
     return color * intensity;
 }
 
-string Light::getName() const{
+bool AmbientLight::isSpecular() {
+    return false;
+}
+
+void AmbientLight::draw() {
+    // draw nothing for ambient lights
+}
+
+string Light::getName() const {
     return "Light";
 }
 
-string PointLight::getName() const{
+string PointLight::getName() const {
     return "PointLight";
 }
 
-string SpotLight::getName() const{
+string SpotLight::getName() const {
     return "SpotLight";
 }
 
-string AmbientLight::getName() const{
+string DirectionalLight::getName() const {
+    return "DirectionalLight";
+}
+
+string AmbientLight::getName() const {
     return "AmbientLight";
 }
 

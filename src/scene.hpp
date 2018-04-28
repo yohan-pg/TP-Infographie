@@ -30,6 +30,8 @@ public:
     Camera camera;
     Film film;
     
+    int TRACING_DEPTH = 5;
+    
     int indirect_samples = 5;
     
     vector<Element*> elements;
