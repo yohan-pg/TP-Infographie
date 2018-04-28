@@ -40,6 +40,7 @@ Collision Scene::intersect(const Ray& ray) const {
     for (int i = 0; i < shapes.size(); i++) {
         auto candidate = shapes[i]->intersect(ray * shapes[i]->getGlobalTransformMatrix().getInverse());
         if (candidate) {
+            cout << *candidate.ray << endl;
             float dist = (candidate.position - candidate.ray->position).lengthSquared();
             if (dist < best) {
                 result = candidate;

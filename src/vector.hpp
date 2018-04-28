@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "ofMain.h"
 
+
 typedef ofVec3f Vector;
 
 class Normal : public Vector {

@@ -60,7 +60,6 @@ void GUI::setup(float w) {
     
         mesh = leftPane->addFolder("Mesh", ofColor::white);
         mesh->addToggle("Smooth", true);
-//      mesh->addSlider("Subdivs", 0, 3, 0);
         mesh->addBreak();
     
     leftPane->addBreak();
@@ -240,7 +239,6 @@ void GUI::onSliderEvent(ofxDatGuiSliderEvent e) {
 }
 
 void GUI::onScrollViewEvent(ofxDatGuiScrollViewEvent e) {
-    cout << "WUT" << endl;
     scene.select(scene.elements[e.index]);
 }
 

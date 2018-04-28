@@ -27,10 +27,11 @@ Color PointLight::cast(const Vector& target, bool trace) const {
     Vector pos = getPosition();
     Ray ray = Ray(pos, target);
     Collision hit = scene.intersect(ray);
-    if (hit && ((hit.position - pos).length() < ((target - pos).length() - 0.001))) {
+    float distance = (target - pos).length();
+    if (hit && ((hit.position - pos).length() < (distance - 0.001))) {
         return Color::black;
     } else {
-        return color * intensity;
+        return color * intensity * (1 / 0.1*distance);
     }
 }
 
@@ -39,11 +40,12 @@ Color SpotLight::cast(const Vector& target) const {
     Vector dir = getOrientationEuler();
     auto ray = Ray(pos, target - pos);
     auto hit = scene.intersect(ray);
+    float distance = (target - pos).length();
     if (hit) {
         return Color::black;
     } else {
         float x = max((target - pos).dot(dir), 0.0f);
-        return color * intensity * x * size;
+        return color * intensity * x * size; // * (1 / 0.1*distance);
     }
 }
 

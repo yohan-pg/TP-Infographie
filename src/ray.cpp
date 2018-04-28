@@ -10,7 +10,7 @@
 
 Ray::Ray() {};
 
-Ray::Ray(Vector position, Vector target) : position(position), direction((target - position).normalize()) {}
+Ray::Ray(Vector position, Vector target) : position(position), direction(Normal(target - position)) {}
 
 Ray::Ray(Vector position, Normal direction) : position(position), direction(direction) {}
 

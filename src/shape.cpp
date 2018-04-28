@@ -35,7 +35,7 @@ Collision Sphere::intersect(const Ray& ray) {
     float root = sqrt(discr);
     float dist =  min(-base-root, -base+root);
     Vector hitpos = ray.at(dist);
-    return Collision(ray, *this, hitpos * getGlobalTransformMatrix(), Normal(hitpos - getPosition()));
+    return Collision(ray, *this, hitpos * getGlobalTransformMatrix(), Normal(hitpos-getPosition()));
 }
 
 void Sphere::draw() {
@@ -65,7 +65,7 @@ Collision Plane::intersect(const Ray& ray) {
 }
 
 void Plane::draw() {
-//    primitive.draw();
+    primitive.draw();
 }
 
 Disk::Disk(Normal normal, float radius) : normal(normal), radius(radius) {}
@@ -83,74 +83,91 @@ Collision Disk::intersect(const Ray& ray) {
     return Missed;
 }
 
+void Disk::draw() {
+    primitive.draw();
+}
+
 Collision Box::intersect(const Ray& ray) {
     Vector d = ray.direction;
     Vector p = ray.position;
-    float idx = 1.0 / d.x;
-    float idy = 1.0 / d.y;
-    float idz = 1.0 / d.z;
-    float tx1 = (1 - p.x) / idx;
-    float tx2 = (1 + p.x) / idx;
-    float ty1 = (1 - p.y) / idy;
-    float ty2 = (1 + p.y) / idy;
-    float tz1 = (1 - p.z) / idz;
-    float tz2 = (1 + p.z) / idz;
-    float best = std::numeric_limits<float>::max();
-//    if (min_x < 0 & )
-//    if (min_x)
-//    *hit = Collision(ray, this, ray.position + best * ray.direction, Normal(), best)
-//    return best != std::numeric_limits<float>::min();
-//    return boost::none;
-    return Missed;
+    float idx = -1.0 / d.x;
+    float idy = -1.0 / d.y;
+    float idz = -1.0 / d.z;
+    float r = 0.5f;
+    vector<float> intersections = {
+        (r - p.x) / idx,
+        (r + p.x) / idx,
+        (r - p.y) / idy,
+        (r + p.y) / idy,
+        (r - p.z) / idz,
+        (r + p.z) / idz
+    };
+    for (auto i : intersections) {
+        Vector p = ray.at(i);
+        if (abs(p.x) < r && abs(p.y) < r && abs(p.z) < r) {
+            return Collision(ray, *this, p * getGlobalTransformMatrix(), Vector(0,0,0));
+        }
+    }
+   cout << endl;
+   return Missed;
 }
 
-Triangle::Triangle(Vector a, Vector b, Vector c) : left(b - a), right(c - a), normal(Normal(left.cross(right))) {
-    setPosition(a);
+Triangle::Triangle(Vector a, Vector b, Vector c) : left(b - a), right(c - a) {
+    normal = right.getCrossed(left).normalize();
 }
 
-
-//Collision intersect_triangle(const Ray& ray, Vector a, Vector b, Vector c) {
-//   
-//}
-
-Collision Triangle::intersect(const Ray& ray) {
+inline float intersect_triangle(const Ray& ray, Vector position, Vector left, Vector right, Vector normal) {
     float dist = planar_distance(ray, normal);
-    if (dist < 0) return Missed;
-    Vector point = ray.at(dist);
-    Vector k = point - getPosition();
+    if (dist < 0) return -1;
+    Vector hitpos = ray.at(dist);
+    Vector k = (hitpos - position);
     float barycentric_x = left.getNormalized().dot(k);
     float barycentric_y = right.getNormalized().dot(k);
+    
     float sum = barycentric_x + barycentric_y;
     if (barycentric_x >= 0 && barycentric_y >= 0 && sum <= 1) {
-        return Collision(ray, *this, point, normal);
+        return dist;
+    }
+    return -1;
+}
+
+Collision Triangle::intersect(const Ray& ray) {
+    float dist = intersect_triangle(ray, getPosition(), left, right, -normal);
+    if (dist >= 0) {
+        return Collision(ray, *this, ray.at(dist) * getGlobalTransformMatrix(), normal);
     }
     return Missed;
 }
 
-Bound::Bound(vector<Shape> items) : items(items) {
-    // get radius of here, set radius to that
+Mesh::Mesh(ofMesh mesh) : mesh(mesh) {}
+
+Collision Mesh::intersect(const Ray& ray) {
+    float best = std::numeric_limits<float>::max();
+    Collision choice;
+//    for (auto face : mesh.getFace(0)) {
+        auto face = mesh.getFace(1);
+        Vector a = face.getVertex(0);
+        Vector b = face.getVertex(1);
+        Vector c = face.getVertex(2);
+        Vector left = b - a;
+        Vector right = c - a;
+        Normal normal = face.getFaceNormal();
+        float dist = intersect_triangle(ray, a, left, right, normal);
+        if (dist >= 0) {
+            return Collision(ray, *this, ray.at(dist) * getGlobalTransformMatrix(), normal);
+        }
+//    }
+    return choice;
 }
 
-
-//boost::optional<Collision> Mesh::intersect(const Ray& ray) const {
-//    float best = std::numeric_limits<float>::min();
-//    bool result = false;
-//    for (int i = 0; i < triangles.size(); i++) {
-//        Collision* candidate;
-//        if (triangles[i].intersect(ray, candidate) && candidate->distance < best) {
-//            best = candidate->distance;
-//            hit = candidate;
-//            result = true;
-//        }
-//    }
-//    return result;
-//}
-
+Bound::Bound(vector<Shape> items) : items(items) {
+//     get radius of here, set radius to that
+}
 
 //Collision* Bound::intersect(const Ray& ray) {
-//    if (Sphere::intersect(ray)) {
-//        //        return
-//    }
+////    if (Sphere::intersect(ray)) {
+////        //        return
+////    }
 //}
 
 string Shape::getName() const {

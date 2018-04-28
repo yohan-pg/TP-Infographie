@@ -11,7 +11,6 @@
 
 #include <stdio.h>
 #include "ofMain.h"
-
 #include "vector.hpp"
 #include "transform.hpp"
 
@@ -30,6 +29,8 @@ public:
     Ray operator*(Transform xform) const;
     
     Vector at(float t) const;
+    
+    Ray(const Ray &ray) {position = ray.position; direction = ray.direction; marked=ray.marked; };
     
     friend std::ostream& operator<< (std::ostream& stream, const Ray& ray);
 };

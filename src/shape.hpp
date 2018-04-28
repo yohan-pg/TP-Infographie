@@ -16,7 +16,6 @@
 #include "ray.hpp"
 #include "vector.hpp"
 #include <limits>
-#include <boost/optional.hpp>
 
 class Collision;
 
@@ -52,6 +51,7 @@ public:
 };
 
 class Disk : public Shape {
+    ofPlanePrimitive primitive;
     Normal normal;
     float radius;
 public:
@@ -59,12 +59,15 @@ public:
     Disk(Normal normal, float radius=1.0);
     string getName() const;
     virtual Collision intersect(const Ray& ray);
+    void draw();
 };
 
 class Box : public Shape {
+    ofPlanePrimitive primitive;
 public:
     string getName() const;
     virtual Collision intersect(const Ray& ray);
+    void draw();
 };
 
 class Bound : public Sphere {
@@ -86,9 +89,10 @@ public:
 
 class Mesh : public Shape {
 public:
-    vector<Triangle> triangles;
+    ofMesh mesh;
+    Mesh(ofMesh mesh);
     string getName() const;
-    virtual Collision intersect(const Ray& ray);
+    Collision intersect(const Ray& ray);
 };
 
 

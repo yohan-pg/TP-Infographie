@@ -12,12 +12,20 @@
 
 using namespace std;
 
+Vector reflect(const Vector& ingoing, const Vector& normal) {
+    return ingoing - 2 * normal.dot(ingoing) * normal;
+}
+
+Vector refract2(const Vector& ingoing, const Vector& normal, float ior_in, float ior_out) {
+    float ratio = ior_in / ior_out;
+    float ni = normal.dot(ingoing);
+    float k = 1.0 - ior_in * ior_in * (1.0 - ni * ni);
+//    if (k < 0) fail
+    return ratio * ingoing - (ratio * ni + sqrtf(k) * normal);
+}
+
 /* Fonctions de reflect/refract/fresnel bases sur:
    https://www.scratchapixel.com/lessons/3d-basic-rendering/introduction-to-shading/reflection-refraction-fresnel */
-
-Vector reflect(const Vector& ingoing, const Vector& normal) {
-    return ingoing - 2 * ingoing.dot(normal) * normal;
-}
 
 Vector refract(const Vector &ingoing, const Vector normal, const float ior) {
     float cosi = max(-1.0f, min(1.0f, ingoing.dot(normal)));
@@ -62,32 +70,28 @@ float fresnel(const Vector &ingoing, const Vector &normal, const float &ior)
 
 Color Material::shade(const Collision& hit, int depth) const {
     Color color = Color(0, 0, 0);
-    const Vector& ingoing = hit.ray->direction;
-    
+    const Vector& view_vector = (hit.ray->direction).getNormalized();
     
     /* Diffuse Term */
     color += diffuse;
     
-//    color = color + albedo;
-    
-    /* Paramteric Light Contribution */
-    for (int i = 0; i < scene.lights.size(); i++) {
-       
-        Color lighting = scene.lights[i]->cast(hit.position, hit.ray->marked);
-        
-        /* Diffuse Term */
-        Vector light_vector = scene.lights[i]->getPosition() - hit.position;
-        float cos = hit.normal.dot(Normal(light_vector));
-        color += lighting * albedo * cos * (1/light_vector.length());// * albedo ; // add in cos normal
-        
-        if (hit.ray->marked) {
+    if (metalness > 0) {
+        Ray reflectionRay = Ray(hit.position, reflect(view_vector, hit.normal));
+    } else {
+        /* Paramteric Light Contribution */
+        for (int i = 0; i < scene.lights.size(); i++) {
+            Color lighting = scene.lights[i]->cast(hit.position, hit.ray->marked);
+            Vector ingoing_vector = (scene.lights[i]->getPosition() - hit.position).normalize();
+            float cos = hit.normal.dot(ingoing_vector);
+            color += lighting * albedo * cos;
+            Vector reflection_vector = reflect(ingoing_vector, hit.normal);
+            color += reflection_vector.dot(view_vector);
+            cout << endl;
+            cout << "ingoing vector " << ingoing_vector << endl;
+            cout << "view vector " << view_vector << endl;
+            cout << "reflection vector " << reflection_vector << endl;
         }
-        
-        /* Specular Highlight Term */
-////        cout << ingoing << "      " << hit.normal << "      " << reflect(ingoing, hit.normal) << endl;
-//        color += reflect(ingoing, hit.normal).dot((scene.camera.getPosition() - hit.position).normalize());
     }
-    
     
 //    float reflected = fresnel(ingoing, hit.normal, ior);
 //    Ray reflectionRay = Ray(hit.position, reflect(ingoing, hit.normal));

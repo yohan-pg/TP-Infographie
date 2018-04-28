@@ -26,27 +26,13 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/material.hpp"
-            timestampString = "546290270.832142"
+            timestampString = "546559304.423544"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "41"
-            endingLineNumber = "41"
+            startingLineNumber = "42"
+            endingLineNumber = "42"
             landmarkName = "class Lambert"
             landmarkType = "3">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "src/shape.cpp"
-            timestampString = "546548467.1554869"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "147"
-            endingLineNumber = "147">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -72,11 +58,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/material.cpp"
-            timestampString = "546282684.2752399"
+            timestampString = "546559304.423544"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "23"
-            endingLineNumber = "23"
+            startingLineNumber = "31"
+            endingLineNumber = "31"
             landmarkName = "refract(const Vector &amp;ingoing, const Vector normal, const float ior)"
             landmarkType = "9">
          </BreakpointContent>
@@ -88,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/material.cpp"
-            timestampString = "546283463.455494"
+            timestampString = "546559304.423544"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
             landmarkName = "fresnel(const Vector &amp;ingoing, const Vector &amp;normal, const float &amp;ior)"
             landmarkType = "9">
          </BreakpointContent>
@@ -120,11 +106,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/gui.cpp"
-            timestampString = "546545681.579563"
+            timestampString = "546556604.421353"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "162"
-            endingLineNumber = "162"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "GUI::update()"
             landmarkType = "7">
          </BreakpointContent>
@@ -136,11 +122,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/app.cpp"
-            timestampString = "546548711.721884"
+            timestampString = "546570946.907819"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "140"
-            endingLineNumber = "140"
+            startingLineNumber = "161"
+            endingLineNumber = "161"
             landmarkName = "App::keyReleased(int key)"
             landmarkType = "7">
          </BreakpointContent>
@@ -261,7 +247,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/shape.cpp"
-            timestampString = "546547258.418466"
+            timestampString = "546565897.253249"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "62"
@@ -305,15 +291,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            shouldBeEnabled = "Yes"
+            shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "src/shape.cpp"
-            timestampString = "546548467.1554869"
+            timestampString = "546569589.736782"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "113"
-            endingLineNumber = "113">
+            startingLineNumber = "137"
+            endingLineNumber = "137"
+            landmarkName = "Triangle::intersect(const Ray&amp; ray)"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

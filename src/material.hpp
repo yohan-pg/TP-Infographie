@@ -33,6 +33,7 @@ public:
     float sheenTint = 0;
     float ior = 1.5;
     Color shade(const Collision& hit, int depth) const;
+    
     float brdf(Vector normal, Vector ingoing, Vector outgoing);
     float bsdf(Vector normal, Vector ingoing, Vector outgoing);
 };
