@@ -15,6 +15,7 @@
 #include "vector.hpp"
 #include "color.hpp"
 #include "ray.hpp"
+#include "vendor.cpp"
 
 class Collision;
 
@@ -28,28 +29,19 @@ class Material {
 public:
     ShaderType shadertype = ShaderType::PHONG;
     Color albedo = Color(0.7,0.5,0);
-    Color specularTint = Color(1,1,1);
-    float specularHardness = 4;
     float specularAmount = 0.8;
-    
+    float specularHardness = 4.0;
+    float sheen = 0;
+    float ior = 1.5;
     float reflection = 0;
     float refraction = 0;
-    float ambient = 0;
-
-    float metalness = 0;
-    float emissivity = 0;
-    float roughness = 0;
-    float transmission = 0;
-    float specular = 0;
-    float clearcoat = 0;
-    
-    float sheen = 0;
-
-    float ior = 1.5;
+    float transmission = 1.0;
+    float ambient = 0.5;
+    int indirectBounces = 5;
     
     Color shade(const Ray& ray, const Collision& hit, int depth) const;
-    float brdf(Vector normal, Vector ingoing, Vector outgoing);
-    float bsdf(Vector normal, Vector ingoing, Vector outgoing);
+
+    float brdf(Normal normal, Vector ingoing, Vector outgoing) const;
 };
 
 class Plastic : public Material {
@@ -70,7 +62,6 @@ class Glass : public Material {
     float ior = 1.4;
     float transmission = 1;
 };
-
 
 
 #endif /* material_hpp */

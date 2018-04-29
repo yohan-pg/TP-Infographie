@@ -7,6 +7,7 @@
 //
 
 #include "scene.hpp"
+#include "gui.hpp"
 
 Scene scene = Scene();
 
@@ -34,10 +35,11 @@ void Scene::draw() const{
     }
 }
 
-Collision Scene::intersect(const Ray& ray) const {
+Collision Scene::intersect(const Ray& ray, Shape* ignore) const {
     float best = std::numeric_limits<float>::max();
     Collision result;
     for (int i = 0; i < shapes.size(); i++) {
+        if (shapes[i] == ignore) continue;
         auto candidate = shapes[i]->intersect(ray * shapes[i]->getGlobalTransformMatrix().getInverse());
         if (candidate) {
             float dist = (candidate.position - candidate.ray->position).lengthSquared();
@@ -57,15 +59,17 @@ void Scene::select(int x, int y) {
     } else {
         selection = NULL;
     }
+    gui.updateSelection();
 }
 
 void Scene::select(Element* element) {
     selection = element;
+    gui.updateSelection();
 }
 
-Color Scene::trace(const Ray& ray, int depth) const {
+Color Scene::trace(const Ray& ray, int depth, Shape* ignore) const {
     if (depth > 0) {
-        auto hit = intersect(ray);
+        auto hit = intersect(ray, ignore);
         if (hit) {
             auto result = hit.shape->material.shade(ray, hit, depth);
             return result;

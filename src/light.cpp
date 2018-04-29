@@ -14,7 +14,7 @@ float i = 0.0;
 
 Light::Light() {
     primitive.setRadius(0.1);
-    setPosition(Vector(i++, 3, 1));
+    setPosition(Vector(i++, 2.5, 1));
 }
 
 bool Light::isSpecular() {
@@ -22,17 +22,23 @@ bool Light::isSpecular() {
 }
 
 Color Light::cast(const Vector& target, Vector light_vector, Normal normal) const {
-    Vector pos = getPosition();
-    Ray ray = Ray(pos, target);
-    Collision hit = scene.intersect(ray);
-    float distance = (target - pos).length();
-    if (hit && ((hit.position - pos).length() < (distance - 0.001))) {
-        return Color::black;
-    } else {
-        float falloff = 1 / (attentuation * distance); 
-        float cosine = normal.dot(light_vector);
-        return color * intensity * falloff * cosine;
+    float distance = (target - getPosition()).length();
+    Color result = Color(0,0,0);
+    for (int i = 0; i < shadowSamples; i++) {
+        Vector pos = getPosition();
+        if (shadowSamples > 1) {
+            pos += Sampler::sphere_vector().normalize() * size;
+        }
+        Ray ray = Ray(pos, target);
+        Collision hit = scene.intersect(ray);
+        if (!hit || !((hit.position - pos).length() < (distance - 0.001))) {
+            result += color * (1.0/(float)shadowSamples);
+        }
     }
+    float falloff = 1 / (attentuation * distance);
+    float cosine = normal.dot(light_vector);
+    return result * intensity * falloff * cosine;
+    
 }
 
 void Light::draw() {
@@ -50,10 +56,30 @@ Color SpotLight::cast(const Vector& target, Vector light_vector, Normal normal) 
     return Light::cast(target, light_vector, normal) * cone;
 }
 
+void SpotLight::draw() {
+    ofSetColor(255,200,0);
+    if (scene.selection == this) {
+        ofSetColor(255,255,255);
+    }
+    primitive.setPosition(getPosition());
+    primitive.draw();
+    ofSetColor(255,255,255);
+}
+
 Color DirectionalLight::cast(const Vector& target, Vector light_vector, Normal normal) const {
     float cosine = normal.dot(light_vector);
     float directionality = light_vector.dot(normal);
     return Light::cast(target, light_vector, normal) * cosine * directionality;
+}
+
+void DirectionalLight::draw() {
+    ofSetColor(255,150,0);
+    if (scene.selection == this) {
+        ofSetColor(255,255,255);
+    }
+    primitive.setPosition(getPosition());
+    primitive.draw();
+    ofSetColor(255,255,255);
 }
 
 bool DirectionalLight::isSpecular() {

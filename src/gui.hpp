@@ -39,6 +39,7 @@ public:
     
     void setup(float width);
     void draw();
+    void updateSelection();
     
     void update();
     

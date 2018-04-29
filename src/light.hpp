@@ -17,13 +17,18 @@
 #include "collision.hpp"
 
 class Light : public Element {
+protected:
     ofSpherePrimitive primitive;
 public:
     Light();
     bool isSpecular();
+    
     Color color = Color(1.0, 1.0, 1.0);
+    float size = 1.0;
+    int shadowSamples = 1;
     double intensity = 1.0;
     float attentuation = 0.1;
+    
     string getName() const;
     virtual Color cast(const Vector& pos, Vector light_vector, Normal normal) const;
     virtual void draw();
@@ -40,6 +45,7 @@ public:
     Vector direction = Vector(-1, -1, 0);
     string getName() const;
     Color cast(const Vector& target, Vector light_vector, Normal normal) const;
+    virtual void draw();
 };
 
 class SpotLight : public Light {
@@ -48,6 +54,7 @@ public:
     float size = 1.0;
     string getName() const;
     Color cast(const Vector& target, Vector light_vector, Normal normal) const;
+    virtual void draw();
 };
 
 class AmbientLight : public Light {
@@ -55,7 +62,7 @@ public:
     bool isSpecular();
     string getName() const;
     Color cast(const Vector& target, Vector light_vector, Normal normal) const;
-    void draw();
+    virtual void draw();
 };
 
 #endif /* light_hpp */

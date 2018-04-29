@@ -33,44 +33,33 @@ void App::setup() {
         threads.push_back(thread(&App::render, this));
     }
     
-    Collision* c;
-    
     auto *l = new PointLight();
     l->setPosition(Vector(0,1,2));
     scene.add(l);
-
-//    auto *p = new Triangle(Vector(0, -0.5, 0.5), Vector(0, 0, 0.5), Vector(-0.5, 0, 0.5));
-//    scene.add(p);
     
-//    auto box = new ofBoxPrimitive();
-//    box->set(1);
-//    auto *m = new Mesh(box->getMesh());
-//    scene.add(m);
-//    m->mesh.setMode(OF_PRIMITIVE_TRIANGLES);
-//    for (auto f : m->mesh.getUniqueFaces()) {
-//        cout << f.getVertex(0) << endl;
-//        cout << f.getVertex(1) << endl;
-//        cout << f.getVertex(2) << endl;
-//        cout << "_" << endl;
+    auto *p = new Sphere();
+    p->material.albedo = Color(1, 0, 0);
+    scene.add(p);
+    
+//    ofBoxPrimitive box;
+//    box.set(1);
+//    ofMesh mesh = box.getMesh();
+//    auto faces = box.getMesh().getUniqueFaces();
+//    auto m = new Mesh();
+//    
+//    for (auto face : faces) {
+//        cout << face.getNormal(0) << endl;
+//        auto* t = new Triangle(face.getVertex(0),
+//                               face.getVertex(1),
+//                               face.getVertex(2),
+//                               face.getFaceNormal()
+//                               );
+//        m->add(t);
 //    }
-
-    auto *s2 = new Sphere(1);
-    s2->material.albedo = Color(0.8,0,0);
-    scene.add(s2);
+//    scene.add(m);
     
-    auto *s3 = new Sphere(1);
-    s3->material.albedo = Color(0.5,0.5,0);
-    s3->material.reflection = 0.9;
-    s3->setPosition(Vector(-2, 1, 0));
-    scene.add(s3);
-
-    Ray ray = scene.camera.primaryRay(scene.film, scene.film.width/2, scene.film.height/2);
-
-    scene.trace(ray);
-
     gui.setup(width * 0.16);
 }
-
 
 void App::render() {
     while (!exited) {
@@ -123,7 +112,6 @@ void App::draw() {
             }
             scene.draw();
             ofPopMatrix();
-    
             ofSetColor(255);
             ofDisableDepthTest();
         scene.camera.end();

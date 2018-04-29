@@ -25,7 +25,8 @@ namespace Sampler {
     Vector uniform_circle();
     Vector uniform_sphere();
     Vector uniform_vector();
-    Vector hemisphere_vector();
+    Vector sphere_vector();
+    Vector hemisphere_vector(Normal normal);
 };
 
 

@@ -10,6 +10,7 @@
 		01CA664A6F6A3CDC080B1621 /* shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F226D110F3B222D9532BB6AF /* shape.cpp */; };
 		058256C5DD90D650B5BE8C22 /* color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5EE15BE4D6711ABFB9BC751B /* color.cpp */; };
 		155FEF31208F9BC6006E3151 /* collision.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 155FEF2F208F9BC6006E3151 /* collision.cpp */; };
+		15B266722094E51F00678CAF /* vendor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B266712094E51F00678CAF /* vendor.cpp */; };
 		15B8FEDB208E96720014376E /* sampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 15B8FED9208E96720014376E /* sampler.cpp */; };
 		3F1123E44796C08BA1BBFF4D /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48505C0D9DE942237364716F /* ofxDatGui.cpp */; };
 		41DB37B04B69C442968EA316 /* app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90BFBBD5A23A6B332DBE2FCB /* app.cpp */; };
@@ -64,6 +65,7 @@
 		0693A07E9520DCFCC2698071 /* element.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = element.cpp; path = src/element.cpp; sourceTree = SOURCE_ROOT; };
 		155FEF2F208F9BC6006E3151 /* collision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = collision.cpp; sourceTree = "<group>"; };
 		155FEF30208F9BC6006E3151 /* collision.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = collision.hpp; sourceTree = "<group>"; };
+		15B266712094E51F00678CAF /* vendor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vendor.cpp; sourceTree = "<group>"; };
 		15B8FED9208E96720014376E /* sampler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sampler.cpp; sourceTree = "<group>"; };
 		15B8FEDA208E96720014376E /* sampler.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = sampler.hpp; sourceTree = "<group>"; };
 		15D376BA94CECB93F8C28C84 /* vector.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = vector.cpp; path = src/vector.cpp; sourceTree = SOURCE_ROOT; };
@@ -256,6 +258,7 @@
 				A55D87D1684A79AEDABF6FDF /* light.cpp */,
 				85D9EB27E25EFBCD6E7802A3 /* light.hpp */,
 				6EEA7C13FB22A1B4817D9288 /* material.cpp */,
+				15B266712094E51F00678CAF /* vendor.cpp */,
 				6D053E1FD24F7C9CE67F112E /* material.hpp */,
 				205B328F6E837C7F3E8F6F93 /* ray.cpp */,
 				91AE4692A71D0C588D86A1BB /* ray.hpp */,
@@ -395,6 +398,7 @@
 				96EA47EB2B40B10634782476 /* material.cpp in Sources */,
 				A2892EA87E8CDCF1F3266B92 /* ray.cpp in Sources */,
 				A04777E6845578A9FA0A5BEB /* scene.cpp in Sources */,
+				15B266722094E51F00678CAF /* vendor.cpp in Sources */,
 				01CA664A6F6A3CDC080B1621 /* shape.cpp in Sources */,
 				7AC5B5819736928B42EBDA6C /* transform.cpp in Sources */,
 				8B9198A1478DF479BE3317DE /* vector.cpp in Sources */,

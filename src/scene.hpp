@@ -30,8 +30,7 @@ public:
     Camera camera;
     Film film;
     
-    int TRACING_DEPTH = 5;
-    
+    int tracingDepth = 4;
     int indirect_samples = 5;
     
     vector<Element*> elements;
@@ -47,8 +46,8 @@ public:
     void select(Element* element);
     
     void draw() const;
-    Color trace(const Ray& ray, int depth=1) const;
-    Collision intersect(const Ray& ray) const;
+    Color trace(const Ray& ray, int depth=1, Shape* ignore=NULL) const;
+    Collision intersect(const Ray& ray, Shape* ignore=NULL) const;
 };
 
 extern Scene scene;

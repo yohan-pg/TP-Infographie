@@ -9,7 +9,6 @@
 #include "sampler.hpp"
 #include "vector.hpp"
 
-
 using namespace Sampler;
 using namespace std;
 
@@ -34,13 +33,29 @@ float Sampler::uniform_angle() {
     return randf() * 360;
 }
 
-Vector Sampler::hemisphere_vector() {
-    float a = randf();
-    float sin_theta = sqrtf(1 - a * a);
-    float phi = 2 * 3.1416 * randf();
-    float x = sin_theta * cosf(phi);
-    float z = sin_theta * sinf(phi);
-    return Vector(x, a, z);
+//Vector Sampler::hemisphere_vector() {
+//    float a = randf();
+//    float sin_theta = sqrtf(1 - a * a);
+//    float phi = 2 * 3.1416 * randf();
+//    float x = sin_theta * cosf(phi);
+//    float z = sin_theta * sinf(phi);
+//    return Vector(x, a, z);
+//}
+
+Vector Sampler::sphere_vector() {
+    Vector dir;
+    do {
+        dir = Vector(2*randf()-1, 2*randf()-1, 2*randf()-1);
+    } while (dir.length() > 1);
+    return dir;
+}
+
+Vector Sampler::hemisphere_vector(Normal normal) {
+    Vector dir;
+    do {
+       dir = Vector(2*randf()-1, 2*randf()-1, 2*randf()-1);
+    } while (dir.length() > 1 && normal.dot(dir));
+    return dir;
 }
 
 Vector Sampler::uniform_circle() {

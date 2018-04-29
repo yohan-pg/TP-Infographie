@@ -12,9 +12,13 @@
 #include <stdio.h>
 #include "ofMain.h"
 #include "color.hpp"
+#include <mutex>
+#include <atomic>
+
 
 class Film  {
     ofImage buffer;
+    vector<vector<Color>> values;
     vector<vector<int>> counts;
     void resetCounters();
 public:

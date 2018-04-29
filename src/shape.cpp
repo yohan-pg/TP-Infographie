@@ -65,7 +65,9 @@ Collision Plane::intersect(const Ray& ray) {
 }
 
 void Plane::draw() {
-    primitive.draw();
+    Shape::draw();
+    primitive.setTransformMatrix(getGlobalTransformMatrix());
+    primitive.drawWireframe();
 }
 
 Disk::Disk(Normal normal, float radius) : normal(normal), radius(radius) {}
@@ -111,63 +113,72 @@ Collision Box::intersect(const Ray& ray) {
    return Missed;
 }
 
-Triangle::Triangle(Vector a, Vector b, Vector c) : left(b - a), right(c - a) {
-    normal = right.getCrossed(left).normalize();
+Triangle::Triangle(Vector a, Vector b, Vector c) : a(a), b(b), c(c), normal((b-a).cross(c-a).normalize()) {
+    setPosition(a);
 }
 
-inline float intersect_triangle(const Ray& ray, Vector position, Vector left, Vector right, Vector normal) {
-    float dist = planar_distance(ray, normal);
+Triangle::Triangle(Vector a, Vector b, Vector c, Vector normal) : a(a), b(b), c(c), normal(normal) {
+    setPosition(a);
+}
+
+
+inline float intersect_triangle(const Ray& ray, Vector a, Vector b, Vector c, Vector normal) {
+    float dist = planar_distance(Ray(ray.position+a, ray.direction), normal);
     if (dist < 0) return -1;
     Vector hitpos = ray.at(dist);
-    Vector k = (hitpos - position);
-    float barycentric_x = left.getNormalized().dot(k);
-    float barycentric_y = right.getNormalized().dot(k);
-    
-    float sum = barycentric_x + barycentric_y;
-    if (barycentric_x >= 0 && barycentric_y >= 0 && sum <= 1) {
-        return dist;
-    }
+    if ((b-a).cross(hitpos - a).dot(normal) < 0) return -1;
+    if ((c-b).cross(hitpos - b).dot(normal) < 0) return -1;
+    if ((a-c).cross(hitpos - c).dot(normal) < 0) return -1;
+    return dist;
     return -1;
 }
 
 Collision Triangle::intersect(const Ray& ray) {
-    float dist = intersect_triangle(ray, getPosition(), left, right, -normal);
+    float dist = intersect_triangle(ray, a, b, c, normal);
     if (dist >= 0) {
         return Collision(ray, *this, ray.at(dist) * getGlobalTransformMatrix(), normal);
     }
     return Missed;
 }
 
-Mesh::Mesh(ofMesh mesh) : mesh(mesh) {}
+void Mesh::add(Triangle* triangle) {
+    triangles.push_back(triangle);
+}
 
 Collision Mesh::intersect(const Ray& ray) {
     float best = std::numeric_limits<float>::max();
+    Collision result;
+    for (auto tri : triangles) {
+        Collision hit = tri->intersect(ray);
+        float dist = (hit.position - ray.position).lengthSquared();
+        if (hit && (dist < best)) {
+            best = dist;
+            result = hit;
+        }
+    }
+    return result;
+}
+
+MeshConverter::MeshConverter(ofMesh mesh) : mesh(mesh) {}
+
+Collision MeshConverter::intersect(const Ray& ray) {
+    float best = std::numeric_limits<float>::max();
     Collision choice;
 //    for (auto face : mesh.getFace(0)) {
-        auto face = mesh.getFace(1);
-        Vector a = face.getVertex(0);
-        Vector b = face.getVertex(1);
-        Vector c = face.getVertex(2);
-        Vector left = b - a;
-        Vector right = c - a;
-        Normal normal = face.getFaceNormal();
-        float dist = intersect_triangle(ray, a, left, right, normal);
-        if (dist >= 0) {
-            return Collision(ray, *this, ray.at(dist) * getGlobalTransformMatrix(), normal);
-        }
+//        auto face = mesh.getFace(1);
+//        Vector a = face.getVertex(0);
+//        Vector b = face.getVertex(1);
+//        Vector c = face.getVertex(2);
+//        Vector left = b - a;
+//        Vector right = c - a;
+//        Normal normal = face.getFaceNormal();
+//        float dist = intersect_triangle(ray, a, left, right, normal);
+//        if (dist >= 0) {
+//            return Collision(ray, *this, ray.at(dist) * getGlobalTransformMatrix(), normal);
+//        }
 //    }
     return choice;
 }
-
-Bound::Bound(vector<Shape> items) : items(items) {
-//     get radius of here, set radius to that
-}
-
-//Collision* Bound::intersect(const Ray& ray) {
-////    if (Sphere::intersect(ray)) {
-////        //        return
-////    }
-//}
 
 string Shape::getName() const {
     return "Shape";
@@ -196,6 +207,3 @@ string Triangle::getName() const{
 string Mesh::getName() const{
     return "Mesh";
 }
-
-
-Shape unit_shape = Shape();

@@ -43,8 +43,7 @@ class Plane : public Shape {
     ofPlanePrimitive primitive;
     Normal normal;
 public:
-    Plane();
-    Plane(Normal normal);
+    Plane(Normal normal=Normal(0,1,0));
     string getName() const;
     virtual Collision intersect(const Ray& ray);
     void draw();
@@ -70,33 +69,33 @@ public:
     void draw();
 };
 
-class Bound : public Sphere {
-    vector<Shape> items;
-public:
-    Bound(vector<Shape> items);
-    virtual Collision intersect(const Ray& ray);
-};
-
 class Triangle : public Shape {
     Normal normal;
-    Vector left;
-    Vector right;
+    Vector a;
+    Vector b;
+    Vector c;
 public:
     Triangle(Vector a, Vector b, Vector c);
+    Triangle(Vector a, Vector b, Vector c, Vector normal);
     string getName() const;
     virtual Collision intersect(const Ray& ray);
 };
 
 class Mesh : public Shape {
-    
+public:
+    vector<Triangle*> triangles;
+    string getName() const;
+    void add(Triangle* triangle);
+    virtual Collision intersect(const Ray& ray);
+};
+
+class MeshConverter : public Shape {
 public:
     ofMesh mesh;
-    Mesh(ofMesh mesh);
+    MeshConverter(ofMesh mesh);
     string getName() const;
     Collision intersect(const Ray& ray);
 };
 
-
-extern Shape unit_shape;
 
 #endif /* shape_hpp */

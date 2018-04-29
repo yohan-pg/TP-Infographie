@@ -24,6 +24,8 @@ void GUI::setup(float w) {
         scene_folder = leftPane->addFolder("Scene", ofColor::darkCyan);
         scene_folder->addColorPicker("Background", scene.background);
         scene_folder->addColorPicker("Ambient", scene.ambient);
+        scene_folder->addSlider("Max Ray Depth", 0.0, 10.0, scene.tracingDepth)->setPrecision(0);
+        scene_folder->addSlider("Indirect Samples", 0.0, 10.0, scene.indirect_samples)->setPrecision(0);
     
     leftPane->addBreak();
     
@@ -32,6 +34,8 @@ void GUI::setup(float w) {
         creation->addButton("Add Spot");
         creation->addButton("Add Ambient");
         creation->addButton("Add Directional");
+        creation->addToggle("Triangulation");
+        creation->addToggle("Surface Parametrique");
         creation->addBreak();
     
     leftPane->addBreak();
@@ -39,22 +43,25 @@ void GUI::setup(float w) {
         camera = leftPane->addFolder("Camera", ofColor::greenYellow);
         camera->addSlider("FOV", 30.0, 120.0, scene.camera.getFov());
         camera->addSlider("Aperture Size", 0.0, 4.0, scene.camera.aperture_size);
-        camera->addSlider("AA Samples", 1, 64, scene.camera.aa_samples);
+        camera->addSlider("AA Samples", 1, 64, scene.camera.aa_samples)->setPrecision(0);
         camera->addToggle("Orthographic", scene.camera.getOrtho());
     
     leftPane->addBreak();
     
         materiaux = leftPane->addFolder("Materiel", ofColor::orangeRed);
-        materiaux->addSlider("Metalness", 0.0, 0.0, 1.0);
-        materiaux->addSlider("Roughness", 0.0, 10.0, 0.0);
+        materiaux->addColorPicker("Albedo", ofColor::white);
         materiaux->addBreak();
+        materiaux->addSlider("Reflection", 0.0, 0.0, 1.0);
+        materiaux->addSlider("Refraction", 0.0, 10.0, 0.0);
         materiaux->addSlider("Transmission", 0.0, 10.0, 0.0);
         materiaux->addSlider("IOR", 0.0, 10.0, 0.0);
         materiaux->addBreak();
         materiaux->addSlider("Specular", 0.0, 10.0, 0.0);
-        materiaux->addColorPicker("Specular Tint", ofColor::white);
+        materiaux->addSlider("Spec Glossiness", 0.0, 30.0, 0.0);
+        materiaux->addSlider("Sheen", 0.0, 1.0, 0.0);
         materiaux->addBreak();
-        materiaux->addColorPicker("Albedo", ofColor::white);
+        materiaux->addSlider("Indirect", 0.0, 1.0, 0.0);
+        materiaux->addSlider("Indirect Bounces", 1, 12, 0)->setPrecision(0);
         materiaux->addBreak();
     
     leftPane->addBreak();
@@ -68,6 +75,9 @@ void GUI::setup(float w) {
         light = leftPane->addFolder("Light", ofColor::yellow);
         light->addColorPicker("Color");
         light->addSlider("Intensity", 0, 10, 1);
+        light->addSlider("Radius", 0, 10, 1);
+        light->addSlider("Shadow Samples", 1, 20, 1)->setPrecision(0);
+        light->addSlider("Attenuation", 0, 1, 0.1);
         light->addBreak();
     
     leftPane->addBreak()->setHeight(3000.0);
@@ -98,71 +108,79 @@ void GUI::setup(float w) {
     rightPane->setAutoDraw(false);
     
     refreshList();
+    gui.updateSelection();
+}
+
+void GUI::updateSelection() {
+    if (auto l = dynamic_cast<Light*>(scene.selection)) {
+        light->setOpacity(1.0);
+        leftPane->getColorPicker("Color")->setColor(l->color);
+        leftPane->getSlider("Intensity")->setValue(l->intensity);
+        leftPane->getSlider("Radius")->setValue(l->size);
+        leftPane->getSlider("Shadow Samples")->setValue(l->shadowSamples);
+        leftPane->getSlider("Attenuation")->setValue(l->attentuation);
+    } else {
+        light->setOpacity(0.3);
+    }
+    
+    if (auto s = dynamic_cast<Shape*>(scene.selection)) {
+        materiaux->setOpacity(1.0);
+        leftPane->getColorPicker("Albedo")->setColor(s->material.albedo);
+        leftPane->getSlider("Reflection")->setValue(s->material.reflection);
+        leftPane->getSlider("Refraction")->setValue(s->material.refraction);
+        leftPane->getSlider("Transmission")->setValue(s->material.transmission);
+        leftPane->getSlider("IOR")->setValue(s->material.ior);
+        leftPane->getSlider("Specular")->setValue(s->material.specularAmount);
+        leftPane->getSlider("Spec Glossiness")->setValue(s->material.specularHardness);
+        leftPane->getSlider("Indirect")->setValue(s->material.ambient);
+        leftPane->getSlider("Indirect Bounces")->setValue(s->material.indirectBounces);
+    } else  {
+        materiaux->setOpacity(0.3);
+    }
+    
+    if (auto m = dynamic_cast<Mesh*>(scene.selection)) {
+        mesh->setOpacity(1.0);
+        leftPane->getToggle("Smooth")->setChecked(m->smooth);
+        
+    } else {
+        mesh->setOpacity(0.3);
+    }
+    
+    leftPane->update();
+    
+    
 }
 
 void GUI::update() {
     if (auto l = dynamic_cast<Light*>(scene.selection)) {
         light->setOpacity(1.0);
-        light->setEnabled(true);
         l->color = leftPane->getColorPicker("Color")->getColor();
         l->intensity = leftPane->getSlider("Intensity")->getValue();
+        l->size = leftPane->getSlider("Radius")->getValue();
+        l->shadowSamples = leftPane->getSlider("Shadow Samples")->getValue();
+        l->attentuation = leftPane->getSlider("Attenuation")->getValue();
         
-    } else {
-        light->setOpacity(0.3);
-        light->setEnabled(false);
-        light->collapse();
-        leftPane->update();
-    }
-    
-    if (auto s = dynamic_cast<Shape*>(scene.selection)) {
-        
-        if (!materiaux->getEnabled()) {
-            leftPane->getSlider("Metalness")->setValue(s->material.metalness);
-            leftPane->getSlider("Roughness")->setValue(s->material.roughness);
-            leftPane->getSlider("Transmission")->setValue(s->material.transmission);
-            leftPane->getSlider("IOR")->setValue(s->material.ior);
-            leftPane->getSlider("Specular")->setValue(s->material.specular);
-            leftPane->getColorPicker("Specular Tint")->setColor(s->material.specularTint);
-            leftPane->getColorPicker("Albedo")->setColor(s->material.albedo);
-        }
-        
-        s->material.metalness = leftPane->getSlider("Metalness")->getValue();
-        s->material.roughness = leftPane->getSlider("Roughness")->getValue();
+    } else if (auto s = dynamic_cast<Shape*>(scene.selection)) {
+        s->material.albedo = leftPane->getColorPicker("Albedo")->getColor();
+        s->material.reflection = leftPane->getSlider("Reflection")->getValue();
+        s->material.refraction = leftPane->getSlider("Refraction")->getValue();
         s->material.transmission = leftPane->getSlider("Transmission")->getValue();
         s->material.ior = leftPane->getSlider("IOR")->getValue();
-        s->material.specular = leftPane->getSlider("Specular")->getValue();
-        s->material.specularTint = leftPane->getColorPicker("Specular Tint")->getColor();
-        s->material.albedo = leftPane->getColorPicker("Albedo")->getColor();
-
-        materiaux->setOpacity(1.0);
-        materiaux->setEnabled(true);
+        s->material.specularAmount = leftPane->getSlider("Specular")->getValue();
+        s->material.specularHardness = leftPane->getSlider("Spec Glossiness")->getValue();
+        s->material.specularHardness = leftPane->getSlider("Sheen")->getValue();
+        s->material.ambient = leftPane->getSlider("Indirect")->getValue();
+        s->material.indirectBounces = leftPane->getSlider("Indirect Bounces")->getValue();
         
-    } else {
-        materiaux->setOpacity(0.3);
-        materiaux->collapse();
-        materiaux->setEnabled(false);
-        leftPane->update();
-    }
-
-    if (auto m = dynamic_cast<Mesh*>(scene.selection)) {
-
-        if (!mesh->getEnabled()) {
-            leftPane->getToggle("Smooth")->setChecked(m->smooth);
-        }
-        
+    } else if (auto m = dynamic_cast<Mesh*>(scene.selection)) {
         m->smooth = leftPane->getToggle("Smooth")->getChecked();
-        
         mesh->setOpacity(1.0);
-        mesh->setEnabled(true);
-    } else {
-        mesh->setOpacity(0.3);
-        mesh->collapse();
-        mesh->setEnabled(false);
-        leftPane->update();
     }
     
     scene.background = leftPane->getColorPicker("Background")->getColor();
     scene.ambient = leftPane->getColorPicker("Ambient")->getColor();
+    scene.tracingDepth = leftPane->getSlider("Max Ray Depth")->getValue();
+    scene.indirect_samples = leftPane->getSlider("Indirect Samples")->getValue();
     
     scene.camera.setFov(leftPane->getSlider("FOV")->getValue());
     scene.camera.aperture_size = (leftPane->getSlider("Aperture Size")->getValue());
@@ -174,7 +192,7 @@ void GUI::update() {
     
     for (int i = 0; i < scene.elements.size(); i++) {
         if (scene.selection == scene.elements[i]) {
-            layerView->get(i)->setStripe(ofColor(255,255,255), 7);
+            layerView->get(i)->setStripe(ofColor(255, 255, 255), 7);
         } else {
             layerView->get(i)->setStripe(ofColor::yellow, 2);
         }
@@ -197,7 +215,6 @@ void GUI::draw() {
 
 void GUI::onButtonEvent(ofxDatGuiButtonEvent e){
     if (e.target->is("Ouvrir un modele")) {
-        // assimp load mesh
     }
     
     else if (e.target->is("Enregister en image")) {

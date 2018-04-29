@@ -26,7 +26,6 @@ Ray Ray::operator*(Transform xform) const {
     return ray;
 }
 
-
 std::ostream& operator<< (std::ostream& os, const Ray& ray) {
     os << "[" << ray.position << "] -> [" << ray.direction << "]";
     return os;
