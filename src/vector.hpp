@@ -6,12 +6,13 @@
 //
 //
 
+#pragma once
+
 #ifndef vector_hpp
 #define vector_hpp
 
 #include <stdio.h>
 #include "ofMain.h"
-
 
 typedef ofVec3f Vector;
 

@@ -6,6 +6,8 @@
 //
 //
 
+#pragma once
+
 #ifndef color_hpp
 #define color_hpp
 

@@ -25,7 +25,6 @@ void GUI::setup(float w) {
         scene_folder->addColorPicker("Background", scene.background);
         scene_folder->addColorPicker("Ambient", scene.ambient);
         scene_folder->addSlider("Max Ray Depth", 0.0, 10.0, scene.tracingDepth)->setPrecision(0);
-        scene_folder->addSlider("Indirect Samples", 0.0, 10.0, scene.indirect_samples)->setPrecision(0);
     
     leftPane->addBreak();
     
@@ -42,7 +41,7 @@ void GUI::setup(float w) {
     
         camera = leftPane->addFolder("Camera", ofColor::greenYellow);
         camera->addSlider("FOV", 30.0, 120.0, scene.camera.getFov());
-        camera->addSlider("Aperture Size", 0.0, 4.0, scene.camera.aperture_size);
+        camera->addSlider("Aperture Size", 0.0, 4.0, scene.camera.aperture_size)->setPrecision(3);
         camera->addSlider("AA Samples", 1, 64, scene.camera.aa_samples)->setPrecision(0);
         camera->addToggle("Orthographic", scene.camera.getOrtho());
     
@@ -51,16 +50,16 @@ void GUI::setup(float w) {
         materiaux = leftPane->addFolder("Materiel", ofColor::orangeRed);
         materiaux->addColorPicker("Albedo", ofColor::white);
         materiaux->addBreak();
-        materiaux->addSlider("Reflection", 0.0, 0.0, 1.0);
-        materiaux->addSlider("Refraction", 0.0, 10.0, 0.0);
-        materiaux->addSlider("Transmission", 0.0, 10.0, 0.0);
-        materiaux->addSlider("IOR", 0.0, 10.0, 0.0);
+        materiaux->addSlider("Reflection", 0.0, 1.0, 0.0)->setPrecision(3);
+        materiaux->addSlider("Refraction", 0.0, 1.0, 0.0)->setPrecision(3);
+        materiaux->addSlider("Transmission", 0.0, 1.0, 0.0)->setPrecision(2);
+        materiaux->addSlider("IOR", 0.0, 10.0, 0.0)->setPrecision(1);
         materiaux->addBreak();
-        materiaux->addSlider("Specular", 0.0, 10.0, 0.0);
-        materiaux->addSlider("Spec Glossiness", 0.0, 30.0, 0.0);
-        materiaux->addSlider("Sheen", 0.0, 1.0, 0.0);
+        materiaux->addSlider("Specular", 0.0, 1.0, 1.0)->setPrecision(3);
+        materiaux->addSlider("Spec Glossiness", 0.0, 30.0, 0.0)->setPrecision(2);
+        materiaux->addSlider("Sheen", 0.0, 1.0, 0.0)->setPrecision(3);
         materiaux->addBreak();
-        materiaux->addSlider("Indirect", 0.0, 1.0, 0.0);
+        materiaux->addSlider("Indirect", 0.0, 1.0, 0.0)->setPrecision(3);
         materiaux->addSlider("Indirect Bounces", 1, 12, 0)->setPrecision(0);
         materiaux->addBreak();
     
@@ -74,10 +73,10 @@ void GUI::setup(float w) {
     
         light = leftPane->addFolder("Light", ofColor::yellow);
         light->addColorPicker("Color");
-        light->addSlider("Intensity", 0, 10, 1);
-        light->addSlider("Radius", 0, 10, 1);
+        light->addSlider("Intensity", 0, 10, 1)->setPrecision(2);
+        light->addSlider("Radius", 0, 10, 1)->setPrecision(2);
         light->addSlider("Shadow Samples", 1, 20, 1)->setPrecision(0);
-        light->addSlider("Attenuation", 0, 1, 0.1);
+        light->addSlider("Attenuation", 0, 1, 0.1)->setPrecision(3);
         light->addBreak();
     
     leftPane->addBreak()->setHeight(3000.0);
@@ -131,6 +130,7 @@ void GUI::updateSelection() {
         leftPane->getSlider("Transmission")->setValue(s->material.transmission);
         leftPane->getSlider("IOR")->setValue(s->material.ior);
         leftPane->getSlider("Specular")->setValue(s->material.specularAmount);
+        leftPane->getSlider("Sheen")->setValue(s->material.sheen);
         leftPane->getSlider("Spec Glossiness")->setValue(s->material.specularHardness);
         leftPane->getSlider("Indirect")->setValue(s->material.ambient);
         leftPane->getSlider("Indirect Bounces")->setValue(s->material.indirectBounces);
@@ -168,7 +168,7 @@ void GUI::update() {
         s->material.ior = leftPane->getSlider("IOR")->getValue();
         s->material.specularAmount = leftPane->getSlider("Specular")->getValue();
         s->material.specularHardness = leftPane->getSlider("Spec Glossiness")->getValue();
-        s->material.specularHardness = leftPane->getSlider("Sheen")->getValue();
+        s->material.sheen = leftPane->getSlider("Sheen")->getValue();
         s->material.ambient = leftPane->getSlider("Indirect")->getValue();
         s->material.indirectBounces = leftPane->getSlider("Indirect Bounces")->getValue();
         
@@ -180,7 +180,6 @@ void GUI::update() {
     scene.background = leftPane->getColorPicker("Background")->getColor();
     scene.ambient = leftPane->getColorPicker("Ambient")->getColor();
     scene.tracingDepth = leftPane->getSlider("Max Ray Depth")->getValue();
-    scene.indirect_samples = leftPane->getSlider("Indirect Samples")->getValue();
     
     scene.camera.setFov(leftPane->getSlider("FOV")->getValue());
     scene.camera.aperture_size = (leftPane->getSlider("Aperture Size")->getValue());

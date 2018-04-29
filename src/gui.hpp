@@ -6,6 +6,8 @@
 //
 //
 
+#pragma once
+
 #ifndef gui_hpp
 #define gui_hpp
 

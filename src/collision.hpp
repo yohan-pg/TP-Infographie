@@ -6,6 +6,8 @@
 //
 //
 
+#pragma once
+
 #ifndef collision_hpp
 #define collision_hpp
 

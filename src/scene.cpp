@@ -21,12 +21,25 @@ void Scene::add(Light* light) {
     elements.push_back(light);
 }
 
-bool Scene::remove(Shape* shape) {
-    return false; 
+void Scene::remove(Element* elem) {
+    if (dynamic_cast<Shape*>(elem)) {
+        shapes.erase(std::remove(shapes.begin(), shapes.end(), elem), shapes.end());
+    }
+    if (dynamic_cast<Light*>(elem)) {
+        shapes.erase(std::remove(shapes.begin(), shapes.end(), elem), shapes.end());
+    }
+    elements.erase(std::remove(elements.begin(), elements.end(), elem), elements.end());
+    delete elem;
 }
 
-bool Scene::remove(Light* light) {
-    return false;
+void Scene::clear() {
+    selection = NULL;
+    lights.clear();
+    shapes.clear();
+    elements.clear();
+    for (auto element : elements) {
+        delete element;
+    }    
 }
 
 void Scene::draw() const{
@@ -53,6 +66,10 @@ Collision Scene::intersect(const Ray& ray, Shape* ignore) const {
 }
 
 void Scene::select(int x, int y) {
+//    // if select ray light, else trace
+//    for (auto light : lights) {
+//        if (light.intersect()
+//    }
     auto hit = intersect(camera.primaryRay(film, x, y));
     if (hit) {
         selection = hit.shape;

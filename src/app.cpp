@@ -33,7 +33,7 @@ void App::setup() {
         threads.push_back(thread(&App::render, this));
     }
     
-    auto *l = new PointLight();
+    auto *l = new DirectionalLight();
     l->setPosition(Vector(0,1,2));
     scene.add(l);
     
@@ -122,7 +122,7 @@ void App::draw() {
 }
 
 void App::keyPressed(int key) {
-
+    cout << key << endl;
 }
 
 void App::keyReleased(int key) {
@@ -136,6 +136,10 @@ void App::keyReleased(int key) {
             scene.camera.reset();
             scene.film.clear();
             break;
+        case 127: // delete
+            if (scene.selection) {
+                scene.remove(scene.selection);
+            }
         case 356: // left arrow
             if (scene.selection != NULL) {
                 scene.selection->move(Vector(-d, 0, 0));

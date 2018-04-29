@@ -6,6 +6,8 @@
 //
 //
 
+#pragma once
+
 #ifndef transform_hpp
 #define transform_hpp
 

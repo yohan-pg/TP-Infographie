@@ -6,6 +6,8 @@
 //
 //
 
+#pragma once
+
 #ifndef element_hpp
 #define element_hpp
 

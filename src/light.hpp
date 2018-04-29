@@ -6,6 +6,8 @@
 //
 //
 
+#pragma once
+
 #ifndef light_hpp
 #define light_hpp
 

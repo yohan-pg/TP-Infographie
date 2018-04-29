@@ -6,6 +6,8 @@
 //
 //
 
+#pragma once
+
 #ifndef camera_hpp
 #define camera_hpp
 

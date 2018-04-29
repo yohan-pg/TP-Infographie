@@ -6,6 +6,8 @@
 //
 //
 
+#pragma once
+
 #ifndef ray_hpp
 #define ray_hpp
 

@@ -6,6 +6,8 @@
 //
 //
 
+#pragma once
+
 #ifndef scene_hpp
 #define scene_hpp
 
@@ -31,7 +33,6 @@ public:
     Film film;
     
     int tracingDepth = 4;
-    int indirect_samples = 5;
     
     vector<Element*> elements;
     vector<Shape*> shapes;
@@ -39,8 +40,8 @@ public:
     
     void add(Shape* shape);
     void add(Light* light);
-    bool remove(Light* light);
-    bool remove(Shape* shape);
+    void remove(Element* elem);
+    void clear();
     
     void select(int x, int y);
     void select(Element* element);

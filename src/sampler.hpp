@@ -6,6 +6,8 @@
 //
 //
 
+#pragma once
+
 #ifndef sampler_hpp
 #define sampler_hpp
 

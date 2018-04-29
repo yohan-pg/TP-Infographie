@@ -6,6 +6,8 @@
 //
 //
 
+#pragma once
+
 #ifndef material_hpp
 #define material_hpp
 
@@ -15,7 +17,7 @@
 #include "vector.hpp"
 #include "color.hpp"
 #include "ray.hpp"
-#include "vendor.cpp"
+#include "vendor.hpp"
 
 class Collision;
 

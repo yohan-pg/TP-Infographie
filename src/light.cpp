@@ -14,7 +14,7 @@ float i = 0.0;
 
 Light::Light() {
     primitive.setRadius(0.1);
-    setPosition(Vector(i++, 2.5, 1));
+    setPosition(Vector(i++, 1, 2));
 }
 
 bool Light::isSpecular() {
@@ -52,7 +52,7 @@ void Light::draw() {
 }
 
 Color SpotLight::cast(const Vector& target, Vector light_vector, Normal normal) const {
-    float cone = -light_vector.dot(direction);
+    float cone = -pow(max(light_vector.dot(direction), 0.0f), 3);
     return Light::cast(target, light_vector, normal) * cone;
 }
 

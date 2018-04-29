@@ -48,7 +48,7 @@ Color Material::shade(const Ray& ray, const Collision& hit, int depth) const {
                 }
                 float factor = shadertype == ShaderType::BLINN ? 10.0 : 1.0;
                 
-                specularColor += specularAmount * pow(ofClamp(specular_vector.dot(view_vector), -5*sheen, 1), specularHardness * factor);
+                specularColor += lighting * specularAmount * pow(ofClamp(specular_vector.dot(view_vector), -5*sheen, 1), specularHardness * factor);
             }
     }
 

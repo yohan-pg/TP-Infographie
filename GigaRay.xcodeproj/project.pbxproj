@@ -63,6 +63,7 @@
 		0227797CBAD63BC3CDAAAF77 /* element.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = element.hpp; path = src/element.hpp; sourceTree = SOURCE_ROOT; };
 		04CAEE0845EDA94A486B01E9 /* ofxDatGuiThemes.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiThemes.h; path = "../../../addons/ofxDatGui-master/src/themes/ofxDatGuiThemes.h"; sourceTree = SOURCE_ROOT; };
 		0693A07E9520DCFCC2698071 /* element.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = element.cpp; path = src/element.cpp; sourceTree = SOURCE_ROOT; };
+		150B425B2096862600F055E1 /* vendor.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = vendor.hpp; sourceTree = "<group>"; };
 		155FEF2F208F9BC6006E3151 /* collision.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = collision.cpp; sourceTree = "<group>"; };
 		155FEF30208F9BC6006E3151 /* collision.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = collision.hpp; sourceTree = "<group>"; };
 		15B266712094E51F00678CAF /* vendor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vendor.cpp; sourceTree = "<group>"; };
@@ -259,6 +260,7 @@
 				85D9EB27E25EFBCD6E7802A3 /* light.hpp */,
 				6EEA7C13FB22A1B4817D9288 /* material.cpp */,
 				15B266712094E51F00678CAF /* vendor.cpp */,
+				150B425B2096862600F055E1 /* vendor.hpp */,
 				6D053E1FD24F7C9CE67F112E /* material.hpp */,
 				205B328F6E837C7F3E8F6F93 /* ray.cpp */,
 				91AE4692A71D0C588D86A1BB /* ray.hpp */,

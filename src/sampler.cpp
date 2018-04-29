@@ -7,7 +7,6 @@
 //
 
 #include "sampler.hpp"
-#include "vector.hpp"
 
 using namespace Sampler;
 using namespace std;

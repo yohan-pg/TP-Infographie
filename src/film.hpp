@@ -6,6 +6,8 @@
 //
 //
 
+#pragma once
+
 #ifndef film_hpp
 #define film_hpp
 
