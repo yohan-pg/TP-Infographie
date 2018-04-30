@@ -19,14 +19,17 @@ public:
     ofPolyline line_renderer;
     float framebuffer_width;
     float framebuffer_height;
+    
     ofVec3f initial_position1;
     ofVec3f initial_position2;
     ofVec3f initial_position3;
     ofVec3f initial_position4;
+    
     ofVec3f ctrl_point1;
     ofVec3f ctrl_point2;
     ofVec3f ctrl_point3;
     ofVec3f ctrl_point4;
+        
     ofVec3f position;
     ofVec3f* selected_ctrl_point;
     bool ptsSelected = false;

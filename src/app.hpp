@@ -15,6 +15,7 @@
 #include <math.h>
 #include "ofxDatGui.h"
 #include "triangulation.hpp"
+#include "MyEquations.h"
 
 class App : public ofBaseApp {
 public:
@@ -56,9 +57,14 @@ public:
     void dragEvent(ofDragInfo dragInfo);
     void gotMessage(ofMessage msg);
     void mouseEvent(ofMouseEventArgs args);
-    
+  
     Curve curve;
     ofImage lut;
     ofShader brightnessShader;
+    
+    SineWaveParent sineWave;
+    vector<shared_ptr<SineWaveChild>> children;
+    void childDied(int &ID);
+    ofEasyCam sineCam;
 };
 

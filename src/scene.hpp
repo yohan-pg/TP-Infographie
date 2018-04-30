@@ -46,11 +46,11 @@ public:
     void select(int x, int y);
     void select(Element* element);
     
+    bool draw_surface = false;
+    
     void draw() const;
     Color trace(const Ray& ray, int depth=1, Shape* ignore=NULL) const;
     Collision intersect(const Ray& ray, Shape* ignore=NULL) const;
-    
-//    mutex elementLock;
 };
 
 extern Scene scene;

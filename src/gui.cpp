@@ -182,6 +182,7 @@ void GUI::update() {
     scene.camera.setOrtho(leftPane->getToggle("Orthographic")->getChecked());
     
     triangulation.setTriang(leftPane->getToggle("Triangulation")->getChecked());
+    scene.draw_surface = leftPane->getToggle("Surface Parametrique")->getChecked();
     
     leftPane->update();
     rightPane->update();
@@ -246,7 +247,7 @@ void GUI::onButtonEvent(ofxDatGuiButtonEvent e){
 
 void GUI::onToggleEvent(ofxDatGuiToggleEvent e) {
     if (e.target->is("Triangulation")) {
-        leftPane->getColorPicker("Background")->setColor(ofColor(0, 0, 0));
+//      leftPane->getColorPicker("Background")->setColor(ofColor(0, 0, 0));
         scene.film.clear();
     }
 }

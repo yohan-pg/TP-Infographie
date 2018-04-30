@@ -30,14 +30,30 @@ void Curve::setup() {
 void Curve::update() {
     for (index = 0; index <= line_resolution; ++index)
     {
+        
         bezier_cubic(index / (float)line_resolution,
                      ctrl_point1.x, ctrl_point1.y, ctrl_point1.z,
                      ctrl_point2.x, ctrl_point2.y, ctrl_point2.z,
                      ctrl_point3.x, ctrl_point3.y, ctrl_point3.z,
                      ctrl_point4.x, ctrl_point4.y, ctrl_point4.z,
                      position.x, position.y, position.z);
-        // affecter la position du point sur la courbe
         line_renderer[index] = position;
+    }
+}
+
+ofVec3f lerp(ofVec3f a, ofVec3f b, float t) {
+    return a + (b-a) * t;
+}
+
+ofVec3f bezier(vector<ofVec3f> points, float t) {
+    if (points.size() == 2) {
+        return lerp(points[0], points[1], t);
+    } else {
+        vector<ofVec3f> new_points;
+        for (int i = 0; i < points.size() - 1; i++) {
+            new_points.push_back(lerp(points[i], points[i+1], t));
+        }
+        return bezier(new_points, t);
     }
 }
 

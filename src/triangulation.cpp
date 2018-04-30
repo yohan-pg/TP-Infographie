@@ -6,13 +6,14 @@ Triangulation triangulation = Triangulation();
 //--------------------------------------------------------------
 void Triangulation::setup() {
 	ofEnableSmoothing();
-	ofBackground(0);
 }
 
 //--------------------------------------------------------------
 void Triangulation::draw() {
-	ofNoFill();
+	ofPushStyle();
+    ofNoFill();
 	triangulation.draw();
+    ofPopStyle();
 }
 
 //--------------------------------------------------------------

@@ -42,9 +42,17 @@ void App::setup() {
     gui.setup(width * 0.16);
     curve.setup();
     
+    sineWave.setup(SINEMIN,SINEMAX,.1);
+    sineCam.setAutoDistance(false);
+    sineCam.setDistance(12);
+    sineCam.setNearClip(0.01);
+    sineCam.setTarget(ofVec3f::zero());
+    sineCam.lookAt(ofVec3f::zero());
+    
     brightnessShader.load("brightness");
     lut.allocate(256, 1, OF_IMAGE_COLOR);
     scene.film.clear();
+    
 }
 
 void load_demo_1() {
@@ -62,9 +70,22 @@ void App::update() {
     gui.update();
     curve.update();
     lut.update();
+    
     for (int i = 0; i < 256; i++) {
         lut.setColor(i, 0, curve.at(i)*256);
     }
+    
+    static int ID = 0;
+    for (int i = 0; i < children.size(); i++) {
+        children[i]->reload();
+    }
+    sineWave.reload();
+    shared_ptr<SineWaveChild> child(new SineWaveChild);
+    child->setup(SINEMIN, SINEMAX, .1);
+    child->set(ID, sineWave.amplitude,sineWave.orangeStart);
+    ofAddListener(child->endE, this, &App::childDied);
+    children.push_back(child);
+    ID++;
 }
 
 void App::draw() {
@@ -82,7 +103,15 @@ void App::draw() {
         brightnessShader.end();
         if (triangulation.isTriang)
             triangulation.draw();
-    renderview.end();
+        if (scene.draw_surface) {
+            sineCam.begin();
+            sineWave.draw(true);
+            for (int i = 0; i < children.size(); i++) {
+                children[i]->draw(true);
+            }
+            sineCam.end();
+        }
+        renderview.end();
     renderview.draw(gui.width, 0);
 
     gridline_buffer.begin();
@@ -118,9 +147,10 @@ void App::draw() {
         scene.camera.end();
     viewport.end();
     viewport.draw(gui.width, view_height);
-    
     gui.draw();
     curve.draw();
+    
+    
 }
 
 void App::keyPressed(int key) {}
@@ -249,6 +279,16 @@ void App::gotMessage(ofMessage msg) {
 
 void App::dragEvent(ofDragInfo dragInfo) {
     
+}
+
+void App::childDied(int &ID){
+    int indexToRemove;
+    for (int i = 0; i < children.size(); i++) {
+        if (children[i]->ID == ID) {
+            indexToRemove = i;
+        }
+    }
+    children.erase(children.begin() + indexToRemove);
 }
 
 void App::exit() {

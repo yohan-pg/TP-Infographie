@@ -9,10 +9,14 @@
 /* Begin PBXBuildFile section */
 		01CA664A6F6A3CDC080B1621 /* shape.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F226D110F3B222D9532BB6AF /* shape.cpp */; };
 		058256C5DD90D650B5BE8C22 /* color.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 5EE15BE4D6711ABFB9BC751B /* color.cpp */; };
-		150B42632096BBDD00F055E1 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 150B42612096BBDD00F055E1 /* ofApp.cpp */; };
-		150B42662096C5E700F055E1 /* curve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 150B42642096C5E700F055E1 /* curve.cpp */; };
+		150B428220977C3100F055E1 /* ofxAnimatable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 150B427A20977C3100F055E1 /* ofxAnimatable.cpp */; };
+		150B428320977C3100F055E1 /* ofxAnimatableFloat.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 150B427C20977C3100F055E1 /* ofxAnimatableFloat.cpp */; };
+		150B428420977C3100F055E1 /* ofxAnimatableOfColor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 150B427E20977C3100F055E1 /* ofxAnimatableOfColor.cpp */; };
+		150B428520977C3100F055E1 /* ofxAnimatableOfPoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 150B428020977C3100F055E1 /* ofxAnimatableOfPoint.cpp */; };
 		2A39D98509B5DA139F19EDE2 /* vendor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EFFAA77F05E31114C18B0ABC /* vendor.cpp */; };
+		2D51EFF51BA71166D18AB910 /* curve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 202BDB89D4B31346A62E2678 /* curve.cpp */; };
 		3F1123E44796C08BA1BBFF4D /* ofxDatGui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 48505C0D9DE942237364716F /* ofxDatGui.cpp */; };
+		40AFCBC671DE6DC153B03BC7 /* ofx2dFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D9B1E5C55B5BBB7C97173BD3 /* ofx2dFunction.cpp */; };
 		41DB37B04B69C442968EA316 /* app.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 90BFBBD5A23A6B332DBE2FCB /* app.cpp */; };
 		4C7A8B39C5356A3FF6CC9176 /* film.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E28EE6936640D5C228A04A08 /* film.cpp */; };
 		66C4D05EF6E871802AA737D6 /* triangulation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 37EE32C087D5DE9B3D434FAB /* triangulation.cpp */; };
@@ -24,14 +28,20 @@
 		9102D0609CDD0B902F138C68 /* ofxDelaunay.cpp in Sources */ = {isa = PBXBuildFile; fileRef = BBE3E908E4BB3468853C50ED /* ofxDelaunay.cpp */; };
 		927054FFDDEB2F452CB251E6 /* sampler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FBBD6F38D0C8DFA29A5C0FDA /* sampler.cpp */; };
 		96EA47EB2B40B10634782476 /* material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6EEA7C13FB22A1B4817D9288 /* material.cpp */; };
+		9FD5047783AEB6FA24EC937A /* ofxMathSurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = EB9CC2343C3C3081D7600D51 /* ofxMathSurface.cpp */; };
 		A04777E6845578A9FA0A5BEB /* scene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9E81DD60A92E1356AC7EB02D /* scene.cpp */; };
 		A08117B4DE23E73C6940C0A1 /* light.cpp in Sources */ = {isa = PBXBuildFile; fileRef = A55D87D1684A79AEDABF6FDF /* light.cpp */; };
 		A2892EA87E8CDCF1F3266B92 /* ray.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 205B328F6E837C7F3E8F6F93 /* ray.cpp */; };
 		B2110A98F72D60E31CEFE016 /* ofxDatGuiComponent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 829B485FE457B1CB6B64221A /* ofxDatGuiComponent.cpp */; };
 		B99CE47754258F41D4580269 /* gui.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 98896B3E0D9F0505CA7D6E1B /* gui.cpp */; };
 		CE19DD23CC62D740BE2CF0F1 /* camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 50E70DAE403F5F3A1A9D0873 /* camera.cpp */; };
+		D2E0253B0D6417F4A8FD711A /* ofxParametricCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 8D5B131832EAFD9A6979A35C /* ofxParametricCurve.cpp */; };
+		E0F310BB364C2306EEC33C36 /* ofxMathCurve.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F5F345805A0E25518638E4BE /* ofxMathCurve.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1D0A3A1BDC003C02F2 /* main.cpp */; };
+		E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */; };
+		E7640A811425232A7ACD4B31 /* ofxParametricSurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F027D871853B566DD6194329 /* ofxParametricSurface.cpp */; };
+		ECC53147778567B4B106563A /* ofx3dFunction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 743BFDCC557515B14BB577AF /* ofx3dFunction.cpp */; };
 		ED394F317294B7B79071908D /* element.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0693A07E9520DCFCC2698071 /* element.cpp */; };
 /* End PBXBuildFile section */
 
@@ -69,36 +79,50 @@
 		0227797CBAD63BC3CDAAAF77 /* element.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = element.hpp; path = src/element.hpp; sourceTree = SOURCE_ROOT; };
 		04CAEE0845EDA94A486B01E9 /* ofxDatGuiThemes.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiThemes.h; path = "../../../addons/ofxDatGui-master/src/themes/ofxDatGuiThemes.h"; sourceTree = SOURCE_ROOT; };
 		0693A07E9520DCFCC2698071 /* element.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = element.cpp; path = src/element.cpp; sourceTree = SOURCE_ROOT; };
-		150B42612096BBDD00F055E1 /* ofApp.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofApp.cpp; sourceTree = "<group>"; };
-		150B42622096BBDD00F055E1 /* ofApp.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ofApp.hpp; sourceTree = "<group>"; };
-		150B42642096C5E700F055E1 /* curve.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = curve.cpp; sourceTree = "<group>"; };
-		150B42652096C5E700F055E1 /* curve.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = curve.hpp; sourceTree = "<group>"; };
-		150B42672096DC6700F055E1 /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = bin/data; sourceTree = "<group>"; };
+		150B427920977C3100F055E1 /* MyEquations.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyEquations.h; sourceTree = "<group>"; };
+		150B427A20977C3100F055E1 /* ofxAnimatable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxAnimatable.cpp; sourceTree = "<group>"; };
+		150B427B20977C3100F055E1 /* ofxAnimatable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAnimatable.h; sourceTree = "<group>"; };
+		150B427C20977C3100F055E1 /* ofxAnimatableFloat.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxAnimatableFloat.cpp; sourceTree = "<group>"; };
+		150B427D20977C3100F055E1 /* ofxAnimatableFloat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAnimatableFloat.h; sourceTree = "<group>"; };
+		150B427E20977C3100F055E1 /* ofxAnimatableOfColor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxAnimatableOfColor.cpp; sourceTree = "<group>"; };
+		150B427F20977C3100F055E1 /* ofxAnimatableOfColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAnimatableOfColor.h; sourceTree = "<group>"; };
+		150B428020977C3100F055E1 /* ofxAnimatableOfPoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ofxAnimatableOfPoint.cpp; sourceTree = "<group>"; };
+		150B428120977C3100F055E1 /* ofxAnimatableOfPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ofxAnimatableOfPoint.h; sourceTree = "<group>"; };
 		15D376BA94CECB93F8C28C84 /* vector.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = vector.cpp; path = src/vector.cpp; sourceTree = SOURCE_ROOT; };
 		1E2A7B869B0465AEBF28825D /* Delaunay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = Delaunay.cpp; path = ../../../addons/ofxDelaunay/libs/Delaunay/src/Delaunay.cpp; sourceTree = SOURCE_ROOT; };
+		202BDB89D4B31346A62E2678 /* curve.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = curve.cpp; path = src/curve.cpp; sourceTree = SOURCE_ROOT; };
 		205B328F6E837C7F3E8F6F93 /* ray.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ray.cpp; path = src/ray.cpp; sourceTree = SOURCE_ROOT; };
+		22757D2A6F2B9F4382E348AA /* ofxMathMesh.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxMathMesh.h; path = ../../../addons/ofxMathMesh/src/ofxMathMesh.h; sourceTree = SOURCE_ROOT; };
 		28CD9659C1D4E430F1B9C2E4 /* Delaunay.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = Delaunay.h; path = ../../../addons/ofxDelaunay/libs/Delaunay/src/Delaunay.h; sourceTree = SOURCE_ROOT; };
 		34345B4F2BB9249346B6015E /* vector.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = vector.hpp; path = src/vector.hpp; sourceTree = SOURCE_ROOT; };
 		37A8A1BFD61E77D6DF4DE271 /* ofxDatGuiIntObject.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiIntObject.h; path = "../../../addons/ofxDatGui-master/src/core/ofxDatGuiIntObject.h"; sourceTree = SOURCE_ROOT; };
 		37EE32C087D5DE9B3D434FAB /* triangulation.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = triangulation.cpp; path = src/triangulation.cpp; sourceTree = SOURCE_ROOT; };
 		3EAF3D722F588A1B057C465E /* app.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = app.hpp; path = src/app.hpp; sourceTree = SOURCE_ROOT; };
+		44BD67E8FD737D1BFD99585A /* ofxMathCurve.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxMathCurve.h; path = ../../../addons/ofxMathMesh/src/ofxMathCurve.h; sourceTree = SOURCE_ROOT; };
 		44DAC181B31241ADD12AC920 /* ofxDatGuiTheme.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiTheme.h; path = "../../../addons/ofxDatGui-master/src/themes/ofxDatGuiTheme.h"; sourceTree = SOURCE_ROOT; };
 		462C26576F4EAB56737A253E /* scene.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = scene.hpp; path = src/scene.hpp; sourceTree = SOURCE_ROOT; };
 		48505C0D9DE942237364716F /* ofxDatGui.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxDatGui.cpp; path = "../../../addons/ofxDatGui-master/src/ofxDatGui.cpp"; sourceTree = SOURCE_ROOT; };
+		50AE3787D76CF46FB73DA20B /* curve.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = curve.hpp; path = src/curve.hpp; sourceTree = SOURCE_ROOT; };
 		50E70DAE403F5F3A1A9D0873 /* camera.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = camera.cpp; path = src/camera.cpp; sourceTree = SOURCE_ROOT; };
 		5EE15BE4D6711ABFB9BC751B /* color.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = color.cpp; path = src/color.cpp; sourceTree = SOURCE_ROOT; };
+		5F55092C412D6BB0A27AD08C /* ofxParametricCurve.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxParametricCurve.h; path = ../../../addons/ofxMathMesh/src/ofxParametricCurve.h; sourceTree = SOURCE_ROOT; };
 		62E0E78EC7EE98511CD37BB5 /* ofxDatGuiMatrix.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiMatrix.h; path = "../../../addons/ofxDatGui-master/src/components/ofxDatGuiMatrix.h"; sourceTree = SOURCE_ROOT; };
 		641CAD46DD37F979C993B9C0 /* transform.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = transform.cpp; path = src/transform.cpp; sourceTree = SOURCE_ROOT; };
+		66FAD18B3ECED5ECACC16CFD /* ofxParametricSurface.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxParametricSurface.h; path = ../../../addons/ofxMathMesh/src/ofxParametricSurface.h; sourceTree = SOURCE_ROOT; };
 		6A519E5814FAD05190887590 /* triangulation.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = triangulation.hpp; path = src/triangulation.hpp; sourceTree = SOURCE_ROOT; };
 		6D053E1FD24F7C9CE67F112E /* material.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = material.hpp; path = src/material.hpp; sourceTree = SOURCE_ROOT; };
 		6DE901F2F74F633F20134421 /* film.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = film.hpp; path = src/film.hpp; sourceTree = SOURCE_ROOT; };
 		6EEA7C13FB22A1B4817D9288 /* material.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = material.cpp; path = src/material.cpp; sourceTree = SOURCE_ROOT; };
 		7065F4A2E8A9AD5240C06EAB /* ofxDatGuiComponent.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiComponent.h; path = "../../../addons/ofxDatGui-master/src/core/ofxDatGuiComponent.h"; sourceTree = SOURCE_ROOT; };
+		743BFDCC557515B14BB577AF /* ofx3dFunction.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofx3dFunction.cpp; path = ../../../addons/ofxMathMesh/src/ofx3dFunction.cpp; sourceTree = SOURCE_ROOT; };
 		74AF6F44EEA8D09A10B6766D /* sampler.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = sampler.hpp; path = src/sampler.hpp; sourceTree = SOURCE_ROOT; };
+		7530074015C970767081522F /* ofApp.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofApp.hpp; path = src/ofApp.hpp; sourceTree = SOURCE_ROOT; };
 		7D1EFD9C6329F61AAA8ABD8E /* ofxDatGuiGroups.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiGroups.h; path = "../../../addons/ofxDatGui-master/src/components/ofxDatGuiGroups.h"; sourceTree = SOURCE_ROOT; };
+		7EBAC57C36112EC8BA82ECF0 /* ofxMathSurface.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxMathSurface.h; path = ../../../addons/ofxMathMesh/src/ofxMathSurface.h; sourceTree = SOURCE_ROOT; };
 		829B485FE457B1CB6B64221A /* ofxDatGuiComponent.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxDatGuiComponent.cpp; path = "../../../addons/ofxDatGui-master/src/core/ofxDatGuiComponent.cpp"; sourceTree = SOURCE_ROOT; };
 		85D9EB27E25EFBCD6E7802A3 /* light.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = light.hpp; path = src/light.hpp; sourceTree = SOURCE_ROOT; };
 		8AA89AFF4E71C7EC510642B7 /* ofxDelaunay.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDelaunay.h; path = ../../../addons/ofxDelaunay/src/ofxDelaunay.h; sourceTree = SOURCE_ROOT; };
+		8D5B131832EAFD9A6979A35C /* ofxParametricCurve.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxParametricCurve.cpp; path = ../../../addons/ofxMathMesh/src/ofxParametricCurve.cpp; sourceTree = SOURCE_ROOT; };
 		8FDDF5736432D418CF8702C8 /* ofxDatGuiSlider.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiSlider.h; path = "../../../addons/ofxDatGui-master/src/components/ofxDatGuiSlider.h"; sourceTree = SOURCE_ROOT; };
 		901FE22D016EAB9DC478D10E /* ofxDatGuiLabel.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiLabel.h; path = "../../../addons/ofxDatGui-master/src/components/ofxDatGuiLabel.h"; sourceTree = SOURCE_ROOT; };
 		90BFBBD5A23A6B332DBE2FCB /* app.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = app.cpp; path = src/app.cpp; sourceTree = SOURCE_ROOT; };
@@ -107,16 +131,19 @@
 		9C182CB323188ED4B99A61A5 /* ofxDatGuiTextInput.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiTextInput.h; path = "../../../addons/ofxDatGui-master/src/components/ofxDatGuiTextInput.h"; sourceTree = SOURCE_ROOT; };
 		9E81DD60A92E1356AC7EB02D /* scene.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = scene.cpp; path = src/scene.cpp; sourceTree = SOURCE_ROOT; };
 		A1D334B93990950345E88F3C /* camera.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = camera.hpp; path = src/camera.hpp; sourceTree = SOURCE_ROOT; };
+		A219BDFC5D91658E0DFABDFF /* ofx3dFunction.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofx3dFunction.h; path = ../../../addons/ofxMathMesh/src/ofx3dFunction.h; sourceTree = SOURCE_ROOT; };
 		A55D87D1684A79AEDABF6FDF /* light.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = light.cpp; path = src/light.cpp; sourceTree = SOURCE_ROOT; };
 		A70E23041AB96CA6551D07FA /* ofxSmartFont.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxSmartFont.cpp; path = "../../../addons/ofxDatGui-master/src/libs/ofxSmartFont/ofxSmartFont.cpp"; sourceTree = SOURCE_ROOT; };
 		BA0BA7E7D98E6FD6F85BA771 /* ofxDatGui.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGui.h; path = "../../../addons/ofxDatGui-master/src/ofxDatGui.h"; sourceTree = SOURCE_ROOT; };
 		BBE3E908E4BB3468853C50ED /* ofxDelaunay.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxDelaunay.cpp; path = ../../../addons/ofxDelaunay/src/ofxDelaunay.cpp; sourceTree = SOURCE_ROOT; };
 		C2243BFE3784713529CC38F9 /* ofxDatGuiScrollView.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiScrollView.h; path = "../../../addons/ofxDatGui-master/src/components/ofxDatGuiScrollView.h"; sourceTree = SOURCE_ROOT; };
+		C31A9AF3EFB084A4C19CC23B /* ofx2dFunction.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofx2dFunction.h; path = ../../../addons/ofxMathMesh/src/ofx2dFunction.h; sourceTree = SOURCE_ROOT; };
 		D53F73CD4A4614D42A2828B4 /* ofxDatGuiButton.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiButton.h; path = "../../../addons/ofxDatGui-master/src/components/ofxDatGuiButton.h"; sourceTree = SOURCE_ROOT; };
 		D5AAB62AADA9AED1E7966F0D /* ofxDatGuiColorPicker.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiColorPicker.h; path = "../../../addons/ofxDatGui-master/src/components/ofxDatGuiColorPicker.h"; sourceTree = SOURCE_ROOT; };
 		D68283DA71BC22CEEF3BF6FD /* collision.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = collision.cpp; path = src/collision.cpp; sourceTree = SOURCE_ROOT; };
 		D7B8C22F859FD63A0C5DA582 /* ofxDatGuiEvents.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiEvents.h; path = "../../../addons/ofxDatGui-master/src/core/ofxDatGuiEvents.h"; sourceTree = SOURCE_ROOT; };
 		D925693B2EA83DE7C02F097F /* collision.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = collision.hpp; path = src/collision.hpp; sourceTree = SOURCE_ROOT; };
+		D9B1E5C55B5BBB7C97173BD3 /* ofx2dFunction.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofx2dFunction.cpp; path = ../../../addons/ofxMathMesh/src/ofx2dFunction.cpp; sourceTree = SOURCE_ROOT; };
 		D9B60082E9008F2D943B623A /* color.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = color.hpp; path = src/color.hpp; sourceTree = SOURCE_ROOT; };
 		D9D7287E167F731B63E8CC9C /* ofxDatGuiControls.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiControls.h; path = "../../../addons/ofxDatGui-master/src/components/ofxDatGuiControls.h"; sourceTree = SOURCE_ROOT; };
 		DADD4B7C50A75C813DBD5917 /* shape.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = shape.hpp; path = src/shape.hpp; sourceTree = SOURCE_ROOT; };
@@ -125,15 +152,20 @@
 		E4328143138ABC890047C5CB /* openFrameworksLib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = openFrameworksLib.xcodeproj; path = ../../../libs/openFrameworksCompiled/project/osx/openFrameworksLib.xcodeproj; sourceTree = SOURCE_ROOT; };
 		E4B69B5B0A3A1756003C02F2 /* GigaRayDebug.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GigaRayDebug.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E4B69E1D0A3A1BDC003C02F2 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = SOURCE_ROOT; };
+		E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofApp.cpp; path = src/ofApp.cpp; sourceTree = SOURCE_ROOT; };
+		E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = ofApp.h; path = src/ofApp.h; sourceTree = SOURCE_ROOT; };
 		E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; path = "openFrameworks-Info.plist"; sourceTree = "<group>"; };
 		E4EB691F138AFCF100A09F29 /* CoreOF.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = CoreOF.xcconfig; path = ../../../libs/openFrameworksCompiled/project/osx/CoreOF.xcconfig; sourceTree = SOURCE_ROOT; };
 		E4EB6923138AFD0F00A09F29 /* Project.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Project.xcconfig; sourceTree = "<group>"; };
 		E5748F9F27EDF4B8E35CF988 /* gui.hpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = gui.hpp; path = src/gui.hpp; sourceTree = SOURCE_ROOT; };
 		E9F527AB3B1686F178EBB63F /* ofxDatGui2dPad.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGui2dPad.h; path = "../../../addons/ofxDatGui-master/src/components/ofxDatGui2dPad.h"; sourceTree = SOURCE_ROOT; };
 		EAF6A41F82A7C343E6FF7F4D /* ofxDatGuiFRM.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiFRM.h; path = "../../../addons/ofxDatGui-master/src/components/ofxDatGuiFRM.h"; sourceTree = SOURCE_ROOT; };
+		EB9CC2343C3C3081D7600D51 /* ofxMathSurface.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxMathSurface.cpp; path = ../../../addons/ofxMathMesh/src/ofxMathSurface.cpp; sourceTree = SOURCE_ROOT; };
 		EC2913AFEA050FDC834BA08E /* ofxSmartFont.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxSmartFont.h; path = "../../../addons/ofxDatGui-master/src/libs/ofxSmartFont/ofxSmartFont.h"; sourceTree = SOURCE_ROOT; };
 		EFFAA77F05E31114C18B0ABC /* vendor.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = vendor.cpp; path = src/vendor.cpp; sourceTree = SOURCE_ROOT; };
+		F027D871853B566DD6194329 /* ofxParametricSurface.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxParametricSurface.cpp; path = ../../../addons/ofxMathMesh/src/ofxParametricSurface.cpp; sourceTree = SOURCE_ROOT; };
 		F226D110F3B222D9532BB6AF /* shape.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = shape.cpp; path = src/shape.cpp; sourceTree = SOURCE_ROOT; };
+		F5F345805A0E25518638E4BE /* ofxMathCurve.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = ofxMathCurve.cpp; path = ../../../addons/ofxMathMesh/src/ofxMathCurve.cpp; sourceTree = SOURCE_ROOT; };
 		F6837B26903B57272DD91A94 /* ofxDatGuiTextInputField.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiTextInputField.h; path = "../../../addons/ofxDatGui-master/src/components/ofxDatGuiTextInputField.h"; sourceTree = SOURCE_ROOT; };
 		F86586D91D9D56E2605FEE38 /* ofxDatGuiConstants.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 30; name = ofxDatGuiConstants.h; path = "../../../addons/ofxDatGui-master/src/core/ofxDatGuiConstants.h"; sourceTree = SOURCE_ROOT; };
 		FBBD6F38D0C8DFA29A5C0FDA /* sampler.cpp */ = {isa = PBXFileReference; explicitFileType = sourcecode.cpp.cpp; fileEncoding = 30; name = sampler.cpp; path = src/sampler.cpp; sourceTree = SOURCE_ROOT; };
@@ -152,6 +184,30 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0AE748B07E3EEF41F6146B75 /* ofxMathMesh */ = {
+			isa = PBXGroup;
+			children = (
+				E0B535C8FC8FFFFFC525C7AF /* src */,
+			);
+			name = ofxMathMesh;
+			sourceTree = "<group>";
+		};
+		150B428620977E3400F055E1 /* ofxAnimatable */ = {
+			isa = PBXGroup;
+			children = (
+				150B427920977C3100F055E1 /* MyEquations.h */,
+				150B427A20977C3100F055E1 /* ofxAnimatable.cpp */,
+				150B427B20977C3100F055E1 /* ofxAnimatable.h */,
+				150B427C20977C3100F055E1 /* ofxAnimatableFloat.cpp */,
+				150B427D20977C3100F055E1 /* ofxAnimatableFloat.h */,
+				150B427E20977C3100F055E1 /* ofxAnimatableOfColor.cpp */,
+				150B427F20977C3100F055E1 /* ofxAnimatableOfColor.h */,
+				150B428020977C3100F055E1 /* ofxAnimatableOfPoint.cpp */,
+				150B428120977C3100F055E1 /* ofxAnimatableOfPoint.h */,
+			);
+			name = ofxAnimatable;
+			sourceTree = "<group>";
+		};
 		1ECD276831D3922F03E43F55 /* components */ = {
 			isa = PBXGroup;
 			children = (
@@ -252,6 +308,7 @@
 			children = (
 				4E3221DF4AC85615AFD7CAF5 /* ofxDatGui-master */,
 				5A296432AD6765AD9158F813 /* ofxDelaunay */,
+				0AE748B07E3EEF41F6146B75 /* ofxMathMesh */,
 			);
 			name = addons;
 			sourceTree = "<group>";
@@ -268,6 +325,26 @@
 			name = core;
 			sourceTree = "<group>";
 		};
+		E0B535C8FC8FFFFFC525C7AF /* src */ = {
+			isa = PBXGroup;
+			children = (
+				D9B1E5C55B5BBB7C97173BD3 /* ofx2dFunction.cpp */,
+				C31A9AF3EFB084A4C19CC23B /* ofx2dFunction.h */,
+				743BFDCC557515B14BB577AF /* ofx3dFunction.cpp */,
+				A219BDFC5D91658E0DFABDFF /* ofx3dFunction.h */,
+				F5F345805A0E25518638E4BE /* ofxMathCurve.cpp */,
+				44BD67E8FD737D1BFD99585A /* ofxMathCurve.h */,
+				22757D2A6F2B9F4382E348AA /* ofxMathMesh.h */,
+				EB9CC2343C3C3081D7600D51 /* ofxMathSurface.cpp */,
+				7EBAC57C36112EC8BA82ECF0 /* ofxMathSurface.h */,
+				8D5B131832EAFD9A6979A35C /* ofxParametricCurve.cpp */,
+				5F55092C412D6BB0A27AD08C /* ofxParametricCurve.h */,
+				F027D871853B566DD6194329 /* ofxParametricSurface.cpp */,
+				66FAD18B3ECED5ECACC16CFD /* ofxParametricSurface.h */,
+			);
+			name = src;
+			sourceTree = "<group>";
+		};
 		E4328144138ABC890047C5CB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -281,7 +358,6 @@
 			children = (
 				E4B6FCAD0C3E899E008CF71C /* openFrameworks-Info.plist */,
 				E4EB6923138AFD0F00A09F29 /* Project.xcconfig */,
-				150B42672096DC6700F055E1 /* data */,
 				E4B69E1C0A3A1BDC003C02F2 /* src */,
 				E4EEC9E9138DF44700A80321 /* openFrameworks */,
 				BB4B014C10F69532006C3DED /* addons */,
@@ -293,10 +369,11 @@
 		E4B69E1C0A3A1BDC003C02F2 /* src */ = {
 			isa = PBXGroup;
 			children = (
+				150B428620977E3400F055E1 /* ofxAnimatable */,
 				E4B69E1D0A3A1BDC003C02F2 /* main.cpp */,
+				E4B69E1E0A3A1BDC003C02F2 /* ofApp.cpp */,
+				E4B69E1F0A3A1BDC003C02F2 /* ofApp.h */,
 				90BFBBD5A23A6B332DBE2FCB /* app.cpp */,
-				150B42642096C5E700F055E1 /* curve.cpp */,
-				150B42652096C5E700F055E1 /* curve.hpp */,
 				3EAF3D722F588A1B057C465E /* app.hpp */,
 				50E70DAE403F5F3A1A9D0873 /* camera.cpp */,
 				A1D334B93990950345E88F3C /* camera.hpp */,
@@ -304,6 +381,8 @@
 				D925693B2EA83DE7C02F097F /* collision.hpp */,
 				5EE15BE4D6711ABFB9BC751B /* color.cpp */,
 				D9B60082E9008F2D943B623A /* color.hpp */,
+				202BDB89D4B31346A62E2678 /* curve.cpp */,
+				50AE3787D76CF46FB73DA20B /* curve.hpp */,
 				0693A07E9520DCFCC2698071 /* element.cpp */,
 				0227797CBAD63BC3CDAAAF77 /* element.hpp */,
 				E28EE6936640D5C228A04A08 /* film.cpp */,
@@ -312,10 +391,9 @@
 				E5748F9F27EDF4B8E35CF988 /* gui.hpp */,
 				A55D87D1684A79AEDABF6FDF /* light.cpp */,
 				85D9EB27E25EFBCD6E7802A3 /* light.hpp */,
-				150B42612096BBDD00F055E1 /* ofApp.cpp */,
-				150B42622096BBDD00F055E1 /* ofApp.hpp */,
 				6EEA7C13FB22A1B4817D9288 /* material.cpp */,
 				6D053E1FD24F7C9CE67F112E /* material.hpp */,
+				7530074015C970767081522F /* ofApp.hpp */,
 				205B328F6E837C7F3E8F6F93 /* ray.cpp */,
 				91AE4692A71D0C588D86A1BB /* ray.hpp */,
 				FBBD6F38D0C8DFA29A5C0FDA /* sampler.cpp */,
@@ -455,23 +533,26 @@
 			buildActionMask = 2147483647;
 			files = (
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
+				E4B69E210A3A1BDC003C02F2 /* ofApp.cpp in Sources */,
 				41DB37B04B69C442968EA316 /* app.cpp in Sources */,
 				CE19DD23CC62D740BE2CF0F1 /* camera.cpp in Sources */,
 				72328B3734DE4DC0DC40C259 /* collision.cpp in Sources */,
 				058256C5DD90D650B5BE8C22 /* color.cpp in Sources */,
+				2D51EFF51BA71166D18AB910 /* curve.cpp in Sources */,
 				ED394F317294B7B79071908D /* element.cpp in Sources */,
-				150B42662096C5E700F055E1 /* curve.cpp in Sources */,
+				150B428420977C3100F055E1 /* ofxAnimatableOfColor.cpp in Sources */,
 				4C7A8B39C5356A3FF6CC9176 /* film.cpp in Sources */,
 				B99CE47754258F41D4580269 /* gui.cpp in Sources */,
 				A08117B4DE23E73C6940C0A1 /* light.cpp in Sources */,
+				150B428520977C3100F055E1 /* ofxAnimatableOfPoint.cpp in Sources */,
 				96EA47EB2B40B10634782476 /* material.cpp in Sources */,
 				A2892EA87E8CDCF1F3266B92 /* ray.cpp in Sources */,
+				150B428320977C3100F055E1 /* ofxAnimatableFloat.cpp in Sources */,
 				927054FFDDEB2F452CB251E6 /* sampler.cpp in Sources */,
 				A04777E6845578A9FA0A5BEB /* scene.cpp in Sources */,
 				01CA664A6F6A3CDC080B1621 /* shape.cpp in Sources */,
 				7AC5B5819736928B42EBDA6C /* transform.cpp in Sources */,
 				66C4D05EF6E871802AA737D6 /* triangulation.cpp in Sources */,
-				150B42632096BBDD00F055E1 /* ofApp.cpp in Sources */,
 				8B9198A1478DF479BE3317DE /* vector.cpp in Sources */,
 				2A39D98509B5DA139F19EDE2 /* vendor.cpp in Sources */,
 				B2110A98F72D60E31CEFE016 /* ofxDatGuiComponent.cpp in Sources */,
@@ -479,6 +560,13 @@
 				3F1123E44796C08BA1BBFF4D /* ofxDatGui.cpp in Sources */,
 				9102D0609CDD0B902F138C68 /* ofxDelaunay.cpp in Sources */,
 				87A34EBC0F47C29339CF1D28 /* Delaunay.cpp in Sources */,
+				40AFCBC671DE6DC153B03BC7 /* ofx2dFunction.cpp in Sources */,
+				ECC53147778567B4B106563A /* ofx3dFunction.cpp in Sources */,
+				E0F310BB364C2306EEC33C36 /* ofxMathCurve.cpp in Sources */,
+				9FD5047783AEB6FA24EC937A /* ofxMathSurface.cpp in Sources */,
+				150B428220977C3100F055E1 /* ofxAnimatable.cpp in Sources */,
+				D2E0253B0D6417F4A8FD711A /* ofxParametricCurve.cpp in Sources */,
+				E7640A811425232A7ACD4B31 /* ofxParametricSurface.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -525,6 +613,7 @@
 					../../../addons/ofxDelaunay/libs/Delaunay,
 					../../../addons/ofxDelaunay/libs/Delaunay/src,
 					../../../addons/ofxDelaunay/src,
+					../../../addons/ofxMathMesh/src,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
@@ -569,6 +658,7 @@
 					../../../addons/ofxDelaunay/libs/Delaunay,
 					../../../addons/ofxDelaunay/libs/Delaunay/src,
 					../../../addons/ofxDelaunay/src,
+					../../../addons/ofxMathMesh/src,
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				OTHER_CPLUSPLUSFLAGS = (
@@ -606,6 +696,7 @@
 					../../../addons/ofxDelaunay/libs/Delaunay,
 					../../../addons/ofxDelaunay/libs/Delaunay/src,
 					../../../addons/ofxDelaunay/src,
+					../../../addons/ofxMathMesh/src,
 				);
 				ICON = "$(ICON_NAME_DEBUG)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
@@ -643,6 +734,7 @@
 					../../../addons/ofxDelaunay/libs/Delaunay,
 					../../../addons/ofxDelaunay/libs/Delaunay/src,
 					../../../addons/ofxDelaunay/src,
+					../../../addons/ofxMathMesh/src,
 				);
 				ICON = "$(ICON_NAME_RELEASE)";
 				ICON_FILE = "$(ICON_FILE_PATH)$(ICON)";
