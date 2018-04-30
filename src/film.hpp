@@ -14,9 +14,6 @@
 #include <stdio.h>
 #include "ofMain.h"
 #include "color.hpp"
-#include <mutex>
-#include <atomic>
-
 
 class Film  {
     ofImage buffer;

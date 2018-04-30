@@ -20,7 +20,7 @@
 #include "film.hpp"
 #include "element.hpp"
 #include <iostream>
-
+#include <mutex>
 
 class Scene {
 public:
@@ -49,6 +49,8 @@ public:
     void draw() const;
     Color trace(const Ray& ray, int depth=1, Shape* ignore=NULL) const;
     Collision intersect(const Ray& ray, Shape* ignore=NULL) const;
+    
+    mutex elementLock;
 };
 
 extern Scene scene;

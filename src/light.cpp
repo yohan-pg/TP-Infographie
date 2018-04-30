@@ -51,6 +51,10 @@ void Light::draw() {
     ofSetColor(255,255,255);
 }
 
+bool Light::intersect(const Ray & ray) {
+    return false;
+}
+
 Color SpotLight::cast(const Vector& target, Vector light_vector, Normal normal) const {
     float cone = -pow(max(light_vector.dot(direction), 0.0f), 3);
     return Light::cast(target, light_vector, normal) * cone;

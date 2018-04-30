@@ -41,6 +41,11 @@ void App::setup() {
     p->material.albedo = Color(1, 0, 0);
     scene.add(p);
     
+    auto *p2 = new Plane();
+    p2->material.albedo = Color(0, 1, 0);
+    scene.add(p2);
+    
+    
 //    ofBoxPrimitive box;
 //    box.set(1);
 //    ofMesh mesh = box.getMesh();
@@ -80,6 +85,8 @@ void App::draw() {
         ofSetColor(scene.background);
         ofDrawRectangle(0, 0, scene.film.width, scene.film.height);
         ofSetColor(255);
+        if (triangulation.isTriang)
+            triangulation.draw();
         scene.film.draw(0, 0);
     renderview.end();
     renderview.draw(gui.width, 0);
@@ -121,9 +128,7 @@ void App::draw() {
     gui.draw();
 }
 
-void App::keyPressed(int key) {
-    cout << key << endl;
-}
+void App::keyPressed(int key) {}
 
 void App::keyReleased(int key) {
     float d = ofGetKeyPressed(OF_KEY_ALT) ? 0.1 : 1;
@@ -135,6 +140,8 @@ void App::keyReleased(int key) {
         case 'r':
             scene.camera.reset();
             scene.film.clear();
+            if (triangulation.isTriang)
+                triangulation.reset();
             break;
         case 127: // delete
             if (scene.selection) {
@@ -214,6 +221,9 @@ void App::mouseReleased(int x, int y, int button) {
         scene.select(x-gui.width, y-scene.film.height);
     }
     dragging = false;
+    if (triangulation.isTriang)
+        triangulation.mouseReleased(x, y, button);
+    ptsSelected = false;
 }
 
 void App::mouseEntered(int x, int y) {

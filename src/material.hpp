@@ -39,11 +39,25 @@ public:
     float refraction = 0;
     float transmission = 1.0;
     float ambient = 0.5;
-    int indirectBounces = 5;
+    int indirectBounces = 3;
     
     Color shade(const Ray& ray, const Collision& hit, int depth) const;
 
     float brdf(Normal normal, Vector ingoing, Vector outgoing) const;
+};
+
+class Lambert : public Material {
+    ShaderType shadertype = ShaderType::LAMBERT;
+};
+
+class Phong : public Material {
+    ShaderType shadertype = ShaderType::PHONG;
+    float roughness = 0.4;
+};
+
+class Blinn : public Material {
+    ShaderType shadertype = ShaderType::BLINN;
+    float roughness = 0.4;
 };
 
 class Plastic : public Material {

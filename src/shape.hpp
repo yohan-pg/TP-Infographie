@@ -80,23 +80,20 @@ public:
     Triangle(Vector a, Vector b, Vector c);
     Triangle(Vector a, Vector b, Vector c, Vector normal);
     string getName() const;
+    float maxDist();
     virtual Collision intersect(const Ray& ray);
 };
 
 class Mesh : public Shape {
+    float bound = 0;
+    bool useBound;
 public:
     vector<Triangle*> triangles;
+    Mesh(vector<Triangle*> triangles);
     string getName() const;
+    void computeBound();
     void add(Triangle* triangle);
     virtual Collision intersect(const Ray& ray);
-};
-
-class MeshConverter : public Shape {
-public:
-    ofMesh mesh;
-    MeshConverter(ofMesh mesh);
-    string getName() const;
-    Collision intersect(const Ray& ray);
 };
 
 

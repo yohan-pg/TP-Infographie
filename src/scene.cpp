@@ -66,17 +66,19 @@ Collision Scene::intersect(const Ray& ray, Shape* ignore) const {
 }
 
 void Scene::select(int x, int y) {
-//    // if select ray light, else trace
-//    for (auto light : lights) {
-//        if (light.intersect()
-//    }
-    auto hit = intersect(camera.primaryRay(film, x, y));
+    Ray ray = camera.primaryRay(film, x, y);
+    for (auto light : lights) {
+        if (light->intersect(ray)) {
+            select(light);
+            return;
+        }
+    }
+    auto hit = intersect(ray);
     if (hit) {
-        selection = hit.shape;
+        select(hit.shape);
     } else {
         selection = NULL;
     }
-    gui.updateSelection();
 }
 
 void Scene::select(Element* element) {

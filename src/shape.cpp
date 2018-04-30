@@ -28,12 +28,18 @@ Sphere::Sphere(float r) {
     primitive.setRadius(r);
 }
 
-Collision Sphere::intersect(const Ray& ray) {
+float intersect_sphere(const Ray& ray, float radius) {
     float base = ray.direction.dot(ray.position);
     float discr = base * base - ray.position.dot(ray.position) + radius*radius;
-    if (discr <= 0) return Missed;
+    if (discr <= 0) return -1;
     float root = sqrt(discr);
-    float dist =  min(-base-root, -base+root);
+    float dist = min(-base-root, -base+root);
+    return dist;
+}
+
+Collision Sphere::intersect(const Ray& ray) {
+    float dist = intersect_sphere(ray, radius);
+    if (dist < 0) return Missed;
     Vector hitpos = ray.at(dist) * getGlobalTransformMatrix();
     return Collision(ray, *this, hitpos, Normal(hitpos-getPosition()));
 }
@@ -141,11 +147,32 @@ Collision Triangle::intersect(const Ray& ray) {
     return Missed;
 }
 
+float Triangle::maxDist() {
+    return max(a.length(), max(b.length(), c.length()));
+}
+
+Mesh::Mesh(vector<Triangle*> tris) : triangles(tris) {
+    computeBound();
+}
+
+void Mesh::computeBound() {
+    useBound = true;
+    float best = 0;
+    for (auto tri : triangles) {
+        float dist = tri->maxDist();
+        if (dist > best) {
+            best = best + 0.1;
+        }
+    }
+    bound = best;
+}
+
 void Mesh::add(Triangle* triangle) {
     triangles.push_back(triangle);
 }
 
 Collision Mesh::intersect(const Ray& ray) {
+    if (intersect_sphere(ray, bound) < 0) return Missed;
     float best = std::numeric_limits<float>::max();
     Collision result;
     for (auto tri : triangles) {
@@ -157,27 +184,6 @@ Collision Mesh::intersect(const Ray& ray) {
         }
     }
     return result;
-}
-
-MeshConverter::MeshConverter(ofMesh mesh) : mesh(mesh) {}
-
-Collision MeshConverter::intersect(const Ray& ray) {
-    float best = std::numeric_limits<float>::max();
-    Collision choice;
-//    for (auto face : mesh.getFace(0)) {
-//        auto face = mesh.getFace(1);
-//        Vector a = face.getVertex(0);
-//        Vector b = face.getVertex(1);
-//        Vector c = face.getVertex(2);
-//        Vector left = b - a;
-//        Vector right = c - a;
-//        Normal normal = face.getFaceNormal();
-//        float dist = intersect_triangle(ray, a, left, right, normal);
-//        if (dist >= 0) {
-//            return Collision(ray, *this, ray.at(dist) * getGlobalTransformMatrix(), normal);
-//        }
-//    }
-    return choice;
 }
 
 string Shape::getName() const {

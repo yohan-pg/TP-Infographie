@@ -39,8 +39,6 @@ void Film::set(int i, int j, Color color) {
     newColor.a = 1;
     values[i][j] = newColor;
     buffer.setColor(i, j, newColor);
-    
-    
 }
 
 void Film::draw(int x, int y) {

@@ -17,6 +17,7 @@
 #include "color.hpp"
 #include "vector.hpp"
 #include "collision.hpp"
+#include "ray.hpp"
 
 class Light : public Element {
 protected:
@@ -30,6 +31,8 @@ public:
     int shadowSamples = 1;
     double intensity = 1.0;
     float attentuation = 0.1;
+    
+    bool intersect(const Ray & ray);
     
     string getName() const;
     virtual Color cast(const Vector& pos, Vector light_vector, Normal normal) const;

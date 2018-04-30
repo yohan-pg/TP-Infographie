@@ -52,12 +52,10 @@ void GUI::setup(float w) {
         materiaux->addBreak();
         materiaux->addSlider("Reflection", 0.0, 1.0, 0.0)->setPrecision(3);
         materiaux->addSlider("Refraction", 0.0, 1.0, 0.0)->setPrecision(3);
-        materiaux->addSlider("Transmission", 0.0, 1.0, 0.0)->setPrecision(2);
         materiaux->addSlider("IOR", 0.0, 10.0, 0.0)->setPrecision(1);
         materiaux->addBreak();
         materiaux->addSlider("Specular", 0.0, 1.0, 1.0)->setPrecision(3);
         materiaux->addSlider("Spec Glossiness", 0.0, 30.0, 0.0)->setPrecision(2);
-        materiaux->addSlider("Sheen", 0.0, 1.0, 0.0)->setPrecision(3);
         materiaux->addBreak();
         materiaux->addSlider("Indirect", 0.0, 1.0, 0.0)->setPrecision(3);
         materiaux->addSlider("Indirect Bounces", 1, 12, 0)->setPrecision(0);
@@ -127,10 +125,8 @@ void GUI::updateSelection() {
         leftPane->getColorPicker("Albedo")->setColor(s->material.albedo);
         leftPane->getSlider("Reflection")->setValue(s->material.reflection);
         leftPane->getSlider("Refraction")->setValue(s->material.refraction);
-        leftPane->getSlider("Transmission")->setValue(s->material.transmission);
         leftPane->getSlider("IOR")->setValue(s->material.ior);
         leftPane->getSlider("Specular")->setValue(s->material.specularAmount);
-        leftPane->getSlider("Sheen")->setValue(s->material.sheen);
         leftPane->getSlider("Spec Glossiness")->setValue(s->material.specularHardness);
         leftPane->getSlider("Indirect")->setValue(s->material.ambient);
         leftPane->getSlider("Indirect Bounces")->setValue(s->material.indirectBounces);
@@ -164,11 +160,9 @@ void GUI::update() {
         s->material.albedo = leftPane->getColorPicker("Albedo")->getColor();
         s->material.reflection = leftPane->getSlider("Reflection")->getValue();
         s->material.refraction = leftPane->getSlider("Refraction")->getValue();
-        s->material.transmission = leftPane->getSlider("Transmission")->getValue();
         s->material.ior = leftPane->getSlider("IOR")->getValue();
         s->material.specularAmount = leftPane->getSlider("Specular")->getValue();
         s->material.specularHardness = leftPane->getSlider("Spec Glossiness")->getValue();
-        s->material.sheen = leftPane->getSlider("Sheen")->getValue();
         s->material.ambient = leftPane->getSlider("Indirect")->getValue();
         s->material.indirectBounces = leftPane->getSlider("Indirect Bounces")->getValue();
         
@@ -185,6 +179,8 @@ void GUI::update() {
     scene.camera.aperture_size = (leftPane->getSlider("Aperture Size")->getValue());
     scene.camera.aa_samples = (leftPane->getSlider("AA Samples")->getValue());
     scene.camera.setOrtho(leftPane->getToggle("Orthographic")->getChecked());
+    
+    triangulation.setTriang(leftPane->getToggle("Triangulation")->getChecked());
     
     leftPane->update();
     rightPane->update();
@@ -266,25 +262,6 @@ void GUI::onScrollViewEvent(ofxDatGuiScrollViewEvent e) {
 
 void GUI::onColorPickerEvent(ofxDatGuiColorPickerEvent e) {
     scene.film.clear();
-    if (e.target->is("Fond")) {
-        float H;
-        float S;
-        float B;
-        e.color.getHsb(H,S,B);
-        leftPane->getSlider("H")->setValue(H/255);
-        leftPane->getSlider("S")->setValue(S/255);
-        leftPane->getSlider("B")->setValue(B/255);
-    }
-    else if (e.target->is("Trait")) {
-        float H;
-        float S;
-        float B;
-        e.color.getHsb(H,S,B);
-        leftPane->getSlider("H ")->setValue(H/255);
-        leftPane->getSlider("S ")->setValue(S/255);
-        leftPane->getSlider("B ")->setValue(B/255);
-    } else if (e.target->is("Background")) {
-    }
 }
 
 void GUI::saveImage(string path) {

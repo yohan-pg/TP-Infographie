@@ -47,8 +47,8 @@ Color Material::shade(const Ray& ray, const Collision& hit, int depth) const {
                         break;
                 }
                 float factor = shadertype == ShaderType::BLINN ? 10.0 : 1.0;
-                
-                specularColor += lighting * specularAmount * pow(ofClamp(specular_vector.dot(view_vector), -5*sheen, 1), specularHardness * factor);
+                specularColor += lighting * specularAmount
+                                          * pow(ofClamp(specular_vector.dot(view_vector), 0, 1), specularHardness * factor);
             }
     }
 
@@ -66,14 +66,16 @@ Color Material::shade(const Ray& ray, const Collision& hit, int depth) const {
         color = color * (1.0f - blend) + scene.trace(Ray(hit.position, refract(ray.direction, hit.normal, ior)), depth-1, hit.shape) * blend;
     }
     
-    Color globalIllum = Color(0.2, 0.2, 0.2);
-    for (int i = 0; i < indirectBounces; i++) {
-        Ray ambientRay = Ray(hit.position, Sampler::sphere_vector());
-        globalIllum += scene.trace(ambientRay, depth-1, hit.shape)
-                       * (1.0 / (float)indirectBounces)
-                       * brdf(hit.normal, ray.direction, ambientRay.direction);
+    Color globalIllum = Color(0, 0, 0);
+    if (ambient > 0) {
+        for (int i = 0; i < indirectBounces; i++) {
+            Ray ambientRay = Ray(hit.position, Sampler::sphere_vector());
+            globalIllum += scene.trace(ambientRay, depth-1, hit.shape)
+            * (1.0 / (float)indirectBounces)
+            * brdf(hit.normal, ray.direction, ambientRay.direction);
+        }
     }
-
+    
     return color
          + specularColor * (1 - refraction) * (1 - reflection)
          + scene.ambient
