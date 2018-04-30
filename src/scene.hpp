@@ -24,8 +24,8 @@
 
 class Scene {
 public:
-    Color background = Color(1, 1, 1);
-    Color ambient = Color(0, 0, 0);
+    Color background = Color(1, 1, 1, 1.0);
+    Color ambient = Color(0, 0, 0, 1.0);
     
     Element* selection;
     
@@ -50,7 +50,7 @@ public:
     Color trace(const Ray& ray, int depth=1, Shape* ignore=NULL) const;
     Collision intersect(const Ray& ray, Shape* ignore=NULL) const;
     
-    mutex elementLock;
+//    mutex elementLock;
 };
 
 extern Scene scene;

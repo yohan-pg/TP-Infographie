@@ -55,7 +55,7 @@ public:
 
 class SpotLight : public Light {
 public:
-    Vector direction = Vector(0, 0, -1);
+    Vector direction = Vector(0, -1, 0);
     float size = 1.0;
     string getName() const;
     Color cast(const Vector& target, Vector light_vector, Normal normal) const;

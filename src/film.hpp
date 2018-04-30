@@ -16,11 +16,11 @@
 #include "color.hpp"
 
 class Film  {
-    ofImage buffer;
     vector<vector<Color>> values;
     vector<vector<int>> counts;
     void resetCounters();
 public:
+    ofImage buffer;
     int width = 0;
     int height = 0;
     float aspect = 0;

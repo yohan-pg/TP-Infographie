@@ -71,7 +71,7 @@ void GUI::setup(float w) {
     
         light = leftPane->addFolder("Light", ofColor::yellow);
         light->addColorPicker("Color");
-        light->addSlider("Intensity", 0, 10, 1)->setPrecision(2);
+        light->addSlider("Intensity", 0, 1, 0.8)->setPrecision(2);
         light->addSlider("Radius", 0, 10, 1)->setPrecision(2);
         light->addSlider("Shadow Samples", 1, 20, 1)->setPrecision(0);
         light->addSlider("Attenuation", 0, 1, 0.1)->setPrecision(3);
@@ -79,6 +79,7 @@ void GUI::setup(float w) {
     
     leftPane->addBreak()->setHeight(3000.0);
     
+    leftPane->onToggleEvent(this, &GUI::onToggleEvent);
     leftPane->onButtonEvent(this, &GUI::onButtonEvent);
     leftPane->onSliderEvent(this, &GUI::onSliderEvent);
     leftPane->onColorPickerEvent(this, &GUI::onColorPickerEvent);
@@ -241,7 +242,13 @@ void GUI::onButtonEvent(ofxDatGuiButtonEvent e){
         scene.add(new DirectionalLight());
         gui.refreshList();
     }
-    
+}
+
+void GUI::onToggleEvent(ofxDatGuiToggleEvent e) {
+    if (e.target->is("Triangulation")) {
+        leftPane->getColorPicker("Background")->setColor(ofColor(0, 0, 0));
+        scene.film.clear();
+    }
 }
 
 void GUI::onDropdownEvent(ofxDatGuiDropdownEvent e)

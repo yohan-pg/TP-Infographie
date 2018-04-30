@@ -21,6 +21,8 @@
 
 class Collision;
 
+float intersect_sphere(const Ray& ray, float radius);
+
 class Shape : public Element {
 public:
     Material material;
@@ -76,25 +78,42 @@ class Triangle : public Shape {
     Vector a;
     Vector b;
     Vector c;
+    ofPolyline line;
 public:
     Triangle(Vector a, Vector b, Vector c);
     Triangle(Vector a, Vector b, Vector c, Vector normal);
     string getName() const;
     float maxDist();
+    void draw();
     virtual Collision intersect(const Ray& ray);
 };
 
 class Mesh : public Shape {
     float bound = 0;
-    bool useBound;
+    bool useBound = false;
 public:
+    Mesh();
     vector<Triangle*> triangles;
     Mesh(vector<Triangle*> triangles);
     string getName() const;
     void computeBound();
     void add(Triangle* triangle);
+    void draw();
     virtual Collision intersect(const Ray& ray);
 };
+
+class Pyramide : public Mesh {
+public:
+    Pyramide();
+    string getName() const;
+};
+
+class Square : public Mesh {
+public:
+    Square();
+    string getName() const;
+};
+
 
 
 #endif /* shape_hpp */

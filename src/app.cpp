@@ -12,7 +12,6 @@ using namespace std;
 
 bool exited = false;
 
-
 void App::setup() {
     scene.camera.reset();
     ofSetVerticalSync(true);
@@ -33,37 +32,23 @@ void App::setup() {
         threads.push_back(thread(&App::render, this));
     }
     
-    auto *l = new DirectionalLight();
+    auto *l = new SpotLight();
     l->setPosition(Vector(0,1,2));
     scene.add(l);
     
     auto *p = new Sphere();
-    p->material.albedo = Color(1, 0, 0);
     scene.add(p);
     
-    auto *p2 = new Plane();
-    p2->material.albedo = Color(0, 1, 0);
-    scene.add(p2);
-    
-    
-//    ofBoxPrimitive box;
-//    box.set(1);
-//    ofMesh mesh = box.getMesh();
-//    auto faces = box.getMesh().getUniqueFaces();
-//    auto m = new Mesh();
-//    
-//    for (auto face : faces) {
-//        cout << face.getNormal(0) << endl;
-//        auto* t = new Triangle(face.getVertex(0),
-//                               face.getVertex(1),
-//                               face.getVertex(2),
-//                               face.getFaceNormal()
-//                               );
-//        m->add(t);
-//    }
-//    scene.add(m);
-    
     gui.setup(width * 0.16);
+    curve.setup();
+    
+    brightnessShader.load("brightness");
+    lut.allocate(256, 1, OF_IMAGE_COLOR);
+    scene.film.clear();
+}
+
+void load_demo_1() {
+    
 }
 
 void App::render() {
@@ -75,6 +60,11 @@ void App::render() {
 void App::update() {
     scene.film.update();
     gui.update();
+    curve.update();
+    lut.update();
+    for (int i = 0; i < 256; i++) {
+        lut.setColor(i, 0, curve.at(i)*256);
+    }
 }
 
 void App::draw() {
@@ -82,12 +72,16 @@ void App::draw() {
     ofEnableAlphaBlending();
     
     renderview.begin();
-        ofSetColor(scene.background);
+        ofSetColor(255,255,255);
         ofDrawRectangle(0, 0, scene.film.width, scene.film.height);
-        ofSetColor(255);
+        ofSetColor(255, 255, 255);
+        brightnessShader.begin();
+            brightnessShader.setUniformTexture("image", scene.film.buffer.getTexture(), 1);
+            brightnessShader.setUniformTexture("lut", lut.getTexture(), 2);
+            scene.film.draw(0, 0);
+        brightnessShader.end();
         if (triangulation.isTriang)
             triangulation.draw();
-        scene.film.draw(0, 0);
     renderview.end();
     renderview.draw(gui.width, 0);
 
@@ -108,7 +102,7 @@ void App::draw() {
     
     viewport.begin();
         ofClear(125);
-        ofSetColor(255, 255, 255, 175);
+        ofSetColor(scene.background);
         gridline_buffer.draw(0, 0);
         scene.camera.begin();
             ofEnableDepthTest();
@@ -126,6 +120,7 @@ void App::draw() {
     viewport.draw(gui.width, view_height);
     
     gui.draw();
+    curve.draw();
 }
 
 void App::keyPressed(int key) {}
@@ -145,7 +140,7 @@ void App::keyReleased(int key) {
             break;
         case 127: // delete
             if (scene.selection) {
-                scene.remove(scene.selection);
+                //scene.remove(scene.selection);
             }
         case 356: // left arrow
             if (scene.selection != NULL) {
@@ -203,6 +198,7 @@ void App::mouseDragged(int x, int y, int button) {
             scene.camera.lookAt(scene.selection ? scene.selection->getPosition() : Vector(0, 0, 0));
         }
     }
+    curve.mouseDragged(x, y);
 }
 
 void App::mousePressed(int x, int y, int button) {
@@ -211,19 +207,23 @@ void App::mousePressed(int x, int y, int button) {
     if (x > gui.width && x < ofGetWidth() - gui.width - 10) {
         dragging = true;
     }
+    curve.mousePressed(x, y);
 }
 
 void App::mouseReleased(int x, int y, int button) {
-    scene.film.clear();
     if (x > gui.width &&
         x < ofGetWidth() - gui.width &&
         Vector(pressX, pressY, 0).distance(Vector(x, y, 0)) < 3) {
         scene.select(x-gui.width, y-scene.film.height);
     }
-    dragging = false;
+    
+    if (dragging) {
+        scene.film.clear();
+        dragging = false;
+    }
     if (triangulation.isTriang)
         triangulation.mouseReleased(x, y, button);
-    ptsSelected = false;
+    curve.mouseReleased(x, y);
 }
 
 void App::mouseEntered(int x, int y) {

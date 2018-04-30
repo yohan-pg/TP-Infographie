@@ -52,11 +52,11 @@ void Light::draw() {
 }
 
 bool Light::intersect(const Ray & ray) {
-    return false;
+    return intersect_sphere(ray * getGlobalTransformMatrix().getInverse(), 0.1) > 0;
 }
 
 Color SpotLight::cast(const Vector& target, Vector light_vector, Normal normal) const {
-    float cone = -pow(max(light_vector.dot(direction), 0.0f), 3);
+    float cone = pow(max(-light_vector.dot(direction), 0.0f), 1);
     return Light::cast(target, light_vector, normal) * cone;
 }
 
@@ -71,9 +71,8 @@ void SpotLight::draw() {
 }
 
 Color DirectionalLight::cast(const Vector& target, Vector light_vector, Normal normal) const {
-    float cosine = normal.dot(light_vector);
-    float directionality = light_vector.dot(normal);
-    return Light::cast(target, light_vector, normal) * cosine * directionality;
+    float directionality = -light_vector.dot(normal);
+    return Light::cast(target, light_vector, normal) * directionality;
 }
 
 void DirectionalLight::draw() {

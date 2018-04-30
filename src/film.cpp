@@ -16,19 +16,18 @@ void Film::allocate(int _width, int _height) {
     width = _width;
     height = _height;
     aspect = width / height;
-    buffer.allocate(width, height, OF_IMAGE_COLOR_ALPHA);
+    buffer.allocate(width, height, OF_IMAGE_COLOR);
     buffer.setColor(Color(0,0,0,0));
     for (int i = 0; i <= width; i++) {
         vector<int> count_row;
         vector<Color> value_row;
         for (int j = 0; j <= height; j++) {
             count_row.push_back(0);
-            value_row.push_back(Color(0,0,0,1));
+            value_row.push_back(Color(0,0,0,0));
         }
         counts.push_back(count_row);
         values.push_back(value_row);
     }
-
 }
 
 void Film::set(int i, int j, Color color) {

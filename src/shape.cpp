@@ -70,6 +70,7 @@ Collision Plane::intersect(const Ray& ray) {
     return Missed;
 }
 
+
 void Plane::draw() {
     Shape::draw();
     primitive.setTransformMatrix(getGlobalTransformMatrix());
@@ -119,25 +120,39 @@ Collision Box::intersect(const Ray& ray) {
    return Missed;
 }
 
+void Box::draw() {}
+
 Triangle::Triangle(Vector a, Vector b, Vector c) : a(a), b(b), c(c), normal((b-a).cross(c-a).normalize()) {
     setPosition(a);
+    line.addVertex(a);
+    line.addVertex(b);
+    line.addVertex(c);
+    line.addVertex(a);
+    line.close();
+    
 }
 
 Triangle::Triangle(Vector a, Vector b, Vector c, Vector normal) : a(a), b(b), c(c), normal(normal) {
     setPosition(a);
 }
 
+void Triangle::draw() {
+//    line.setTransformMatrix(getGlobalTransformMatrix());
+    ofSetColor(255);
+    line.draw();
+}
+
 
 inline float intersect_triangle(const Ray& ray, Vector a, Vector b, Vector c, Vector normal) {
-    float dist = planar_distance(Ray(ray.position+a, ray.direction), normal);
+    float dist = planar_distance(Ray(ray.position-a, ray.direction), normal);
     if (dist < 0) return -1;
     Vector hitpos = ray.at(dist);
     if ((b-a).cross(hitpos - a).dot(normal) < 0) return -1;
     if ((c-b).cross(hitpos - b).dot(normal) < 0) return -1;
     if ((a-c).cross(hitpos - c).dot(normal) < 0) return -1;
     return dist;
-    return -1;
 }
+
 
 Collision Triangle::intersect(const Ray& ray) {
     float dist = intersect_triangle(ray, a, b, c, normal);
@@ -148,8 +163,9 @@ Collision Triangle::intersect(const Ray& ray) {
 }
 
 float Triangle::maxDist() {
-    return max(a.length(), max(b.length(), c.length()));
+    return max(a.lengthSquared(), max(b.lengthSquared(), c.lengthSquared()));
 }
+
 
 Mesh::Mesh(vector<Triangle*> tris) : triangles(tris) {
     computeBound();
@@ -167,12 +183,15 @@ void Mesh::computeBound() {
     bound = best;
 }
 
+Mesh::Mesh() {}
+
 void Mesh::add(Triangle* triangle) {
     triangles.push_back(triangle);
 }
 
+
 Collision Mesh::intersect(const Ray& ray) {
-    if (intersect_sphere(ray, bound) < 0) return Missed;
+    if (useBound && intersect_sphere(ray, bound) < 0) return Missed;
     float best = std::numeric_limits<float>::max();
     Collision result;
     for (auto tri : triangles) {
@@ -186,11 +205,52 @@ Collision Mesh::intersect(const Ray& ray) {
     return result;
 }
 
+void Mesh::draw() {
+    for (auto tri : triangles) {
+        tri->draw();
+    }
+}
+
+Pyramide::Pyramide() {
+    auto *t = new Triangle(Vector(0, 1.5, -1), Vector(-1, 0, 0), Vector(1, 0, 0));
+    auto *t2 = new Triangle(Vector(0, 1.5, -1), Vector(-1, 0, -2), Vector(-1, 0, 0));
+    auto *t3 = new Triangle(Vector(0, 1.5, -1), Vector(1, 0, -2), Vector(-1, 0, -2));
+    auto *t4 = new Triangle(Vector(0, 1.5, -1), Vector(1, 0, 0), Vector(1, 0, -2));
+    auto *t5 = new Triangle(Vector(1, 0, 0), Vector(-1, 0, 0), Vector(1, 0, -2));
+    auto *t6 = new Triangle(Vector(-1, 0, 0), Vector(-1, 0, -2), Vector(1, 0, -2));
+    triangles.push_back(t);
+    triangles.push_back(t2);
+    triangles.push_back(t3);
+    triangles.push_back(t4);
+    triangles.push_back(t5);
+    triangles.push_back(t6);
+}
+
+Square::Square () {
+    ofPoint v0 = ofPoint(-1, 0, -2);
+    ofPoint v1 = ofPoint(-1, 0, 0);
+    ofPoint v2 = ofPoint(1, 0, 0);
+    ofPoint v3 = ofPoint(1, 0, -2);
+    auto *t7 = new Triangle(v1, v2, v3);
+    auto *t8 = new Triangle(v1, v3, v0);
+    triangles.push_back(t7);
+    triangles.push_back(t8);
+}
+
+
+string Square::getName() const {
+    return "Plane";
+}
+
+string Pyramide::getName() const {
+    return "Pyramide";
+}
+
 string Shape::getName() const {
     return "Shape";
 }
 
-string Plane::getName() const{
+string Plane::getName() const {
     return "Plane";
 }
 

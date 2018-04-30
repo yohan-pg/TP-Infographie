@@ -17,6 +17,7 @@
 #include "light.hpp"
 #include "scene.hpp"
 #include "shape.hpp"
+#include "triangulation.hpp"
 
 class GUI {
 public:
@@ -45,6 +46,7 @@ public:
     
     void update();
     
+    void onToggleEvent(ofxDatGuiToggleEvent e);
     void onButtonEvent(ofxDatGuiButtonEvent e);
     void onSliderEvent(ofxDatGuiSliderEvent e);
     void onColorPickerEvent(ofxDatGuiColorPickerEvent e);
